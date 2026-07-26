@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+name="theme-color"
+content="#04142b"
+>
+
+<title>
+SERVER HERO RACE™ — Podium
+</title>
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com"
+>
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin
+>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap"
+rel="stylesheet"
+>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Poppins",sans-serif;
+}
+
+:root{
+--dark:#020814;
+--navy:#06152d;
+--navy2:#0a2b55;
+--blue:#168dff;
+--cyan:#51ddff;
+--gold:#ffd84d;
+--orange:#ff9d00;
+--green:#35df83;
+--red:#ff5667;
+--white:#ffffff;
+--muted:#a9bdd7;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+min-height:100vh;
+overflow-x:hidden;
+color:var(--white);
+background:
+radial-gradient(circle at top,#164d89 0%,#06152d 45%,#020814 100%);
+}
+
+button,
+a{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.page{
+position:relative;
+z-index:2;
+width:min(1500px,100%);
+margin:auto;
+padding:22px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:16px;
+flex-wrap:wrap;
+margin-bottom:26px;
+padding:18px 22px;
+border:1px solid #2f679c;
+border-radius:20px;
+background:
+linear-gradient(90deg,rgba(5,21,45,.97),rgba(14,61,111,.95));
+box-shadow:
+0 20px 45px rgba(0,0,0,.38);
+}
+
+.brand h1{
+font-size:clamp(24px,4vw,40px);
+font-weight:900;
+color:var(--gold);
+text-shadow:
+0 0 20px rgba(255,216,77,.35);
+}
+
+.brand p{
+margin-top:3px;
+color:var(--muted);
+font-weight:600;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.actionBtn,
+.actionLink{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:7px;
+padding:12px 16px;
+color:var(--white);
+font-weight:800;
+text-decoration:none;
+border:1px solid #3c75a8;
+border-radius:12px;
+background:#0c315e;
+transition:.25s;
+}
+
+.actionBtn:hover,
+.actionLink:hover{
+transform:translateY(-2px);
+border-color:var(--gold);
+}
+
+.primary{
+color:#04142b;
+border:none;
+background:
+linear-gradient(90deg,var(--orange),var(--gold));
+}
+
+.hero{
+position:relative;
+overflow:hidden;
+margin-bottom:26px;
+padding:34px 20px 26px;
+text-align:center;
+border:1px solid #3f79ad;
+border-radius:28px;
+background:
+linear-gradient(180deg,rgba(11,48,91,.96),rgba(4,19,41,.98));
+box-shadow:
+0 25px 55px rgba(0,0,0,.42);
+}
+
+.hero::before{
+content:"";
+position:absolute;
+inset:-100px;
+background:
+conic-gradient(
+from 0deg,
+transparent,
+rgba(81,221,255,.12),
+transparent,
+rgba(255,216,77,.14),
+transparent
+);
+animation:spinGlow 14s linear infinite;
+}
+
+@keyframes spinGlow{
+to{
+transform:rotate(360deg);
+}
+}
+
+.heroContent{
+position:relative;
+z-index:2;
+}
+
+.trophy{
+font-size:80px;
+animation:trophyFloat 2.5s ease-in-out infinite;
+filter:
+drop-shadow(0 0 18px rgba(255,216,77,.65));
+}
+
+@keyframes trophyFloat{
+0%,100%{
+transform:translateY(0) rotate(-3deg);
+}
+50%{
+transform:translateY(-10px) rotate(3deg);
+}
+}
+
+.hero h2{
+margin-top:8px;
+font-size:clamp(30px,6vw,66px);
+font-weight:900;
+letter-spacing:1px;
+color:var(--gold);
+text-shadow:
+0 0 18px rgba(255,216,77,.4);
+}
+
+.hero p{
+max-width:760px;
+margin:10px auto 0;
+color:#dcecff;
+font-size:clamp(14px,2vw,19px);
+font-weight:600;
+}
+
+.roomInfo{
+display:inline-flex;
+gap:8px;
+align-items:center;
+margin-top:16px;
+padding:9px 15px;
+border:1px solid #4e86b8;
+border-radius:999px;
+background:rgba(1,12,27,.55);
+font-weight:800;
+}
+
+.roomInfo strong{
+color:var(--cyan);
+}
+
+.podiumArea{
+display:flex;
+align-items:flex-end;
+justify-content:center;
+gap:20px;
+min-height:630px;
+margin-bottom:28px;
+padding:30px 15px 0;
+border:1px solid #356d9f;
+border-radius:28px;
+background:
+linear-gradient(180deg,rgba(5,26,56,.96),rgba(2,12,28,.99));
+box-shadow:
+0 22px 50px rgba(0,0,0,.4);
+}
+
+.podiumPlayer{
+position:relative;
+display:flex;
+flex-direction:column;
+align-items:center;
+width:min(31%,360px);
+min-width:230px;
+animation:riseUp .9s ease both;
+}
+
+.podiumPlayer.first{
+order:2;
+animation-delay:.15s;
+}
+
+.podiumPlayer.second{
+order:1;
+animation-delay:.35s;
+}
+
+.podiumPlayer.third{
+order:3;
+animation-delay:.55s;
+}
+
+@keyframes riseUp{
+from{
+opacity:0;
+transform:translateY(60px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.playerCard{
+position:relative;
+z-index:3;
+width:100%;
+margin-bottom:14px;
+padding:22px;
+text-align:center;
+border:2px solid #3d77aa;
+border-radius:22px;
+background:
+linear-gradient(180deg,#154d88,#0a2b54);
+box-shadow:
+0 18px 35px rgba(0,0,0,.36);
+}
+
+.first .playerCard{
+border-color:var(--gold);
+box-shadow:
+0 0 32px rgba(255,216,77,.25),
+0 20px 40px rgba(0,0,0,.4);
+}
+
+.second .playerCard{
+border-color:#dce8f4;
+}
+
+.third .playerCard{
+border-color:#e29a62;
+}
+
+.crown{
+position:absolute;
+top:-36px;
+left:50%;
+transform:translateX(-50%);
+font-size:52px;
+filter:
+drop-shadow(0 0 10px rgba(255,216,77,.8));
+}
+
+.avatar{
+display:flex;
+align-items:center;
+justify-content:center;
+width:120px;
+height:120px;
+margin:0 auto 14px;
+font-size:65px;
+border:4px solid #56dfff;
+border-radius:50%;
+background:
+linear-gradient(135deg,#1b92ff,#00d0ff);
+box-shadow:
+0 0 25px rgba(81,221,255,.4);
+}
+
+.first .avatar{
+width:145px;
+height:145px;
+font-size:78px;
+border-color:var(--gold);
+background:
+linear-gradient(135deg,#ff9d00,#ffd84d);
+}
+
+.playerName{
+font-size:clamp(19px,2vw,28px);
+font-weight:900;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.playerId{
+margin-top:4px;
+color:var(--muted);
+font-size:13px;
+font-weight:600;
+}
+
+.playerStats{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:16px;
+}
+
+.playerStat{
+padding:10px;
+border-radius:12px;
+background:rgba(2,12,29,.55);
+}
+
+.playerStat span{
+display:block;
+color:var(--muted);
+font-size:11px;
+font-weight:700;
+}
+
+.playerStat strong{
+display:block;
+margin-top:3px;
+color:var(--gold);
+font-size:21px;
+}
+
+.podiumBlock{
+position:relative;
+display:flex;
+align-items:flex-start;
+justify-content:center;
+width:100%;
+padding-top:28px;
+font-size:58px;
+font-weight:900;
+color:#06152d;
+border-radius:18px 18px 0 0;
+box-shadow:
+inset 0 8px 18px rgba(255,255,255,.18),
+0 -5px 25px rgba(0,0,0,.28);
+}
+
+.first .podiumBlock{
+height:250px;
+background:
+linear-gradient(180deg,#ffe773,#ffb400);
+}
+
+.second .podiumBlock{
+height:190px;
+background:
+linear-gradient(180deg,#f4f8fb,#aebdcb);
+}
+
+.third .podiumBlock{
+height:145px;
+background:
+linear-gradient(180deg,#f0b57d,#bd6d36);
+}
+
+.podiumLabel{
+position:absolute;
+bottom:22px;
+left:50%;
+transform:translateX(-50%);
+width:90%;
+color:rgba(3,20,43,.76);
+font-size:15px;
+font-weight:900;
+}
+
+.summaryGrid{
+display:grid;
+grid-template-columns:repeat(5,minmax(0,1fr));
+gap:14px;
+margin-bottom:28px;
+}
+
+.summaryCard{
+padding:20px;
+text-align:center;
+border:1px solid #3670a3;
+border-radius:18px;
+background:
+linear-gradient(180deg,#123f75,#092749);
+box-shadow:
+0 14px 30px rgba(0,0,0,.28);
+}
+
+.summaryCard span{
+display:block;
+color:var(--muted);
+font-size:12px;
+font-weight:700;
+}
+
+.summaryCard strong{
+display:block;
+margin-top:8px;
+color:var(--gold);
+font-size:30px;
+}
+
+.awardsPanel{
+margin-bottom:28px;
+padding:24px;
+border:1px solid #356d9f;
+border-radius:24px;
+background:
+linear-gradient(180deg,rgba(7,31,64,.98),rgba(3,17,37,.98));
+box-shadow:
+0 18px 42px rgba(0,0,0,.34);
+}
+
+.sectionTitle{
+margin-bottom:18px;
+font-size:25px;
+font-weight:900;
+color:var(--gold);
+}
+
+.awardsGrid{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:15px;
+}
+
+.awardCard{
+display:flex;
+align-items:center;
+gap:14px;
+padding:17px;
+border:1px solid #366f9f;
+border-radius:16px;
+background:#0d3769;
+}
+
+.awardIcon{
+font-size:42px;
+}
+
+.awardCard h3{
+font-size:15px;
+}
+
+.awardCard p{
+margin-top:4px;
+color:var(--cyan);
+font-size:17px;
+font-weight:800;
+}
+
+.footerActions{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+padding:22px;
+border:1px solid #356d9f;
+border-radius:22px;
+background:#061d3c;
+}
+
+.confetti{
+position:fixed;
+top:-20px;
+z-index:20;
+width:10px;
+height:18px;
+pointer-events:none;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:
+translateY(110vh)
+rotate(900deg);
+opacity:.8;
+}
+}
+
+.spotlight{
+position:fixed;
+top:-20%;
+left:50%;
+z-index:0;
+width:700px;
+height:900px;
+transform:translateX(-50%);
+pointer-events:none;
+background:
+radial-gradient(
+ellipse at top,
+rgba(255,216,77,.22),
+rgba(81,221,255,.08) 40%,
+transparent 70%
+);
+filter:blur(8px);
+animation:pulseLight 3s ease-in-out infinite;
+}
+
+@keyframes pulseLight{
+0%,100%{
+opacity:.65;
+}
+50%{
+opacity:1;
+}
+}
+
+.emptyMessage{
+width:100%;
+padding:50px;
+text-align:center;
+color:var(--muted);
+font-size:20px;
+font-weight:700;
+}
+
+@media(max-width:1100px){
+
+.podiumArea{
+gap:12px;
+}
+
+.podiumPlayer{
+min-width:0;
+}
+
+.summaryGrid{
+grid-template-columns:repeat(3,1fr);
+}
+
+.awardsGrid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:760px){
+
+.page{
+padding:10px;
+}
+
+.topbar{
+padding:15px;
+}
+
+.actions{
+width:100%;
+}
+
+.actions>*{
+flex:1;
+}
+
+.podiumArea{
+display:grid;
+grid-template-columns:1fr;
+align-items:stretch;
+min-height:0;
+padding:18px;
+}
+
+.podiumPlayer{
+width:100%;
+max-width:none;
+}
+
+.podiumPlayer.first,
+.podiumPlayer.second,
+.podiumPlayer.third{
+order:initial;
+}
+
+.first{
+order:1!important;
+}
+
+.second{
+order:2!important;
+}
+
+.third{
+order:3!important;
+}
+
+.podiumBlock{
+height:90px!important;
+border-radius:15px;
+}
+
+.podiumLabel{
+display:none;
+}
+
+.summaryGrid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.awardsGrid{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:480px){
+
+body{
+font-size:14px;
+}
+
+.summaryGrid{
+grid-template-columns:1fr;
+}
+
+.playerStats{
+grid-template-columns:1fr 1fr;
+}
+
+.footerActions>*{
+width:100%;
+}
+
+}
+
+@media print{
+
+body{
+color:#000;
+background:#fff;
+}
+
+.spotlight,
+.actions,
+.footerActions{
+display:none!important;
+}
+
+.topbar,
+.hero,
+.podiumArea,
+.awardsPanel,
+.summaryCard,
+.playerCard{
+color:#000;
+border-color:#999;
+background:#fff;
+box-shadow:none;
+}
+
+.hero h2,
+.sectionTitle,
+.playerStat strong,
+.summaryCard strong,
+.awardCard p{
+color:#000;
+}
+
+.playerId,
+.hero p,
+.summaryCard span,
+.playerStat span{
+color:#444;
+}
+
+.podiumArea{
+min-height:560px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="spotlight"></div>
+
+<div class="page">
+
+<header class="topbar">
+
+<div class="brand">
+
+<h1>
+🏆 SERVER HERO RACE™
+</h1>
+
+<p>
+Podium Kejayaan Pelajar
+</p>
+
+</div>
+
+<div class="actions">
+
+<a
+href="index.html"
+class="actionLink"
+>
+🏎️ Permainan
+</a>
+
+<a
+href="teacher.html"
+class="actionLink"
+>
+👨‍🏫 Panel Guru
+</a>
+
+<button
+id="soundBtn"
+type="button"
+class="actionBtn"
+>
+🔊 Bunyi ON
+</button>
+
+<button
+id="printBtn"
+type="button"
+class="actionBtn primary"
+>
+🖨️ Cetak
+</button>
+
+</div>
+
+</header>
+
+<section class="hero">
+
+<div class="heroContent">
+
+<div class="trophy">
+🏆
+</div>
+
+<h2>
+TAHNIAH, SERVER HERO!
+</h2>
+
+<p>
+Perlumbaan telah tamat. Berikut ialah keputusan rasmi dan pencapaian terbaik peserta.
+</p>
+
+<div class="roomInfo">
+
+<span>
+Bilik:
+</span>
+
+<strong id="roomCodeText">
+-
+</strong>
+
+</div>
+
+</div>
+
+</section>
+
+<section
+class="podiumArea"
+id="podiumArea"
+>
+
+<div class="emptyMessage">
+Memuatkan keputusan podium...
+</div>
+
+</section>
+
+<section class="summaryGrid">
+
+<article class="summaryCard">
+
+<span>
+JUMLAH PESERTA
+</span>
+
+<strong id="totalPlayers">
+0
+</strong>
+
+</article>
+
+<article class="summaryCard">
+
+<span>
+PURATA MARKAH
+</span>
+
+<strong id="averageScore">
+0
+</strong>
+
+</article>
+
+<article class="summaryCard">
+
+<span>
+MARKAH TERTINGGI
+</span>
+
+<strong id="highestScore">
+0
+</strong>
+
+</article>
+
+<article class="summaryCard">
+
+<span>
+JUMLAH SOALAN
+</span>
+
+<strong id="questionCount">
+26
+</strong>
+
+</article>
+
+<article class="summaryCard">
+
+<span>
+MASA PERLUMBAAN
+</span>
+
+<strong id="raceTime">
+00:00
+</strong>
+
+</article>
+
+</section>
+
+<section class="awardsPanel">
+
+<h2 class="sectionTitle">
+🎖️ Anugerah Khas
+</h2>
+
+<div class="awardsGrid">
+
+<article class="awardCard">
+
+<div class="awardIcon">
+👑
+</div>
+
+<div>
+
+<h3>
+Juara Keseluruhan
+</h3>
+
+<p id="championName">
+-
+</p>
+
+</div>
+
+</article>
+
+<article class="awardCard">
+
+<div class="awardIcon">
+⚡
+</div>
+
+<div>
+
+<h3>
+Jawapan Terpantas
+</h3>
+
+<p id="fastestName">
+-
+</p>
+
+</div>
+
+</article>
+
+<article class="awardCard">
+
+<div class="awardIcon">
+🎯
+</div>
+
+<div>
+
+<h3>
+Jawapan Betul Terbanyak
+</h3>
+
+<p id="mostCorrectName">
+-
+</p>
+
+</div>
+
+</article>
+
+<article class="awardCard">
+
+<div class="awardIcon">
+⭐
+</div>
+
+<div>
+
+<h3>
+XP Tertinggi
+</h3>
+
+<p id="highestXpName">
+-
+</p>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+<section class="footerActions">
+
+<a
+id="certificateBtn"
+href="certificate.html"
+class="actionLink primary"
+>
+🎓 Buka Sijil Juara
+</a>
+
+<a
+id="reportBtn"
+href="teacher-report.html"
+class="actionLink"
+>
+📊 Laporan Guru
+</a>
+
+<a
+href="student-profile.html"
+class="actionLink"
+>
+👤 Profil Pelajar
+</a>
+
+<button
+id="restartBtn"
+type="button"
+class="actionBtn"
+>
+🔄 Main Semula
+</button>
+
+</section>
+
+</div>
+
+<script src="firebase-config.js"></script>
+
+<script>
+
+const PODIUM = {
+
+roomCode: "",
+
+players: [],
+
+roomData: {},
+
+soundEnabled: true,
+
+audioContext: null,
+
+
+cleanRoomCode(value) {
+
+return String(value || "")
+
+.trim()
+
+.toUpperCase()
+
+.replace(/[^A-Z0-9-]/g, "")
+
+.slice(0, 20);
+
+},
+
+
+async init() {
+
+const params = new URLSearchParams(
+
+window.location.search
+
+);
+
+
+this.roomCode =
+
+this.cleanRoomCode(
+
+params.get("room") ||
+
+localStorage.getItem("serverHeroRoom") ||
+
+localStorage.getItem("roomCode")
+
+);
+
+
+roomCodeText.textContent =
+
+this.roomCode || "DEMO";
+
+
+printBtn.onclick =
+
+() => window.print();
+
+
+soundBtn.onclick =
+
+() => this.toggleSound();
+
+
+restartBtn.onclick =
+
+() => this.restartRace();
+
+
+this.updateLinks();
+
+
+await this.loadRaceData();
+
+
+this.render();
+
+
+this.launchConfetti();
+
+
+setTimeout(
+
+() => this.playVictorySound(),
+
+500
+
+);
+
+},
+
+
+async firebaseApi() {
+
+if (
+
+window.SERVER_HERO_FIREBASE_READY
+
+) {
+
+return await window.SERVER_HERO_FIREBASE_READY;
+
+}
+
+
+return null;
+
+},
+
+
+async loadRaceData() {
+
+let loaded = false;
+
+
+if (this.roomCode) {
+
+try {
+
+const firebase =
+
+await this.firebaseApi();
+
+
+if (firebase) {
+
+const snapshot =
+
+await firebase.get(
+
+firebase.ref(
+
+firebase.database,
+
+`rooms/${this.roomCode}`
+
+)
+
+);
+
+
+const data = snapshot.val();
+
+
+if (data) {
+
+this.roomData = data;
+
+
+this.players =
+
+Object.entries(
+
+data.players || {}
+
+)
+
+.map(
+
+([playerKey, player]) => ({
+
+playerKey,
+
+...player
+
+})
+
+);
+
+
+loaded = true;
+
+}
+
+}
+
+} catch (error) {
+
+console.error(
+
+"Data Firebase tidak dapat dimuatkan.",
+
+error
+
+);
+
+}
+
+}
+
+
+if (!loaded) {
+
+this.loadLocalData();
+
+}
+
+},
+
+
+loadLocalData() {
+
+const storageKeys = [
+
+"serverHeroRaceResult",
+
+"serverHeroPlayers",
+
+"racePlayers",
+
+"players"
+
+];
+
+
+for (
+
+const key of storageKeys
+
+) {
+
+try {
+
+const raw =
+
+localStorage.getItem(key);
+
+
+if (!raw) {
+
+continue;
+
+}
+
+
+const parsed =
+
+JSON.parse(raw);
+
+
+if (Array.isArray(parsed)) {
+
+this.players = parsed;
+
+break;
+
+}
+
+
+if (
+
+parsed &&
+
+typeof parsed === "object"
+
+) {
+
+if (
+
+Array.isArray(parsed.players)
+
+) {
+
+this.players = parsed.players;
+
+break;
+
+}
+
+
+if (
+
+parsed.players &&
+
+typeof parsed.players === "object"
+
+) {
+
+this.players =
+
+Object.values(parsed.players);
+
+break;
+
+}
+
+}
+
+} catch (error) {
+
+console.warn(
+
+`Data ${key} tidak dapat dibaca.`,
+
+error
+
+);
+
+}
+
+}
+
+
+if (!this.players.length) {
+
+this.players = [
+
+{
+
+name: "Aiman",
+
+id: "SH001",
+
+avatar: "👨‍💻",
+
+score: 2450,
+
+xp: 1200,
+
+correctCount: 24,
+
+fastCount: 9,
+
+lastAnswerMs: 2400,
+
+finished: true
+
+},
+
+{
+
+name: "Sofia",
+
+id: "SH002",
+
+avatar: "👩‍💻",
+
+score: 2180,
+
+xp: 1050,
+
+correctCount: 22,
+
+fastCount: 7,
+
+lastAnswerMs: 2900,
+
+finished: true
+
+},
+
+{
+
+name: "Daniel",
+
+id: "SH003",
+
+avatar: "🧑‍🔧",
+
+score: 1960,
+
+xp: 980,
+
+correctCount: 20,
+
+fastCount: 5,
+
+lastAnswerMs: 3200,
+
+finished: true
+
+}
+
+];
+
+}
+
+},
+
+
+normalisePlayer(player) {
+
+return {
+
+...player,
+
+name:
+
+player.name ||
+
+player.studentName ||
+
+player.playerName ||
+
+"Pelajar",
+
+id:
+
+player.id ||
+
+player.studentId ||
+
+player.playerId ||
+
+"-",
+
+avatar:
+
+player.avatar ||
+
+"👤",
+
+score:
+
+Number(
+
+player.score ||
+
+player.totalScore
+
+) || 0,
+
+xp:
+
+Number(
+
+player.xp ||
+
+player.totalXP
+
+) || 0,
+
+correctCount:
+
+Number(
+
+player.correctCount ||
+
+player.correctAnswers
+
+) || 0,
+
+wrongCount:
+
+Number(
+
+player.wrongCount ||
+
+player.wrongAnswers
+
+) || 0,
+
+fastCount:
+
+Number(
+
+player.fastCount ||
+
+player.fastAnswers
+
+) || 0,
+
+lastAnswerMs:
+
+Number(
+
+player.lastAnswerMs ||
+
+player.fastestAnswerMs ||
+
+player.answerTime
+
+) || 999999,
+
+progress:
+
+Number(
+
+player.progress ||
+
+player.questionIndex ||
+
+player.completedQuestions
+
+) || 0
+
+};
+
+},
+
+
+sortedPlayers() {
+
+return this.players
+
+.map(
+
+player => this.normalisePlayer(player)
+
+)
+
+.sort(
+
+(a, b) =>
+
+b.score - a.score ||
+
+b.correctCount - a.correctCount ||
+
+a.lastAnswerMs - b.lastAnswerMs ||
+
+b.xp - a.xp
+
+);
+
+},
+
+
+render() {
+
+const players =
+
+this.sortedPlayers();
+
+
+this.players = players;
+
+
+this.renderPodium(players);
+
+
+this.renderSummary(players);
+
+
+this.renderAwards(players);
+
+
+this.updateCertificateLink(players[0]);
+
+},
+
+
+renderPodium(players) {
+
+const topThree =
+
+players.slice(0, 3);
+
+
+if (!topThree.length) {
+
+podiumArea.innerHTML = `
+
+<div class="emptyMessage">
+
+Tiada keputusan perlumbaan ditemui.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const positions = [
+
+{
+
+className: "first",
+
+number: 1,
+
+medal: "🥇",
+
+label: "JUARA"
+
+},
+
+{
+
+className: "second",
+
+number: 2,
+
+medal: "🥈",
+
+label: "NAIB JUARA"
+
+},
+
+{
+
+className: "third",
+
+number: 3,
+
+medal: "🥉",
+
+label: "TEMPAT KETIGA"
+
+}
+
+];
+
+
+podiumArea.innerHTML =
+
+topThree
+
+.map(
+
+(player, index) => {
+
+const position =
+
+positions[index];
+
+
+return `
+
+<article class="podiumPlayer ${position.className}">
+
+<div class="playerCard">
+
+${
+
+index === 0
+
+? `<div class="crown">👑</div>`
+
+: ""
+
+}
+
+<div class="avatar">
+
+${this.escapeHtml(player.avatar)}
+
+</div>
+
+<h3 class="playerName">
+
+${this.escapeHtml(player.name)}
+
+</h3>
+
+<p class="playerId">
+
+${this.escapeHtml(player.id)}
+
+</p>
+
+<div class="playerStats">
+
+<div class="playerStat">
+
+<span>
+
+MARKAH
+
+</span>
+
+<strong>
+
+${player.score.toLocaleString()}
+
+</strong>
+
+</div>
+
+<div class="playerStat">
+
+<span>
+
+XP
+
+</span>
+
+<strong>
+
+${player.xp.toLocaleString()}
+
+</strong>
+
+</div>
+
+<div class="playerStat">
+
+<span>
+
+BETUL
+
+</span>
+
+<strong>
+
+${player.correctCount}
+
+</strong>
+
+</div>
+
+<div class="playerStat">
+
+<span>
+
+PANTAS
+
+</span>
+
+<strong>
+
+${player.fastCount}
+
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="podiumBlock">
+
+${position.number}
+
+<div class="podiumLabel">
+
+${position.medal} ${position.label}
+
+</div>
+
+</div>
+
+</article>
+
+`;
+
+}
+
+)
+
+.join("");
+
+},
+
+
+renderSummary(players) {
+
+const total =
+
+players.length;
+
+
+const totalScore =
+
+players.reduce(
+
+(sum, player) =>
+
+sum + player.score,
+
+0
+
+);
+
+
+const highest =
+
+players.length
+
+? Math.max(
+
+...players.map(
+
+player => player.score
+
+)
+
+)
+
+: 0;
+
+
+const configuredQuestions =
+
+Number(
+
+this.roomData.questionCount ||
+
+this.roomData.totalQuestions ||
+
+this.roomData.settings?.questionCount
+
+);
+
+
+const calculatedQuestions =
+
+players.length
+
+? Math.max(
+
+...players.map(
+
+player =>
+
+player.correctCount +
+
+player.wrongCount
+
+)
+
+)
+
+: 0;
+
+
+const questions =
+
+configuredQuestions ||
+
+calculatedQuestions ||
+
+26;
+
+
+totalPlayers.textContent =
+
+total;
+
+
+averageScore.textContent =
+
+total
+
+? Math.round(
+
+totalScore / total
+
+).toLocaleString()
+
+: "0";
+
+
+highestScore.textContent =
+
+highest.toLocaleString();
+
+
+questionCount.textContent =
+
+questions;
+
+
+raceTime.textContent =
+
+this.formatRaceTime();
+
+},
+
+
+formatRaceTime() {
+
+let seconds =
+
+Number(
+
+this.roomData.elapsedSeconds ||
+
+this.roomData.raceSeconds ||
+
+this.roomData.timer ||
+
+this.roomData.duration
+
+) || 0;
+
+
+if (!seconds) {
+
+const start =
+
+Number(
+
+this.roomData.startedAt ||
+
+this.roomData.startTime
+
+);
+
+
+const end =
+
+Number(
+
+this.roomData.finishedAt ||
+
+this.roomData.endTime ||
+
+Date.now()
+
+);
+
+
+if (
+
+start &&
+
+end > start
+
+) {
+
+seconds =
+
+Math.floor(
+
+(end - start) / 1000
+
+);
+
+}
+
+}
+
+
+const minutes =
+
+Math.floor(seconds / 60);
+
+
+const remainingSeconds =
+
+seconds % 60;
+
+
+return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
+
+},
+
+
+renderAwards(players) {
+
+if (!players.length) {
+
+championName.textContent = "-";
+
+fastestName.textContent = "-";
+
+mostCorrectName.textContent = "-";
+
+highestXpName.textContent = "-";
+
+return;
+
+}
+
+
+const champion =
+
+players[0];
+
+
+const fastest =
+
+[...players]
+
+.sort(
+
+(a, b) => {
+
+if (
+
+a.lastAnswerMs === b.lastAnswerMs
+
+) {
+
+return b.fastCount - a.fastCount;
+
+}
+
+
+return a.lastAnswerMs - b.lastAnswerMs;
+
+}
+
+)[0];
+
+
+const mostCorrect =
+
+[...players]
+
+.sort(
+
+(a, b) =>
+
+b.correctCount - a.correctCount ||
+
+b.score - a.score
+
+)[0];
+
+
+const highestXp =
+
+[...players]
+
+.sort(
+
+(a, b) =>
+
+b.xp - a.xp ||
+
+b.score - a.score
+
+)[0];
+
+
+championName.textContent =
+
+champion.name;
+
+
+fastestName.textContent =
+
+fastest.name;
+
+
+mostCorrectName.textContent =
+
+mostCorrect.name;
+
+
+highestXpName.textContent =
+
+highestXp.name;
+
+},
+
+
+updateLinks() {
+
+const roomQuery =
+
+this.roomCode
+
+? `?room=${encodeURIComponent(this.roomCode)}`
+
+: "";
+
+
+reportBtn.href =
+
+`teacher-report.html${roomQuery}`;
+
+
+restartBtn.dataset.room =
+
+this.roomCode;
+
+},
+
+
+updateCertificateLink(champion) {
+
+if (!champion) {
+
+certificateBtn.href =
+
+"certificate.html";
+
+return;
+
+}
+
+
+const params =
+
+new URLSearchParams({
+
+name: champion.name,
+
+id: champion.id,
+
+room: this.roomCode || "SERVER HERO",
+
+score: champion.score,
+
+xp: champion.xp,
+
+rank: 1,
+
+total: this.players.length
+
+});
+
+
+certificateBtn.href =
+
+`certificate.html?${params.toString()}`;
+
+},
+
+
+toggleSound() {
+
+this.soundEnabled =
+
+!this.soundEnabled;
+
+
+soundBtn.textContent =
+
+this.soundEnabled
+
+? "🔊 Bunyi ON"
+
+: "🔇 Bunyi OFF";
+
+
+if (this.soundEnabled) {
+
+this.playVictorySound();
+
+}
+
+},
+
+
+playVictorySound() {
+
+if (!this.soundEnabled) {
+
+return;
+
+}
+
+
+try {
+
+this.audioContext =
+
+this.audioContext ||
+
+new (
+
+window.AudioContext ||
+
+window.webkitAudioContext
+
+)();
+
+
+const notes = [
+
+523.25,
+
+659.25,
+
+783.99,
+
+1046.5
+
+];
+
+
+notes.forEach(
+
+(frequency, index) => {
+
+const oscillator =
+
+this.audioContext.createOscillator();
+
+
+const gain =
+
+this.audioContext.createGain();
+
+
+const start =
+
+this.audioContext.currentTime +
+
+index * 0.18;
+
+
+oscillator.type =
+
+index === notes.length - 1
+
+? "triangle"
+
+: "sine";
+
+
+oscillator.frequency.setValueAtTime(
+
+frequency,
+
+start
+
+);
+
+
+gain.gain.setValueAtTime(
+
+0.0001,
+
+start
+
+);
+
+
+gain.gain.exponentialRampToValueAtTime(
+
+0.18,
+
+start + 0.03
+
+);
+
+
+gain.gain.exponentialRampToValueAtTime(
+
+0.0001,
+
+start + 0.5
+
+);
+
+
+oscillator.connect(gain);
+
+
+gain.connect(
+
+this.audioContext.destination
+
+);
+
+
+oscillator.start(start);
+
+
+oscillator.stop(
+
+start + 0.55
+
+);
+
+}
+
+);
+
+} catch (error) {
+
+console.warn(
+
+"Bunyi kemenangan tidak dapat dimainkan.",
+
+error
+
+);
+
+}
+
+},
+
+
+launchConfetti() {
+
+const colours = [
+
+"#ffd84d",
+
+"#ff9d00",
+
+"#51ddff",
+
+"#168dff",
+
+"#35df83",
+
+"#ff5667",
+
+"#ffffff"
+
+];
+
+
+for (
+
+let index = 0;
+
+index < 130;
+
+index += 1
+
+) {
+
+setTimeout(
+
+() => {
+
+const confetti =
+
+document.createElement("span");
+
+
+confetti.className =
+
+"confetti";
+
+
+confetti.style.left =
+
+`${Math.random() * 100}vw`;
+
+
+confetti.style.background =
+
+colours[
+
+Math.floor(
+
+Math.random() *
+
+colours.length
+
+)
+
+];
+
+
+confetti.style.animationDuration =
+
+`${3 + Math.random() * 4}s`;
+
+
+confetti.style.width =
+
+`${6 + Math.random() * 7}px`;
+
+
+confetti.style.height =
+
+`${10 + Math.random() * 13}px`;
+
+
+confetti.style.borderRadius =
+
+Math.random() > 0.5
+
+? "50%"
+
+: "2px";
+
+
+document.body.appendChild(
+
+confetti
+
+);
+
+
+setTimeout(
+
+() => confetti.remove(),
+
+7500
+
+);
+
+},
+
+index * 22
+
+);
+
+}
+
+},
+
+
+restartRace() {
+
+const params =
+
+new URLSearchParams();
+
+
+if (this.roomCode) {
+
+params.set(
+
+"room",
+
+this.roomCode
+
+);
+
+}
+
+
+params.set(
+
+"restart",
+
+"1"
+
+);
+
+
+window.location.href =
+
+`teacher.html?${params.toString()}`;
+
+},
+
+
+escapeHtml(value) {
+
+return String(value || "")
+
+.replaceAll("&", "&amp;")
+
+.replaceAll("<", "&lt;")
+
+.replaceAll(">", "&gt;")
+
+.replaceAll('"', "&quot;")
+
+.replaceAll("'", "&#039;");
+
+}
+
+};
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+() => PODIUM.init()
+
+);
+
+</script>
+
+</body>
+
+</html>  
