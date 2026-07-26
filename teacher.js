@@ -1,1258 +1,783 @@
-/* =========================================================
-   SERVER HERO RACE™
-   TEACHER DASHBOARD ENGINE v2
-========================================================= */
+/* ===========================================
+TEACHER.JS
+PART 1
+=========================================== */
 
-const T = {
+const T={
 
-    room: "",
+room:"",
+roomData:null,
 
-    roomData: null,
+async api(){
 
+return await SERVER_HERO_FIREBASE_READY;
 
-    async api() {
+},
 
-        return await window.SERVER_HERO_FIREBASE_READY;
-    },
+clean(x){
 
+return String(x||"")
 
-    clean(value) {
+.trim()
 
-        return String(value || "")
-            .trim()
-            .toUpperCase()
-            .replace(/[^A-Z0-9-]/g, "")
-            .slice(0, 20);
-    },
+.toUpperCase()
 
+.replace(/[^A-Z0-9-]/g,"")
 
-    async create() {
+.slice(0,20);
 
-        this.room =
-            this.clean(
-                newRoomCode.value
-            );
+},
 
-        const teacher =
-            teacherName.value.trim();
+async create(){
 
+this.room=
 
-        if (
-            !this.room ||
-            !teacher
-        ) {
+this.clean(
 
-            roomStatus.textContent =
-                "Sila isi nama guru dan kod bilik.";
+newRoomCode.value
 
-            return;
-        }
+);
 
+const teacher=
 
-        try {
+teacherName.value.trim();
 
-            const F =
-                await this.api();
+if(
 
+!this.room||
 
-            await F.update(
+!teacher
 
-                F.ref(
-                    F.database,
-                    `rooms/${this.room}`
-                ),
+){
 
-                {
-                    code:
-                        this.room,
+roomStatus.innerHTML=
 
-                    teacher,
+"Isi nama guru dan kod bilik.";
 
-                    status:
-                        "waiting",
+return;
 
-                    createdAt:
-                        F.serverTimestamp()
-                }
-            );
+}
 
+const F=
 
-            activeRoomTitle.textContent =
-                `Bilik ${this.room}`;
+await this.api();
 
-            roomStatus.textContent =
-                `Bilik ${this.room} telah dibuka.`;
+await F.update(
 
-            roomStateBadge.textContent =
-                "MENUNGGU";
+F.ref(
 
-            roomStateBadge.dataset.state =
-                "waiting";
+F.database,
 
+`rooms/${this.room}`
 
-            this.updateJoinLink();
+),
 
-            this.watch();
+{
 
+code:this.room,
 
-        } catch (error) {
+teacher,
 
-            console.error(
-                "Create room error:",
-                error
-            );
+status:"waiting",
 
-            roomStatus.textContent =
-                "Bilik tidak dapat dibuka. Semak sambungan Firebase.";
-        }
-    },
+createdAt:
 
+F.serverTimestamp()
 
-    updateJoinLink() {
+}
 
-        if (!this.room) {
-            return;
-        }
+);
 
+roomStatus.innerHTML=
 
-        const base =
-            `${location.origin}${location.pathname.replace(
-                "teacher.html",
-                ""
-            )}`;
+`Bilik ${this.room} berjaya dibuka.`;
 
+const base=
 
-        const url =
-            `${base}index.html?room=${encodeURIComponent(
-                this.room
-            )}`;
+`${location.origin}${location.pathname.replace("teacher.html","")}`;
 
+joinLink.value=
 
-        joinLink.value =
-            url;
+`${base}index.html?room=${this.room}`;
 
+this.watch();
 
-        qrPlaceholder.innerHTML = `
+},
 
-            <div class="qr-icon">
-                ▦
-            </div>
+async watch(){
 
-            <strong>
-                ${this.room}
-            </strong>
+const F=
 
-            <p>
-                Pelajar boleh membuka pautan di bawah.
-            </p>
+await this.api();
 
-        `;
-    },
+F.onValue(
 
+F.ref(
 
-    async watch() {
+F.database,
 
-        const F =
-            await this.api();
+`rooms/${this.room}`
 
+),
 
-        F.onValue(
+snap=>{
 
-            F.ref(
-                F.database,
-                `rooms/${this.room}`
-            ),
+this.roomData=
 
-            snapshot => {
+snap.val()||{};
 
-                this.roomData =
-                    snapshot.val() || {};
+this.render(
 
-                this.render(
-                    this.roomData
-                );
-            }
-        );
-    },
+this.roomData
 
+);
 
-    render(data) {
+}
 
-        const players =
-            Object.values(
-                data.players || {}
-            );
+);
 
+},
 
-        const approved =
-            players.filter(
-                player =>
-                    player.approved
-            );
+render(data){
 
+const players=
 
-        const racing =
-            players.filter(
-                player =>
-                    player.status ===
-                    "racing"
-            );
+Object.values(
 
+data.players||{}
 
-        const finished =
-            players.filter(
-                player =>
-                    player.finished ||
-                    player.status ===
-                    "finished"
-            );
+);
 
+totalStudents.innerHTML=
 
-        const average =
+players.length;
 
-            players.length
+approvedStudents.innerHTML=
 
-                ? Math.round(
+players.filter(
 
-                    players.reduce(
+p=>p.approved
 
-                        (
-                            total,
-                            player
-                        ) =>
+).length;
 
-                            total +
-                            (
-                                Number(
-                                    player.score
-                                ) || 0
-                            ),
+racingStudents.innerHTML=
 
-                        0
+players.filter(
 
-                    ) /
+p=>p.status==="racing"
 
-                    players.length
+).length;
 
-                )
+finishedStudents.innerHTML=
 
-                : 0;
+players.filter(
 
+p=>p.finished
 
-        totalStudents.textContent =
-            players.length;
+).length;
 
-        approvedStudents.textContent =
-            approved.length;
+summary.innerHTML=
 
-        racingStudents.textContent =
-            racing.length;
+`Jumlah Pelajar :
+<b>${players.length}</b>`;
 
-        finishedStudents.textContent =
-            finished.length;
+studentList.innerHTML=
 
-        averageScore.textContent =
-            average;
+players
 
+.map(
 
-        studentCountBadge.textContent =
-            `${players.length} pelajar`;
+(p,i)=>`
 
+<div class="student-row">
 
-        activeRoomTitle.textContent =
-            data.code
+<b>
 
-                ? `Bilik ${data.code}`
+${i+1}
 
-                : "Belum ada bilik aktif";
+</b>
 
+<span>
 
-        const stateText = {
+${p.avatar||"👤"}
 
-            waiting:
-                "MENUNGGU",
+<br>
 
-            racing:
-                "SEDANG BERLUMBA",
+<b>
 
-            finished:
-                "TAMAT"
-        };
+${p.name}
 
+</b>
 
-        roomStateBadge.textContent =
-            stateText[
-                data.status
-            ] ||
-            "BELUM DIBUKA";
+<br>
 
+<small>
 
-        roomStateBadge.dataset.state =
-            data.status ||
-            "idle";
+${p.id}
 
+</small>
 
-        this.renderStudents(
-            players
-        );
+</span>
 
-        this.renderLeaderboard(
-            players
-        );
-    },
+<span>
 
+${p.approved?"✅":"⌛"}
 
-    renderStudents(players) {
+</span>
 
-        if (
-            !players.length
-        ) {
+<strong>
 
-            studentList.className =
-                "student-list empty-state";
+${p.score||0}
 
-            studentList.textContent =
-                "Tiada pelajar dalam bilik.";
+</strong>
 
-            return;
-        }
+<button
 
+onclick="T.approve('${p.key}',${!p.approved})">
 
-        studentList.className =
-            "student-list";
+${p.approved?"Batalkan":"Approve"}
 
+</button>
 
-        studentList.innerHTML =
+</div>
 
-            [...players]
+`
 
-                .sort(
-                    (
-                        a,
-                        b
-                    ) =>
+)
 
-                        String(
-                            a.name
-                        ).localeCompare(
-                            String(
-                                b.name
-                            )
-                        )
-                )
+.join("");
 
-                .map(
-                    (
-                        player,
-                        index
-                    ) => `
+/* ===========================================
+TEACHER.JS
+PART 2
+=========================================== */
 
-                        <div
-                            class="
-                                student-row
-                                premium-row
-                            "
-                        >
+const sorted=
 
-                            <b>
-                                ${index + 1}
-                            </b>
+[...players]
 
+.filter(
 
-                            <span
-                                class="
-                                    student-identity
-                                "
-                            >
+p=>p.approved
 
-                                <span
-                                    class="
-                                        student-avatar
-                                    "
-                                >
-                                    ${
-                                        player.avatar ||
-                                        "👤"
-                                    }
-                                </span>
+)
 
+.sort(
 
-                                <span>
+(a,b)=>
 
-                                    <strong>
-                                        ${
-                                            player.name ||
-                                            "-"
-                                        }
-                                    </strong>
+(b.score||0)
 
-                                    <small>
-                                        ${
-                                            player.id ||
-                                            "-"
-                                        }
-                                    </small>
+-
 
-                                </span>
+(a.score||0)
 
-                            </span>
+||
 
+(a.lastAnswerMs||999999)
 
-                            <span
-                                class="
-                                    status-pill
-                                    ${
-                                        this.statusClass(
-                                            player
-                                        )
-                                    }
-                                "
-                            >
-                                ${
-                                    this.statusText(
-                                        player
-                                    )
-                                }
-                            </span>
+-
 
+(b.lastAnswerMs||999999)
 
-                            <strong>
-                                ${
-                                    Number(
-                                        player.score
-                                    ) || 0
-                                }
-                            </strong>
+);
 
+liveLeaderboard.innerHTML=
 
-                            <span
-                                class="
-                                    row-actions
-                                "
-                            >
+sorted
 
-                                <button
-                                    type="button"
-                                    onclick="
-                                        T.approve(
-                                            '${player.key}',
-                                            ${!player.approved}
-                                        )
-                                    "
-                                >
-                                    ${
-                                        player.approved
+.map(
 
-                                            ? "Batalkan"
+(p,i)=>`
 
-                                            : "Approve"
-                                    }
-                                </button>
+<div class="leader-row">
 
+<b>
 
-                                <button
-                                    type="button"
-                                    class="danger"
-                                    onclick="
-                                        T.remove(
-                                            '${player.key}'
-                                        )
-                                    "
-                                >
-                                    Tolak
-                                </button>
+${i==0?"🥇":i==1?"🥈":i==2?"🥉":"#"+(i+1)}
 
-                            </span>
+</b>
 
-                        </div>
+<span>
 
-                    `
-                )
+${p.name}
 
-                .join("");
-    },
+</span>
 
+<strong>
 
-    renderLeaderboard(players) {
+${p.score||0}
 
-        const sorted =
+</strong>
 
-            [...players]
+<span>
 
-                .filter(
-                    player =>
-                        player.approved
-                )
+${p.progress||0}/10
 
-                .sort(
+</span>
 
-                    (
-                        a,
-                        b
-                    ) =>
+<span>
 
-                        (
-                            Number(
-                                b.score
-                            ) || 0
-                        )
+${p.status||"-"}
 
-                        -
+</span>
 
-                        (
-                            Number(
-                                a.score
-                            ) || 0
-                        )
+</div>
 
-                        ||
+`
 
-                        (
-                            Number(
-                                a.lastAnswerMs
-                            ) || 999999
-                        )
+)
 
-                        -
+.join("");
 
-                        (
-                            Number(
-                                b.lastAnswerMs
-                            ) || 999999
-                        )
-                );
+firstPlace.innerHTML=
 
+sorted[0]?.name||"-";
 
-        if (
-            !sorted.length
-        ) {
+secondPlace.innerHTML=
 
-            liveLeaderboard.className =
-                "leaderboard-list empty-state";
+sorted[1]?.name||"-";
 
-            liveLeaderboard.textContent =
-                "Leaderboard akan dipaparkan selepas pelajar diluluskan.";
+thirdPlace.innerHTML=
 
-            return;
-        }
+sorted[2]?.name||"-";
 
+},
 
-        liveLeaderboard.className =
-            "leaderboard-list";
+async approve(
 
+key,
 
-        liveLeaderboard.innerHTML =
+value
 
-            sorted
+){
 
-                .map(
-                    (
-                        player,
-                        index
-                    ) => {
+const F=
 
-                        const medal =
+await this.api();
 
-                            index === 0
+await F.update(
 
-                                ? "🥇"
+F.ref(
 
-                                : index === 1
+F.database,
 
-                                ? "🥈"
+`rooms/${this.room}/players/${key}`
 
-                                : index === 2
+),
 
-                                ? "🥉"
+{
 
-                                : `#${index + 1}`;
+approved:value,
 
+status:
 
-                        return `
+value
 
-                            <div
-                                class="
-                                    leader-row
-                                    premium-row
-                                "
-                            >
+?
 
-                                <strong>
-                                    ${medal}
-                                </strong>
+"approved"
 
+:
 
-                                <span
-                                    class="
-                                        student-identity
-                                    "
-                                >
+"waiting"
 
-                                    <span
-                                        class="
-                                            student-avatar
-                                        "
-                                    >
-                                        ${
-                                            player.avatar ||
-                                            "👤"
-                                        }
-                                    </span>
+}
 
+);
 
-                                    <strong>
-                                        ${
-                                            player.name ||
-                                            "-"
-                                        }
-                                    </strong>
+},
 
-                                </span>
+async approveAll(){
 
+const F=
 
-                                <strong>
-                                    ${
-                                        Number(
-                                            player.score
-                                        ) || 0
-                                    }
-                                </strong>
+await this.api();
 
+const snap=
 
-                                <span>
+await F.get(
 
-                                    ${
-                                        Number(
-                                            player.progress
-                                        ) || 0
-                                    }
+F.ref(
 
-                                    /
+F.database,
 
-                                    ${
-                                        window
-                                            .SERVER_HERO_QUESTIONS
-                                            ?.length ||
-                                        10
-                                    }
+`rooms/${this.room}/players`
 
-                                </span>
+)
 
+);
 
-                                <span
-                                    class="
-                                        status-pill
-                                        ${
-                                            this.statusClass(
-                                                player
-                                            )
-                                        }
-                                    "
-                                >
-                                    ${
-                                        this.statusText(
-                                            player
-                                        )
-                                    }
-                                </span>
+const updates={};
 
-                            </div>
+Object.keys(
 
-                        `;
-                    }
-                )
+snap.val()||{}
 
-                .join("");
+)
 
+.forEach(
 
-        leaderboardUpdated.textContent =
-            `● LIVE • ${new Date().toLocaleTimeString(
-                "ms-MY"
-            )}`;
-    },
+k=>{
 
+updates[`${k}/approved`]=true;
 
-    statusText(player) {
+updates[`${k}/status`]="approved";
 
-        if (
-            player.finished ||
-            player.status ===
-            "finished"
-        ) {
+}
 
-            return "Tamat";
-        }
+);
 
+await F.update(
 
-        if (
-            player.status ===
-            "racing"
-        ) {
+F.ref(
 
-            return "Berlumba";
-        }
+F.database,
 
+`rooms/${this.room}/players`),
 
-        if (
-            player.approved
-        ) {
+updates
 
-            return "Diluluskan";
-        }
+);
 
+/* ===========================================
+TEACHER.JS
+PART 3
+=========================================== */
 
-        return "Menunggu";
-    },
+},
 
+async status(
 
-    statusClass(player) {
+value
 
-        if (
-            player.finished ||
-            player.status ===
-            "finished"
-        ) {
+){
 
-            return "status-finished";
-        }
+const F=
 
+await this.api();
 
-        if (
-            player.status ===
-            "racing"
-        ) {
+await F.update(
 
-            return "status-racing";
-        }
+F.ref(
 
+F.database,
 
-        if (
-            player.approved
-        ) {
+`rooms/${this.room}`
 
-            return "status-approved";
-        }
+),
 
+{
 
-        return "status-waiting";
-    },
+status:value,
 
+startedAt:
 
-    async approve(
-        key,
-        value
-    ) {
+value==="racing"
 
-        if (
-            !this.room
-        ) {
+?
 
-            return;
-        }
+F.serverTimestamp()
 
+:
 
-        const F =
-            await this.api();
+null
 
+}
 
-        await F.update(
+);
 
-            F.ref(
-                F.database,
-                `rooms/${this.room}/players/${key}`
-            ),
+},
 
-            {
-                approved:
-                    value,
+async remove(
 
-                status:
-                    value
-                        ? "approved"
-                        : "waiting"
-            }
-        );
-    },
+key
 
+){
 
-    async remove(key) {
+const F=
 
-        if (
-            !this.room
-        ) {
+await this.api();
 
-            return;
-        }
+await F.remove(
 
+F.ref(
 
-        const confirmDelete =
-            confirm(
-                "Tolak dan keluarkan pelajar ini daripada bilik?"
-            );
+F.database,
 
+`rooms/${this.room}/players/${key}`
 
-        if (
-            !confirmDelete
-        ) {
+)
 
-            return;
-        }
+);
 
+},
 
-        const F =
-            await this.api();
+async csv(){
 
+const F=
 
-        await F.remove(
+await this.api();
 
-            F.ref(
-                F.database,
-                `rooms/${this.room}/players/${key}`
-            )
-        );
-    },
+const snap=
 
+await F.get(
 
-    async approveAll() {
+F.ref(
 
-        if (
-            !this.room
-        ) {
+F.database,
 
-            roomStatus.textContent =
-                "Buka bilik terlebih dahulu.";
+`rooms/${this.room}/players`
 
-            return;
-        }
+)
 
+);
 
-        const F =
-            await this.api();
+const players=
 
+Object.values(
 
-        const snapshot =
-            await F.get(
+snap.val()||{}
 
-                F.ref(
-                    F.database,
-                    `rooms/${this.room}/players`
-                )
-            );
+)
 
+.sort(
 
-        const players =
-            snapshot.val() || {};
+(a,b)=>
 
+(b.score||0)
 
-        const updates = {};
+-
 
+(a.score||0)
 
-        Object.keys(
-            players
-        ).forEach(
-            key => {
+);
 
-                updates[
-                    `${key}/approved`
-                ] =
-                    true;
+const rows=[
 
-                updates[
-                    `${key}/status`
-                ] =
-                    "approved";
-            }
-        );
+["Rank","Name","ID","Score","XP"],
 
+...players.map(
 
-        if (
-            !Object.keys(
-                updates
-            ).length
-        ) {
+(p,i)=>[
 
-            roomStatus.textContent =
-                "Belum ada pelajar untuk diluluskan.";
+i+1,
 
-            return;
-        }
+p.name,
 
+p.id,
 
-        await F.update(
+p.score||0,
 
-            F.ref(
-                F.database,
-                `rooms/${this.room}/players`
-            ),
+p.xp||0
 
-            updates
-        );
+]
 
+)
 
-        roomStatus.textContent =
-            "Semua pelajar telah diluluskan.";
-    },
+];
 
+const csv=
 
-    async status(value) {
+rows
 
-        if (
-            !this.room
-        ) {
+.map(
 
-            roomStatus.textContent =
-                "Buka bilik terlebih dahulu.";
+r=>
 
-            return;
-        }
+r.join(",")
 
+)
 
-        const F =
-            await this.api();
+.join("\n");
 
+const a=
 
-        if (
-            value ===
-            "racing"
-        ) {
+document.createElement(
 
-            const approvedCount =
-                Number(
-                    approvedStudents.textContent
-                ) || 0;
+"a"
 
+);
 
-            if (
-                approvedCount === 0
-            ) {
+a.href=
 
-                roomStatus.textContent =
-                    "Luluskan sekurang-kurangnya seorang pelajar dahulu.";
+URL.createObjectURL(
 
-                return;
-            }
-        }
+new Blob(
 
+[csv],
 
-        await F.update(
+{
 
-            F.ref(
-                F.database,
-                `rooms/${this.room}`
-            ),
+type:"text/csv"
 
-            {
-                status:
-                    value,
+}
 
-                startedAt:
+)
 
-                    value ===
-                    "racing"
+);
 
-                        ? F.serverTimestamp()
+a.download=
 
-                        : this.roomData
-                            ?.startedAt ||
-                          null,
+`${this.room}.csv`;
 
-                finishedAt:
+a.click();
 
-                    value ===
-                    "finished"
+},
 
-                        ? F.serverTimestamp()
+drawRace(){
 
-                        : null
-            }
-        );
+if(
 
+!this.roomData||
 
-        if (
-            value ===
-            "racing"
-        ) {
+!this.roomData.players
 
-            roomStatus.textContent =
-                "Perlumbaan telah dimulakan.";
-        }
+){
 
+return;
 
-        if (
-            value ===
-            "finished"
-        ) {
+}
 
-            roomStatus.textContent =
-                "Perlumbaan telah ditamatkan.";
-        }
-    },
+const players=
 
+Object.values(
 
-    async csv() {
+this.roomData.players
 
-        if (
-            !this.room
-        ) {
+)
 
-            roomStatus.textContent =
-                "Buka bilik terlebih dahulu.";
+.filter(
 
-            return;
-        }
+p=>p.approved
 
+)
 
-        const F =
-            await this.api();
+.sort(
 
+(a,b)=>
 
-        const snapshot =
-            await F.get(
+(b.score||0)
 
-                F.ref(
-                    F.database,
-                    `rooms/${this.room}/players`
-                )
-            );
+-
 
+(a.score||0)
 
-        const players =
+);
 
-            Object.values(
-                snapshot.val() || {}
-            )
+const lanes=
 
-                .sort(
+document
 
-                    (
-                        a,
-                        b
-                    ) =>
+.querySelectorAll(
 
-                        (
-                            Number(
-                                b.score
-                            ) || 0
-                        )
+"#raceTrack .lane"
 
-                        -
+);
 
-                        (
-                            Number(
-                                a.score
-                            ) || 0
-                        )
-                );
+lanes.forEach(
 
+lane=>lane.innerHTML=""
 
-        const rows = [
+);
 
-            [
-                "Rank",
-                "Name",
-                "ID",
-                "Score",
-                "XP",
-                "Progress",
-                "Status"
-            ],
+players
 
-            ...players.map(
-                (
-                    player,
-                    index
-                ) => [
+.slice(0,10)
 
-                    index + 1,
+.forEach(
 
-                    player.name || "",
+(player,index)=>{
 
-                    player.id || "",
+const lane=
 
-                    Number(
-                        player.score
-                    ) || 0,
+lanes[index];
 
-                    Number(
-                        player.xp
-                    ) || 0,
+if(!lane)return;
 
-                    Number(
-                        player.progress
-                    ) || 0,
+const car=
 
-                    player.status || ""
-                ]
-            )
-        ];
+document.createElement(
 
+"div"
 
-        const csv =
+);
 
-            rows
+car.className="car";
 
-                .map(
-                    row =>
+car.style.left=
 
-                        row
+Math.min(
 
-                            .map(
-                                value =>
+90,
 
-                                    `"${String(
-                                        value
-                                    ).replaceAll(
-                                        '"',
-                                        '""'
-                                    )}"`
-                            )
+(player.progress||0)
 
-                            .join(",")
-                )
+*10
 
-                .join("\n");
+)+"%";
 
+car.innerHTML=
 
-        const link =
-            document.createElement(
-                "a"
-            );
+`🚗 <b>${player.name}</b>`;
 
+lane.appendChild(
 
-        link.href =
-            URL.createObjectURL(
+car
 
-                new Blob(
-                    [csv],
-                    {
-                        type:
-                            "text/csv;charset=utf-8"
-                    }
-                )
-            );
+);
 
+}
 
-        link.download =
-            `${this.room}-results.csv`;
+);
 
+}
 
-        document.body.appendChild(
-            link
-        );
-
-
-        link.click();
-
-
-        link.remove();
-    },
-
-
-    copyLink() {
-
-        if (
-            !joinLink.value
-        ) {
-
-            return;
-        }
-
-
-        navigator.clipboard
-
-            .writeText(
-                joinLink.value
-            )
-
-            .then(
-                () => {
-
-                    copyLinkBtn.textContent =
-                        "DISALIN ✓";
-
-
-                    setTimeout(
-                        () => {
-
-                            copyLinkBtn.textContent =
-                                "SALIN PAUTAN";
-
-                        },
-
-                        1500
-                    );
-                }
-            )
-
-            .catch(
-                () => {
-
-                    joinLink.select();
-
-                    document.execCommand(
-                        "copy"
-                    );
-
-                    copyLinkBtn.textContent =
-                        "DISALIN ✓";
-                }
-            );
-    },
-
-
-    toggleFullscreen() {
-
-        if (
-            !document.fullscreenElement
-        ) {
-
-            document.documentElement
-                .requestFullscreen
-                ?.();
-
-        } else {
-
-            document
-                .exitFullscreen
-                ?.();
-        }
-    }
+/* ===========================================
+TEACHER.JS
+PART 4 (FINAL)
+=========================================== */
 
 };
 
-
 document.addEventListener(
 
-    "DOMContentLoaded",
+"DOMContentLoaded",
 
-    () => {
+()=>{
 
-        createRoomBtn.onclick =
-            () => T.create();
+createRoomBtn.onclick=()=>T.create();
 
-        approveAllBtn.onclick =
-            () => T.approveAll();
+approveAllBtn.onclick=()=>T.approveAll();
 
-        startRaceBtn.onclick =
-            () => T.status(
-                "racing"
-            );
+startRaceBtn.onclick=()=>T.status("racing");
 
-        finishRaceBtn.onclick =
-            () => T.status(
-                "finished"
-            );
+finishRaceBtn.onclick=()=>T.status("finished");
 
-        exportCsvBtn.onclick =
-            () => T.csv();
+exportCsvBtn.onclick=()=>T.csv();
 
-        copyLinkBtn.onclick =
-            () => T.copyLink();
+copyLinkBtn.onclick=()=>{
 
-        fullscreenBtn.onclick =
-            () => T.toggleFullscreen();
-    }
-);
+joinLink.select();
 
+document.execCommand("copy");
 
-window.T = T;
+copyLinkBtn.innerHTML="✅ DISALIN";
+
+setTimeout(()=>{
+
+copyLinkBtn.innerHTML="📋 COPY LINK";
+
+},1500);
+
+};
+
+setInterval(()=>{
+
+T.drawRace();
+
+},500);
+
+});
+
+window.T=T;
