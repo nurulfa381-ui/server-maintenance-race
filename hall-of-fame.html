@@ -1,0 +1,3278 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+name="theme-color"
+content="#031329"
+>
+
+<title>
+SERVER HERO RACE™ — Hall of Fame
+</title>
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com"
+>
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin
+>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet"
+>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Poppins",sans-serif;
+}
+
+:root{
+--dark:#020712;
+--navy:#04152d;
+--navy2:#08264d;
+--navy3:#0d3a70;
+--blue:#168cff;
+--cyan:#51ddff;
+--gold:#ffd84d;
+--orange:#ff9d00;
+--green:#35df83;
+--red:#ff5667;
+--white:#ffffff;
+--muted:#a9bdd7;
+--silver:#d9e4ee;
+--bronze:#d98b50;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+min-height:100vh;
+color:var(--white);
+background:
+radial-gradient(
+circle at top,
+#174f8e 0%,
+#06172f 48%,
+#020712 100%
+);
+}
+
+button,
+input,
+select,
+a{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.page{
+width:min(1550px,100%);
+margin:auto;
+padding:22px;
+}
+
+.topbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:22px;
+padding:19px 22px;
+border:1px solid #326a9e;
+border-radius:20px;
+background:
+linear-gradient(
+90deg,
+rgba(4,20,43,.98),
+rgba(13,58,112,.95)
+);
+box-shadow:
+0 18px 42px rgba(0,0,0,.38);
+}
+
+.brand h1{
+font-size:clamp(25px,4vw,42px);
+font-weight:900;
+color:var(--gold);
+text-shadow:
+0 0 20px rgba(255,216,77,.35);
+}
+
+.brand p{
+margin-top:3px;
+color:var(--muted);
+font-weight:600;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn,
+.linkBtn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+padding:12px 16px;
+color:var(--white);
+font-weight:800;
+text-decoration:none;
+border:1px solid #4079ac;
+border-radius:12px;
+background:#0b315e;
+transition:.25s;
+}
+
+.btn:hover,
+.linkBtn:hover{
+transform:translateY(-2px);
+border-color:var(--gold);
+}
+
+.primary{
+color:#04152d;
+border:none;
+background:
+linear-gradient(
+90deg,
+var(--orange),
+var(--gold)
+);
+}
+
+.hero{
+position:relative;
+overflow:hidden;
+margin-bottom:22px;
+padding:40px 22px;
+text-align:center;
+border:1px solid #3973a8;
+border-radius:26px;
+background:
+linear-gradient(
+180deg,
+rgba(10,46,87,.97),
+rgba(3,18,39,.98)
+);
+box-shadow:
+0 22px 52px rgba(0,0,0,.4);
+}
+
+.hero::before{
+content:"";
+position:absolute;
+inset:-180px;
+background:
+conic-gradient(
+from 0deg,
+transparent,
+rgba(81,221,255,.1),
+transparent,
+rgba(255,216,77,.14),
+transparent
+);
+animation:rotateGlow 16s linear infinite;
+}
+
+@keyframes rotateGlow{
+to{
+transform:rotate(360deg);
+}
+}
+
+.heroContent{
+position:relative;
+z-index:2;
+}
+
+.heroIcon{
+font-size:82px;
+animation:floatIcon 2.7s ease-in-out infinite;
+filter:
+drop-shadow(
+0 0 20px rgba(255,216,77,.65)
+);
+}
+
+@keyframes floatIcon{
+0%,100%{
+transform:translateY(0);
+}
+50%{
+transform:translateY(-10px);
+}
+}
+
+.hero h2{
+margin-top:10px;
+font-size:clamp(32px,6vw,68px);
+font-weight:900;
+color:var(--gold);
+text-shadow:
+0 0 22px rgba(255,216,77,.4);
+}
+
+.hero p{
+max-width:850px;
+margin:10px auto 0;
+color:#dcecff;
+font-size:clamp(14px,2vw,19px);
+font-weight:600;
+}
+
+.heroBadge{
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-top:17px;
+padding:9px 16px;
+border:1px solid #4a84b7;
+border-radius:999px;
+background:rgba(0,10,25,.55);
+font-weight:800;
+}
+
+.heroBadge strong{
+color:var(--cyan);
+}
+
+.recordGrid{
+display:grid;
+grid-template-columns:
+repeat(5,minmax(0,1fr));
+gap:14px;
+margin-bottom:22px;
+}
+
+.recordCard{
+position:relative;
+overflow:hidden;
+padding:20px;
+text-align:center;
+border:1px solid #3972a5;
+border-radius:18px;
+background:
+linear-gradient(
+180deg,
+#12437b,
+#092747
+);
+box-shadow:
+0 14px 30px rgba(0,0,0,.28);
+}
+
+.recordCard::after{
+content:"";
+position:absolute;
+right:-35px;
+bottom:-45px;
+width:100px;
+height:100px;
+border-radius:50%;
+background:
+rgba(81,221,255,.07);
+}
+
+.recordIcon{
+font-size:34px;
+}
+
+.recordCard span{
+display:block;
+margin-top:8px;
+color:var(--muted);
+font-size:12px;
+font-weight:700;
+}
+
+.recordCard strong{
+display:block;
+margin-top:6px;
+color:var(--gold);
+font-size:29px;
+font-weight:900;
+}
+
+.championGrid{
+display:grid;
+grid-template-columns:
+1.25fr 1fr;
+gap:20px;
+margin-bottom:22px;
+}
+
+.championCard{
+position:relative;
+overflow:hidden;
+min-height:420px;
+padding:28px;
+border:2px solid var(--gold);
+border-radius:26px;
+background:
+linear-gradient(
+145deg,
+#174f8e,
+#09284c 55%,
+#04152d
+);
+box-shadow:
+0 0 38px rgba(255,216,77,.2),
+0 20px 45px rgba(0,0,0,.38);
+}
+
+.championCard::before{
+content:"👑";
+position:absolute;
+right:25px;
+top:18px;
+font-size:82px;
+opacity:.18;
+transform:rotate(10deg);
+}
+
+.championLabel{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:7px 13px;
+color:#06152d;
+font-size:12px;
+font-weight:900;
+border-radius:999px;
+background:
+linear-gradient(
+90deg,
+var(--orange),
+var(--gold)
+);
+}
+
+.championContent{
+display:flex;
+align-items:center;
+gap:25px;
+margin-top:28px;
+}
+
+.championAvatar{
+display:flex;
+align-items:center;
+justify-content:center;
+width:180px;
+height:180px;
+flex-shrink:0;
+font-size:96px;
+border:5px solid var(--gold);
+border-radius:50%;
+background:
+linear-gradient(
+135deg,
+var(--orange),
+var(--gold)
+);
+box-shadow:
+0 0 35px rgba(255,216,77,.35);
+}
+
+.championInfo{
+min-width:0;
+}
+
+.championInfo h3{
+font-size:clamp(27px,4vw,45px);
+font-weight:900;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.championInfo p{
+margin-top:5px;
+color:var(--muted);
+font-weight:600;
+}
+
+.championStats{
+display:grid;
+grid-template-columns:
+repeat(2,minmax(0,1fr));
+gap:12px;
+margin-top:20px;
+}
+
+.championStat{
+padding:13px;
+border-radius:14px;
+background:rgba(1,13,30,.62);
+}
+
+.championStat span{
+display:block;
+color:var(--muted);
+font-size:11px;
+font-weight:700;
+}
+
+.championStat strong{
+display:block;
+margin-top:4px;
+color:var(--gold);
+font-size:22px;
+}
+
+.specialRecords{
+display:grid;
+grid-template-columns:1fr;
+gap:14px;
+}
+
+.specialCard{
+display:flex;
+align-items:center;
+gap:16px;
+padding:18px;
+border:1px solid #3972a5;
+border-radius:18px;
+background:
+linear-gradient(
+90deg,
+#103d72,
+#082648
+);
+box-shadow:
+0 12px 28px rgba(0,0,0,.27);
+}
+
+.specialIcon{
+display:flex;
+align-items:center;
+justify-content:center;
+width:62px;
+height:62px;
+flex-shrink:0;
+font-size:34px;
+border-radius:16px;
+background:#061a36;
+}
+
+.specialInfo{
+min-width:0;
+}
+
+.specialInfo span{
+display:block;
+color:var(--muted);
+font-size:12px;
+font-weight:700;
+}
+
+.specialInfo strong{
+display:block;
+margin-top:3px;
+color:var(--cyan);
+font-size:19px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.panel{
+margin-bottom:22px;
+padding:23px;
+border:1px solid #356d9f;
+border-radius:24px;
+background:
+linear-gradient(
+180deg,
+rgba(6,29,60,.98),
+rgba(3,16,36,.98)
+);
+box-shadow:
+0 18px 42px rgba(0,0,0,.34);
+}
+
+.panelHeader{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:14px;
+flex-wrap:wrap;
+margin-bottom:18px;
+}
+
+.sectionTitle{
+font-size:25px;
+font-weight:900;
+color:var(--gold);
+}
+
+.filters{
+display:grid;
+grid-template-columns:
+minmax(220px,1fr)
+200px
+auto;
+gap:10px;
+width:min(700px,100%);
+}
+
+input,
+select{
+width:100%;
+padding:12px 14px;
+color:var(--white);
+border:1px solid #3b73a6;
+border-radius:12px;
+outline:none;
+background:#071d3c;
+}
+
+input:focus,
+select:focus{
+border-color:var(--cyan);
+box-shadow:
+0 0 0 4px rgba(81,221,255,.11);
+}
+
+select option{
+background:#071d3c;
+}
+
+.tableWrap{
+overflow-x:auto;
+border-radius:16px;
+}
+
+table{
+width:100%;
+min-width:1150px;
+border-collapse:collapse;
+}
+
+th,
+td{
+padding:13px;
+text-align:left;
+border-bottom:
+1px solid rgba(255,255,255,.11);
+}
+
+th{
+color:var(--cyan);
+font-size:12px;
+font-weight:900;
+background:#09284d;
+}
+
+tbody tr:nth-child(even){
+background:rgba(255,255,255,.025);
+}
+
+tbody tr:hover{
+background:rgba(81,221,255,.07);
+}
+
+.rankCell{
+font-size:21px;
+font-weight:900;
+}
+
+.playerCell{
+display:flex;
+align-items:center;
+gap:10px;
+min-width:210px;
+}
+
+.smallAvatar{
+display:flex;
+align-items:center;
+justify-content:center;
+width:42px;
+height:42px;
+flex-shrink:0;
+font-size:24px;
+border-radius:50%;
+background:
+linear-gradient(
+135deg,
+#168cff,
+#51ddff
+);
+}
+
+.playerText strong{
+display:block;
+}
+
+.playerText span{
+display:block;
+color:var(--muted);
+font-size:11px;
+}
+
+.scoreText{
+color:var(--gold);
+font-weight:900;
+}
+
+.statusBadge{
+display:inline-block;
+padding:6px 10px;
+font-size:11px;
+font-weight:900;
+border-radius:999px;
+background:rgba(53,223,131,.13);
+color:var(--green);
+}
+
+.badgeList{
+display:flex;
+gap:4px;
+font-size:19px;
+}
+
+.emptyState{
+padding:35px;
+text-align:center;
+color:var(--muted);
+font-weight:700;
+}
+
+.footerActions{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+padding:21px;
+border:1px solid #356d9f;
+border-radius:22px;
+background:#061d3c;
+}
+
+@media(max-width:1150px){
+
+.recordGrid{
+grid-template-columns:
+repeat(3,1fr);
+}
+
+.championGrid{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:760px){
+
+.page{
+padding:10px;
+}
+
+.actions{
+width:100%;
+}
+
+.actions>*{
+flex:1;
+}
+
+.recordGrid{
+grid-template-columns:
+repeat(2,1fr);
+}
+
+.championContent{
+flex-direction:column;
+text-align:center;
+}
+
+.championAvatar{
+width:150px;
+height:150px;
+font-size:78px;
+}
+
+.filters{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:480px){
+
+.recordGrid{
+grid-template-columns:1fr;
+}
+
+.championStats{
+grid-template-columns:1fr;
+}
+
+.footerActions>*{
+width:100%;
+}
+
+}
+
+@media print{
+
+body{
+color:#000;
+background:#fff;
+}
+
+.actions,
+.filters,
+.footerActions{
+display:none!important;
+}
+
+.topbar,
+.hero,
+.recordCard,
+.championCard,
+.specialCard,
+.panel{
+color:#000;
+border-color:#999;
+background:#fff;
+box-shadow:none;
+}
+
+.hero h2,
+.sectionTitle,
+.recordCard strong,
+.championStat strong,
+.scoreText{
+color:#000;
+}
+
+.hero p,
+.brand p,
+.recordCard span,
+.championInfo p,
+.championStat span,
+.specialInfo span{
+color:#444;
+}
+
+th{
+color:#000;
+background:#eee;
+}
+
+table{
+min-width:0;
+font-size:10px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<header class="topbar">
+
+<div class="brand">
+
+<h1>
+👑 SERVER HERO RACE™
+</h1>
+
+<p>
+Hall of Fame Pelajar
+</p>
+
+</div>
+
+<div class="actions">
+
+<a
+href="index.html"
+class="linkBtn"
+>
+🏎️ Permainan
+</a>
+
+<a
+href="teacher.html"
+class="linkBtn"
+>
+👨‍🏫 Panel Guru
+</a>
+
+<a
+href="podium.html"
+class="linkBtn"
+>
+🏆 Podium
+</a>
+
+<button
+id="refreshBtn"
+type="button"
+class="btn"
+>
+🔄 Refresh
+</button>
+
+<button
+id="csvBtn"
+type="button"
+class="btn"
+>
+📥 Export CSV
+</button>
+
+<button
+id="printBtn"
+type="button"
+class="btn primary"
+>
+🖨️ Cetak / PDF
+</button>
+
+</div>
+
+</header>
+
+<section class="hero">
+
+<div class="heroContent">
+
+<div class="heroIcon">
+👑
+</div>
+
+<h2>
+HALL OF FAME
+</h2>
+
+<p>
+Penghargaan khas kepada SERVER HERO terbaik yang mencatat pencapaian, markah dan prestasi cemerlang.
+</p>
+
+<div class="heroBadge">
+
+<span>
+Jumlah Rekod:
+</span>
+
+<strong id="heroTotalRecords">
+0
+</strong>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="recordGrid">
+
+<article class="recordCard">
+
+<div class="recordIcon">
+👥
+</div>
+
+<span>
+JUMLAH PEMAIN
+</span>
+
+<strong id="totalPlayers">
+0
+</strong>
+
+</article>
+
+<article class="recordCard">
+
+<div class="recordIcon">
+🎮
+</div>
+
+<span>
+JUMLAH PERMAINAN
+</span>
+
+<strong id="totalGames">
+0
+</strong>
+
+</article>
+
+<article class="recordCard">
+
+<div class="recordIcon">
+⭐
+</div>
+
+<span>
+JUMLAH XP
+</span>
+
+<strong id="totalXp">
+0
+</strong>
+
+</article>
+
+<article class="recordCard">
+
+<div class="recordIcon">
+🏆
+</div>
+
+<span>
+JUMLAH KEMENANGAN
+</span>
+
+<strong id="totalWins">
+0
+</strong>
+
+</article>
+
+<article class="recordCard">
+
+<div class="recordIcon">
+🎖️
+</div>
+
+<span>
+JUMLAH BADGE
+</span>
+
+<strong id="totalBadges">
+0
+</strong>
+
+</article>
+
+</section>
+
+<section class="championGrid">
+
+<article class="championCard">
+
+<span class="championLabel">
+👑 JUARA KESELURUHAN
+</span>
+
+<div class="championContent">
+
+<div
+class="championAvatar"
+id="championAvatar"
+>
+👤
+</div>
+
+<div class="championInfo">
+
+<h3 id="championName">
+-
+</h3>
+
+<p id="championId">
+-
+</p>
+
+<div class="championStats">
+
+<div class="championStat">
+
+<span>
+MARKAH
+</span>
+
+<strong id="championScore">
+0
+</strong>
+
+</div>
+
+<div class="championStat">
+
+<span>
+XP
+</span>
+
+<strong id="championXp">
+0
+</strong>
+
+</div>
+
+<div class="championStat">
+
+<span>
+MENANG
+</span>
+
+<strong id="championWins">
+0
+</strong>
+
+</div>
+
+<div class="championStat">
+
+<span>
+BADGE
+</span>
+
+<strong id="championBadges">
+0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+<div class="specialRecords">
+
+<article class="specialCard">
+
+<div class="specialIcon">
+⚡
+</div>
+
+<div class="specialInfo">
+
+<span>
+JAWAPAN TERPANTAS
+</span>
+
+<strong id="fastestPlayer">
+-
+</strong>
+
+</div>
+
+</article>
+
+<article class="specialCard">
+
+<div class="specialIcon">
+🎯
+</div>
+
+<div class="specialInfo">
+
+<span>
+MARKAH SEMPURNA
+</span>
+
+<strong id="perfectScorePlayer">
+-
+</strong>
+
+</div>
+
+</article>
+
+<article class="specialCard">
+
+<div class="specialIcon">
+⭐
+</div>
+
+<div class="specialInfo">
+
+<span>
+XP TERTINGGI
+</span>
+
+<strong id="highestXpPlayer">
+-
+</strong>
+
+</div>
+
+</article>
+
+<article class="specialCard">
+
+<div class="specialIcon">
+🎖️
+</div>
+
+<div class="specialInfo">
+
+<span>
+BADGE TERBANYAK
+</span>
+
+<strong id="mostBadgePlayer">
+-
+</strong>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<h2 class="sectionTitle">
+🏆 Leaderboard Keseluruhan
+</h2>
+
+<div class="filters">
+
+<input
+id="searchInput"
+type="search"
+placeholder="Cari nama atau ID pelajar..."
+>
+
+<select id="roomFilter">
+
+<option value="">
+Semua Bilik
+</option>
+
+</select>
+
+<button
+id="clearFilterBtn"
+type="button"
+class="btn"
+>
+Reset
+</button>
+
+</div>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+RANK
+</th>
+
+<th>
+PELAJAR
+</th>
+
+<th>
+BILIK
+</th>
+
+<th>
+MARKAH
+</th>
+
+<th>
+XP
+</th>
+
+<th>
+MENANG
+</th>
+
+<th>
+PERMAINAN
+</th>
+
+<th>
+BETUL
+</th>
+
+<th>
+PANTAS
+</th>
+
+<th>
+BADGE
+</th>
+
+<th>
+STATUS
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="leaderboardBody">
+
+<tr>
+
+<td colspan="11">
+
+<div class="emptyState">
+
+Memuatkan Hall of Fame...
+
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<section class="footerActions">
+
+<a
+href="teacher-report.html"
+class="linkBtn"
+>
+📊 Laporan Guru
+</a>
+
+<a
+href="certificate.html"
+class="linkBtn primary"
+>
+🎓 Sijil
+</a>
+
+<a
+href="student-profile.html"
+class="linkBtn"
+>
+👤 Profil Pelajar
+</a>
+
+</section>
+
+</div>
+
+  <script src="firebase-config.js"></script>
+
+<script>
+
+const HALL_OF_FAME = {
+
+records: [],
+
+filteredRecords: [],
+
+roomsData: {},
+
+
+async init() {
+
+refreshBtn.onclick =
+
+() => this.loadAllData();
+
+
+csvBtn.onclick =
+
+() => this.exportCsv();
+
+
+printBtn.onclick =
+
+() => window.print();
+
+
+searchInput.addEventListener(
+
+"input",
+
+() => this.applyFilters()
+
+);
+
+
+roomFilter.addEventListener(
+
+"change",
+
+() => this.applyFilters()
+
+);
+
+
+clearFilterBtn.onclick =
+
+() => {
+
+searchInput.value = "";
+
+roomFilter.value = "";
+
+this.applyFilters();
+
+};
+
+
+await this.loadAllData();
+
+},
+
+
+async firebaseApi() {
+
+if (
+
+window.SERVER_HERO_FIREBASE_READY
+
+) {
+
+return await window.SERVER_HERO_FIREBASE_READY;
+
+}
+
+
+return null;
+
+},
+
+
+async loadAllData() {
+
+leaderboardBody.innerHTML = `
+
+<tr>
+
+<td colspan="11">
+
+<div class="emptyState">
+
+Memuatkan semua rekod Hall of Fame...
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+
+let loaded = false;
+
+
+try {
+
+const firebase =
+
+await this.firebaseApi();
+
+
+if (firebase) {
+
+const snapshot =
+
+await firebase.get(
+
+firebase.ref(
+
+firebase.database,
+
+"rooms"
+
+)
+
+);
+
+
+const rooms =
+
+snapshot.val();
+
+
+if (rooms) {
+
+this.roomsData = rooms;
+
+this.records =
+
+this.buildPlayerRecords(rooms);
+
+loaded = true;
+
+}
+
+}
+
+} catch (error) {
+
+console.error(
+
+"Data Firebase tidak dapat dimuatkan.",
+
+error
+
+);
+
+}
+
+
+if (!loaded) {
+
+this.loadLocalRecords();
+
+}
+
+
+this.sortRecords();
+
+this.populateRoomFilter();
+
+this.applyFilters();
+
+this.renderOverview();
+
+},
+
+
+buildPlayerRecords(rooms) {
+
+const mergedPlayers = {};
+
+
+Object.entries(
+
+rooms || {}
+
+).forEach(
+
+([roomCode, room]) => {
+
+const players =
+
+room.players || {};
+
+
+Object.entries(players).forEach(
+
+([playerKey, rawPlayer]) => {
+
+const player =
+
+this.normalisePlayer(
+
+rawPlayer,
+
+roomCode,
+
+playerKey
+
+);
+
+
+const uniqueKey =
+
+this.playerUniqueKey(player);
+
+
+if (!mergedPlayers[uniqueKey]) {
+
+mergedPlayers[uniqueKey] = {
+
+name: player.name,
+
+id: player.id,
+
+avatar: player.avatar,
+
+rooms: new Set(),
+
+score: 0,
+
+highestScore: 0,
+
+xp: 0,
+
+wins: 0,
+
+games: 0,
+
+correctCount: 0,
+
+wrongCount: 0,
+
+fastCount: 0,
+
+badges: new Set(),
+
+fastestAnswerMs: 999999,
+
+perfectScores: 0,
+
+finishedGames: 0
+
+};
+
+}
+
+
+const record =
+
+mergedPlayers[uniqueKey];
+
+
+record.rooms.add(roomCode);
+
+
+record.score +=
+
+player.score;
+
+
+record.highestScore =
+
+Math.max(
+
+record.highestScore,
+
+player.score
+
+);
+
+
+record.xp +=
+
+player.xp;
+
+
+record.games += 1;
+
+
+record.correctCount +=
+
+player.correctCount;
+
+
+record.wrongCount +=
+
+player.wrongCount;
+
+
+record.fastCount +=
+
+player.fastCount;
+
+
+record.fastestAnswerMs =
+
+Math.min(
+
+record.fastestAnswerMs,
+
+player.fastestAnswerMs
+
+);
+
+
+if (
+
+player.finished
+
+) {
+
+record.finishedGames += 1;
+
+}
+
+
+if (
+
+player.isWinner
+
+) {
+
+record.wins += 1;
+
+}
+
+
+if (
+
+player.isPerfect
+
+) {
+
+record.perfectScores += 1;
+
+}
+
+
+player.badges.forEach(
+
+badge => record.badges.add(badge)
+
+);
+
+});
+
+});
+
+
+return Object.values(
+
+mergedPlayers
+
+).map(
+
+record => ({
+
+...record,
+
+rooms:
+
+Array.from(record.rooms),
+
+badges:
+
+Array.from(record.badges),
+
+averageScore:
+
+record.games
+
+? Math.round(
+
+record.score /
+
+record.games
+
+)
+
+: 0
+
+})
+
+);
+
+},
+
+
+normalisePlayer(
+
+player,
+
+roomCode,
+
+playerKey
+
+) {
+
+const badges =
+
+Array.isArray(player.badges)
+
+? player.badges
+
+: player.badges &&
+
+typeof player.badges === "object"
+
+? Object.values(player.badges)
+
+: [];
+
+
+const score =
+
+Number(
+
+player.score ||
+
+player.totalScore
+
+) || 0;
+
+
+const correctCount =
+
+Number(
+
+player.correctCount ||
+
+player.correctAnswers
+
+) || 0;
+
+
+const wrongCount =
+
+Number(
+
+player.wrongCount ||
+
+player.wrongAnswers
+
+) || 0;
+
+
+const totalAnswers =
+
+correctCount +
+
+wrongCount;
+
+
+const questionCount =
+
+Number(
+
+player.questionCount ||
+
+player.totalQuestions
+
+) || totalAnswers;
+
+
+const rank =
+
+Number(
+
+player.rank ||
+
+player.position ||
+
+player.ranking
+
+) || 0;
+
+
+return {
+
+name:
+
+player.name ||
+
+player.studentName ||
+
+player.playerName ||
+
+"Pelajar",
+
+id:
+
+player.id ||
+
+player.studentId ||
+
+player.playerId ||
+
+playerKey ||
+
+"-",
+
+avatar:
+
+player.avatar ||
+
+"👤",
+
+roomCode,
+
+score,
+
+xp:
+
+Number(
+
+player.xp ||
+
+player.totalXP
+
+) || 0,
+
+correctCount,
+
+wrongCount,
+
+fastCount:
+
+Number(
+
+player.fastCount ||
+
+player.fastAnswers
+
+) || 0,
+
+fastestAnswerMs:
+
+Number(
+
+player.fastestAnswerMs ||
+
+player.lastAnswerMs ||
+
+player.answerTime
+
+) || 999999,
+
+badges:
+
+badges.map(
+
+badge =>
+
+String(
+
+typeof badge === "object"
+
+? badge.id ||
+
+badge.name ||
+
+badge.title ||
+
+"badge"
+
+: badge
+
+)
+
+),
+
+finished:
+
+Boolean(
+
+player.finished ||
+
+player.status === "finished" ||
+
+player.completed
+
+),
+
+isWinner:
+
+rank === 1 ||
+
+player.isWinner === true ||
+
+player.winner === true,
+
+isPerfect:
+
+questionCount > 0 &&
+
+correctCount >= questionCount
+
+};
+
+},
+
+
+playerUniqueKey(player) {
+
+const id =
+
+String(player.id || "")
+
+.trim()
+
+.toLowerCase();
+
+
+if (id && id !== "-") {
+
+return `id:${id}`;
+
+}
+
+
+return `name:${String(
+
+player.name || "pelajar"
+
+)
+
+.trim()
+
+.toLowerCase()}`;
+
+},
+
+
+loadLocalRecords() {
+
+const keys = [
+
+"serverHeroHallOfFame",
+
+"serverHeroRaceHistory",
+
+"hallOfFameRecords",
+
+"serverHeroPlayers"
+
+];
+
+
+let rawRecords = [];
+
+
+for (const key of keys) {
+
+try {
+
+const raw =
+
+localStorage.getItem(key);
+
+
+if (!raw) {
+
+continue;
+
+}
+
+
+const parsed =
+
+JSON.parse(raw);
+
+
+if (Array.isArray(parsed)) {
+
+rawRecords = parsed;
+
+break;
+
+}
+
+
+if (
+
+parsed &&
+
+Array.isArray(parsed.records)
+
+) {
+
+rawRecords = parsed.records;
+
+break;
+
+}
+
+} catch (error) {
+
+console.warn(
+
+`Data ${key} tidak dapat dibaca.`,
+
+error
+
+);
+
+}
+
+}
+
+
+if (!rawRecords.length) {
+
+rawRecords = [
+
+{
+
+name: "Aiman",
+
+id: "SH001",
+
+avatar: "👨‍💻",
+
+rooms: ["C05-01"],
+
+score: 7540,
+
+highestScore: 2580,
+
+averageScore: 2513,
+
+xp: 3650,
+
+wins: 3,
+
+games: 4,
+
+correctCount: 92,
+
+wrongCount: 12,
+
+fastCount: 28,
+
+badges: [
+
+"first-mission",
+
+"speed-hero",
+
+"perfect-score",
+
+"server-master"
+
+],
+
+fastestAnswerMs: 1850,
+
+perfectScores: 1,
+
+finishedGames: 4
+
+},
+
+{
+
+name: "Sofia",
+
+id: "SH002",
+
+avatar: "👩‍💻",
+
+rooms: ["C05-01", "C05-02"],
+
+score: 6920,
+
+highestScore: 2390,
+
+averageScore: 2307,
+
+xp: 3320,
+
+wins: 2,
+
+games: 4,
+
+correctCount: 88,
+
+wrongCount: 16,
+
+fastCount: 24,
+
+badges: [
+
+"first-mission",
+
+"speed-hero",
+
+"server-master"
+
+],
+
+fastestAnswerMs: 2050,
+
+perfectScores: 0,
+
+finishedGames: 4
+
+},
+
+{
+
+name: "Daniel",
+
+id: "SH003",
+
+avatar: "🧑‍🔧",
+
+rooms: ["C05-02"],
+
+score: 6180,
+
+highestScore: 2210,
+
+averageScore: 2060,
+
+xp: 2940,
+
+wins: 1,
+
+games: 3,
+
+correctCount: 79,
+
+wrongCount: 18,
+
+fastCount: 19,
+
+badges: [
+
+"first-mission",
+
+"speed-hero"
+
+],
+
+fastestAnswerMs: 2280,
+
+perfectScores: 0,
+
+finishedGames: 3
+
+}
+
+];
+
+}
+
+
+this.records =
+
+rawRecords.map(
+
+record => ({
+
+name:
+
+record.name ||
+
+"Pelajar",
+
+id:
+
+record.id ||
+
+"-",
+
+avatar:
+
+record.avatar ||
+
+"👤",
+
+rooms:
+
+Array.isArray(record.rooms)
+
+? record.rooms
+
+: [
+
+record.room ||
+
+"DEMO"
+
+],
+
+score:
+
+Number(record.score) || 0,
+
+highestScore:
+
+Number(
+
+record.highestScore ||
+
+record.score
+
+) || 0,
+
+averageScore:
+
+Number(
+
+record.averageScore
+
+) || 0,
+
+xp:
+
+Number(record.xp) || 0,
+
+wins:
+
+Number(record.wins) || 0,
+
+games:
+
+Number(record.games) || 0,
+
+correctCount:
+
+Number(
+
+record.correctCount
+
+) || 0,
+
+wrongCount:
+
+Number(
+
+record.wrongCount
+
+) || 0,
+
+fastCount:
+
+Number(
+
+record.fastCount
+
+) || 0,
+
+badges:
+
+Array.isArray(record.badges)
+
+? record.badges
+
+: [],
+
+fastestAnswerMs:
+
+Number(
+
+record.fastestAnswerMs
+
+) || 999999,
+
+perfectScores:
+
+Number(
+
+record.perfectScores
+
+) || 0,
+
+finishedGames:
+
+Number(
+
+record.finishedGames
+
+) || 0
+
+})
+
+);
+
+},
+
+
+sortRecords() {
+
+this.records.sort(
+
+(a, b) =>
+
+b.score - a.score ||
+
+b.wins - a.wins ||
+
+b.xp - a.xp ||
+
+a.fastestAnswerMs -
+
+b.fastestAnswerMs
+
+);
+
+},
+
+
+populateRoomFilter() {
+
+const rooms =
+
+new Set();
+
+
+this.records.forEach(
+
+record =>
+
+record.rooms.forEach(
+
+room => rooms.add(room)
+
+)
+
+);
+
+
+const currentValue =
+
+roomFilter.value;
+
+
+roomFilter.innerHTML = `
+
+<option value="">
+
+Semua Bilik
+
+</option>
+
+${
+
+Array.from(rooms)
+
+.sort()
+
+.map(
+
+room => `
+
+<option value="${this.escapeHtml(room)}">
+
+${this.escapeHtml(room)}
+
+</option>
+
+`
+
+)
+
+.join("")
+
+}
+
+`;
+
+
+if (
+
+Array.from(rooms).includes(
+
+currentValue
+
+)
+
+) {
+
+roomFilter.value =
+
+currentValue;
+
+}
+
+},
+
+
+applyFilters() {
+
+const query =
+
+String(searchInput.value || "")
+
+.trim()
+
+.toLowerCase();
+
+
+const selectedRoom =
+
+roomFilter.value;
+
+
+this.filteredRecords =
+
+this.records.filter(
+
+record => {
+
+const matchesSearch =
+
+!query ||
+
+record.name
+
+.toLowerCase()
+
+.includes(query) ||
+
+record.id
+
+.toLowerCase()
+
+.includes(query);
+
+
+const matchesRoom =
+
+!selectedRoom ||
+
+record.rooms.includes(
+
+selectedRoom
+
+);
+
+
+return matchesSearch &&
+
+matchesRoom;
+
+}
+
+);
+
+
+this.renderLeaderboard();
+
+},
+
+
+renderOverview() {
+
+const records =
+
+this.records;
+
+
+heroTotalRecords.textContent =
+
+records.length;
+
+
+totalPlayers.textContent =
+
+records.length;
+
+
+totalGames.textContent =
+
+records.reduce(
+
+(total, record) =>
+
+total + record.games,
+
+0
+
+).toLocaleString();
+
+
+totalXp.textContent =
+
+records.reduce(
+
+(total, record) =>
+
+total + record.xp,
+
+0
+
+).toLocaleString();
+
+
+totalWins.textContent =
+
+records.reduce(
+
+(total, record) =>
+
+total + record.wins,
+
+0
+
+).toLocaleString();
+
+
+totalBadges.textContent =
+
+records.reduce(
+
+(total, record) =>
+
+total + record.badges.length,
+
+0
+
+).toLocaleString();
+
+
+this.renderChampion();
+
+this.renderSpecialRecords();
+
+},
+
+
+renderChampion() {
+
+const champion =
+
+this.records[0];
+
+
+if (!champion) {
+
+championAvatar.textContent =
+
+"👤";
+
+championName.textContent =
+
+"-";
+
+championId.textContent =
+
+"-";
+
+championScore.textContent =
+
+"0";
+
+championXp.textContent =
+
+"0";
+
+championWins.textContent =
+
+"0";
+
+championBadges.textContent =
+
+"0";
+
+return;
+
+}
+
+
+championAvatar.textContent =
+
+champion.avatar;
+
+
+championName.textContent =
+
+champion.name;
+
+
+championId.textContent =
+
+`${champion.id} • ${champion.rooms.join(", ")}`;
+
+
+championScore.textContent =
+
+champion.score.toLocaleString();
+
+
+championXp.textContent =
+
+champion.xp.toLocaleString();
+
+
+championWins.textContent =
+
+champion.wins;
+
+
+championBadges.textContent =
+
+champion.badges.length;
+
+},
+
+
+renderSpecialRecords() {
+
+if (!this.records.length) {
+
+fastestPlayer.textContent = "-";
+
+perfectScorePlayer.textContent = "-";
+
+highestXpPlayer.textContent = "-";
+
+mostBadgePlayer.textContent = "-";
+
+return;
+
+}
+
+
+const fastest =
+
+[...this.records]
+
+.filter(
+
+record =>
+
+record.fastestAnswerMs < 999999
+
+)
+
+.sort(
+
+(a, b) =>
+
+a.fastestAnswerMs -
+
+b.fastestAnswerMs
+
+)[0];
+
+
+const perfect =
+
+[...this.records]
+
+.sort(
+
+(a, b) =>
+
+b.perfectScores -
+
+a.perfectScores ||
+
+b.highestScore -
+
+a.highestScore
+
+)[0];
+
+
+const highestXp =
+
+[...this.records]
+
+.sort(
+
+(a, b) =>
+
+b.xp - a.xp
+
+)[0];
+
+
+const mostBadges =
+
+[...this.records]
+
+.sort(
+
+(a, b) =>
+
+b.badges.length -
+
+a.badges.length ||
+
+b.score -
+
+a.score
+
+)[0];
+
+
+fastestPlayer.textContent =
+
+fastest
+
+? `${fastest.name} • ${this.formatMilliseconds(fastest.fastestAnswerMs)}`
+
+: "-";
+
+
+perfectScorePlayer.textContent =
+
+perfect &&
+
+perfect.perfectScores > 0
+
+? `${perfect.name} • ${perfect.perfectScores} kali`
+
+: "Belum Ada";
+
+
+highestXpPlayer.textContent =
+
+`${highestXp.name} • ${highestXp.xp.toLocaleString()} XP`;
+
+
+mostBadgePlayer.textContent =
+
+`${mostBadges.name} • ${mostBadges.badges.length} badge`;
+
+},
+
+
+renderLeaderboard() {
+
+const records =
+
+this.filteredRecords
+
+.slice(0, 100);
+
+
+if (!records.length) {
+
+leaderboardBody.innerHTML = `
+
+<tr>
+
+<td colspan="11">
+
+<div class="emptyState">
+
+Tiada rekod yang sepadan dengan carian.
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+
+leaderboardBody.innerHTML =
+
+records.map(
+
+record => {
+
+const overallRank =
+
+this.records.indexOf(record) + 1;
+
+
+return `
+
+<tr>
+
+<td class="rankCell">
+
+${this.rankDisplay(overallRank)}
+
+</td>
+
+<td>
+
+<div class="playerCell">
+
+<div class="smallAvatar">
+
+${this.escapeHtml(record.avatar)}
+
+</div>
+
+<div class="playerText">
+
+<strong>
+
+${this.escapeHtml(record.name)}
+
+</strong>
+
+<span>
+
+${this.escapeHtml(record.id)}
+
+</span>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+${record.rooms
+
+.map(
+
+room =>
+
+this.escapeHtml(room)
+
+)
+
+.join(", ")}
+
+</td>
+
+<td class="scoreText">
+
+${record.score.toLocaleString()}
+
+</td>
+
+<td>
+
+${record.xp.toLocaleString()}
+
+</td>
+
+<td>
+
+${record.wins}
+
+</td>
+
+<td>
+
+${record.games}
+
+</td>
+
+<td>
+
+${record.correctCount}
+
+</td>
+
+<td>
+
+${record.fastCount}
+
+</td>
+
+<td>
+
+<div class="badgeList">
+
+${this.badgeIcons(record.badges)}
+
+</div>
+
+</td>
+
+<td>
+
+<span class="statusBadge">
+
+${this.recordStatus(record)}
+
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+).join("");
+
+},
+
+
+rankDisplay(rank) {
+
+if (rank === 1) {
+
+return "🥇";
+
+}
+
+
+if (rank === 2) {
+
+return "🥈";
+
+}
+
+
+if (rank === 3) {
+
+return "🥉";
+
+}
+
+
+return `#${rank}`;
+
+},
+
+
+recordStatus(record) {
+
+if (record.wins >= 5) {
+
+return "LEGEND";
+
+}
+
+
+if (record.wins >= 3) {
+
+return "CHAMPION";
+
+}
+
+
+if (record.xp >= 3000) {
+
+return "SERVER HERO";
+
+}
+
+
+if (record.games >= 3) {
+
+return "EXPERIENCED";
+
+}
+
+
+return "RISING HERO";
+
+},
+
+
+badgeIcons(badges) {
+
+if (!badges.length) {
+
+return "—";
+
+}
+
+
+const iconMap = {
+
+"first-mission": "🚀",
+
+"speed-hero": "⚡",
+
+"perfect-score": "🎯",
+
+"server-master": "👑",
+
+"winning-streak": "🔥",
+
+"ultimate-hero": "🏆"
+
+};
+
+
+return badges
+
+.slice(0, 6)
+
+.map(
+
+badge =>
+
+iconMap[
+
+String(badge).toLowerCase()
+
+] || "🎖️"
+
+)
+
+.join("");
+
+},
+
+
+formatMilliseconds(value) {
+
+const milliseconds =
+
+Number(value);
+
+
+if (
+
+!milliseconds ||
+
+milliseconds >= 999999
+
+) {
+
+return "-";
+
+}
+
+
+return `${(
+
+milliseconds / 1000
+
+).toFixed(2)} saat`;
+
+},
+
+
+exportCsv() {
+
+if (!this.filteredRecords.length) {
+
+alert(
+
+"Tiada rekod untuk dieksport."
+
+);
+
+return;
+
+}
+
+
+const rows = [
+
+[
+
+"Rank",
+
+"Nama",
+
+"ID",
+
+"Bilik",
+
+"Jumlah Markah",
+
+"Markah Tertinggi",
+
+"Purata Markah",
+
+"XP",
+
+"Menang",
+
+"Permainan",
+
+"Jawapan Betul",
+
+"Jawapan Salah",
+
+"Jawapan Pantas",
+
+"Badge",
+
+"Jawapan Terpantas",
+
+"Status"
+
+],
+
+...this.filteredRecords.map(
+
+record => {
+
+const rank =
+
+this.records.indexOf(record) + 1;
+
+
+return [
+
+rank,
+
+record.name,
+
+record.id,
+
+record.rooms.join(" | "),
+
+record.score,
+
+record.highestScore,
+
+record.averageScore,
+
+record.xp,
+
+record.wins,
+
+record.games,
+
+record.correctCount,
+
+record.wrongCount,
+
+record.fastCount,
+
+record.badges.length,
+
+this.formatMilliseconds(
+
+record.fastestAnswerMs
+
+),
+
+this.recordStatus(record)
+
+];
+
+}
+
+)
+
+];
+
+
+const csvText =
+
+"\uFEFF" +
+
+rows.map(
+
+row =>
+
+row.map(
+
+value =>
+
+`"${String(value)
+
+.replaceAll('"', '""')}"`
+
+).join(",")
+
+).join("\n");
+
+
+const blob =
+
+new Blob(
+
+[csvText],
+
+{
+
+type:
+
+"text/csv;charset=utf-8"
+
+}
+
+);
+
+
+const link =
+
+document.createElement("a");
+
+
+link.href =
+
+URL.createObjectURL(blob);
+
+
+link.download =
+
+`server-hero-hall-of-fame-${new Date()
+
+.toISOString()
+
+.slice(0, 10)}.csv`;
+
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+
+setTimeout(
+
+() => URL.revokeObjectURL(
+
+link.href
+
+),
+
+1000
+
+);
+
+},
+
+
+escapeHtml(value) {
+
+return String(value || "")
+
+.replaceAll("&", "&amp;")
+
+.replaceAll("<", "&lt;")
+
+.replaceAll(">", "&gt;")
+
+.replaceAll('"', "&quot;")
+
+.replaceAll("'", "&#039;");
+
+}
+
+};
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+() => HALL_OF_FAME.init()
+
+);
+
+</script>
+
+</body>
+
+</html>
