@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>
+SERVER HERO™
+Student Profile
+</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#03172d,
+#0c3568,
+#02101f);
+
+color:white;
+
+min-height:100vh;
+
+padding:30px;
+
+}
+
+.container{
+
+max-width:1450px;
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:#06244a;
+
+padding:20px;
+
+border-radius:18px;
+
+margin-bottom:25px;
+
+box-shadow:
+0 12px 30px rgba(0,0,0,.35);
+
+}
+
+.logo{
+
+font-size:34px;
+font-weight:800;
+
+color:#FFD84D;
+
+}
+
+.backBtn{
+
+padding:12px 24px;
+
+background:#0E4B90;
+
+border:none;
+
+border-radius:10px;
+
+color:white;
+
+cursor:pointer;
+
+font-weight:700;
+
+}
+
+.profileGrid{
+
+display:grid;
+
+grid-template-columns:
+
+350px
+1fr;
+
+gap:25px;
+
+}
+
+.card{
+
+background:#08264d;
+
+border-radius:20px;
+
+padding:25px;
+
+box-shadow:
+
+0 15px 35px rgba(0,0,0,.35);
+
+}
+
+.avatar{
+
+width:170px;
+
+height:170px;
+
+margin:auto;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:90px;
+
+background:
+
+linear-gradient(
+
+135deg,
+
+#1e88ff,
+
+#00d4ff);
+
+box-shadow:
+
+0 0 25px
+
+rgba(0,212,255,.45);
+
+}
+
+.studentName{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:28px;
+
+font-weight:800;
+
+}
+
+.studentID{
+
+text-align:center;
+
+margin-top:6px;
+
+opacity:.7;
+
+}
+
+.rank{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:23px;
+
+font-weight:700;
+
+color:#FFD84D;
+
+}
+
+.levelCircle{
+
+width:150px;
+
+height:150px;
+
+border-radius:50%;
+
+margin:25px auto;
+
+background:
+
+conic-gradient(
+
+#FFD84D 78%,
+
+#17395c 0);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.levelInner{
+
+width:118px;
+
+height:118px;
+
+border-radius:50%;
+
+background:#08264d;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+}
+
+.levelInner h1{
+
+font-size:42px;
+
+}
+
+.levelInner span{
+
+font-size:13px;
+
+opacity:.7;
+
+}
+
+.rightPanel{
+
+display:flex;
+
+flex-direction:column;
+
+gap:25px;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(4,1fr);
+
+gap:18px;
+
+}
+
+.stat{
+
+background:#103c73;
+
+padding:25px;
+
+border-radius:18px;
+
+text-align:center;
+
+}
+
+.stat h2{
+
+font-size:35px;
+
+margin-bottom:10px;
+
+color:#FFD84D;
+
+}
+
+.stat p{
+
+opacity:.8;
+
+font-size:14px;
+
+}
+
+.sectionTitle{
+
+font-size:24px;
+
+font-weight:800;
+
+margin-bottom:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="logo">
+
+🏆 SERVER HERO™
+
+</div>
+
+<button
+class="backBtn"
+onclick="location.href='index.html'">
+
+⬅ Dashboard
+
+</button>
+
+</div>
+
+<div class="profileGrid">
+
+<div class="card">
+
+<div
+class="avatar"
+id="avatar">
+
+👨‍💻
+
+</div>
+
+<div
+class="studentName"
+id="studentName">
+
+NAMA PELAJAR
+
+</div>
+
+<div
+class="studentID"
+id="studentID">
+
+ID001
+
+</div>
+
+<div
+class="rank"
+id="rank">
+
+SERVER HERO
+
+</div>
+
+<div class="levelCircle">
+
+<div
+class="levelInner">
+
+<h1 id="level">
+
+8
+
+</h1>
+
+<span>
+
+LEVEL
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="rightPanel">
+
+<div class="stats">
+
+<div class="stat">
+
+<h2 id="xp">
+
+1250
+
+</h2>
+
+<p>
+
+XP
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h2 id="coins">
+
+580
+
+</h2>
+
+<p>
+
+COINS
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h2 id="mission">
+
+8 / 10
+
+</h2>
+
+<p>
+
+MISSION
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h2 id="average">
+
+94%
+
+</h2>
+
+<p>
+
+AVERAGE
+
+</p>
+
+</div>
+
+</div>
+
+  <!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>
+SERVER HERO™
+Student Profile
+</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#03172d,
+#0c3568,
+#02101f);
+
+color:white;
+
+min-height:100vh;
+
+padding:30px;
+
+}
+
+.container{
+
+max-width:1450px;
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:#06244a;
+
+padding:20px;
+
+border-radius:18px;
+
+margin-bottom:25px;
+
+box-shadow:
+0 12px 30px rgba(0,0,0,.35);
+
+}
+
+.logo{
+
+font-size:34px;
+font-weight:800;
+
+color:#FFD84D;
+
+}
+
+.backBtn{
+
+padding:12px 24px;
+
+background:#0E4B90;
+
+border:none;
+
+border-radius:10px;
+
+color:white;
+
+cursor:pointer;
+
+font-weight:700;
+
+}
+
+.profileGrid{
+
+display:grid;
+
+grid-template-columns:
+
+350px
+1fr;
+
+gap:25px;
+
+}
+
+.card{
+
+background:#08264d;
+
+border-radius:20px;
+
+padding:25px;
+
+box-shadow:
+
+0 15px 35px rgba(0,0,0,.35);
+
+}
+
+.avatar{
+
+width:170px;
+
+height:170px;
+
+margin:auto;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:90px;
+
+background:
+
+linear-gradient(
+
+135deg,
+
+#1e88ff,
+
+#00d4ff);
+
+box-shadow:
+
+0 0 25px
+
+rgba(0,212,255,.45);
+
+}
+
+.studentName{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:28px;
+
+font-weight:800;
+
+}
+
+.studentID{
+
+text-align:center;
+
+margin-top:6px;
+
+opacity:.7;
+
+}
+
+.rank{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:23px;
+
+font-weight:700;
+
+color:#FFD84D;
+
+}
+
+.levelCircle{
+
+width:150px;
+
+height:150px;
+
+border-radius:50%;
+
+margin:25px auto;
+
+background:
+
+conic-gradient(
+
+#FFD84D 78%,
+
+#17395c 0);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.levelInner{
+
+width:118px;
+
+height:118px;
+
+border-radius:50%;
+
+background:#08264d;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+}
+
+.levelInner h1{
+
+font-size:42px;
+
+}
+
+.levelInner span{
+
+font-size:13px;
+
+opacity:.7;
+
+}
+
+.rightPanel{
+
+display:flex;
+
+flex-direction:column;
+
+gap:25px;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(4,1fr);
+
+gap:18px;
+
+}
+
+.stat{
+
+background:#103c73;
+
+padding:25px;
+
+border-radius:18px;
+
+text-align:center;
+
+}
+
+.stat h2{
+
+font-size:35px;
+
+margin-bottom:10px;
+
+color:#FFD84D;
+
+}
+
+.stat p{
+
+opacity:.8;
+
+font-size:14px;
+
+}
+
+.sectionTitle{
+
+font-size:24px;
+
+font-weight:800;
+
+margin-bottom:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="logo">
+
+🏆 SERVER HERO™
+
+</div>
+
+<button
+class="backBtn"
+onclick="location.href='index.html'">
+
+⬅ Dashboard
+
+</button>
+
+</div>
+
+<div class="profileGrid">
+
+<div class="card">
+
+<div
+class="avatar"
+id="avatar">
+
+👨‍💻
+
+</div>
+
+<div
+class="studentName"
+id="studentName">
+
+NAMA PELAJAR
+
+</div>
+
+<div
+class="studentID"
+id="studentID">
+
+ID001
+
+</div>
+
+<div
+class="rank"
+id="rank">
+
+SERVER HERO
+
+</div>
+
+<div class="levelCircle">
+
+<div
+class="levelInner">
+
+<h1 id="level">
+
+8
+
+</h1>
+
+<span>
+
+LEVEL
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="rightPanel">
+
+<div class="stats">
+
+<div class="stat">
+
+<h2 id="xp">
+
+1250
+
+</h2>
+
+<p>
+
+XP
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h2 id="coins">
+
+580
+
+</h2>
+
+<p>
+
+COINS
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h2 id="mission">
+
+8 / 10
+
+</h2>
+
+<p>
+
+MISSION
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h2 id="average">
+
+94%
+
+</h2>
+
+<p>
+
+AVERAGE
+
+</p>
+
+</div>
+
+</div>
+
+  <script>
+
+const PROFILE = {
+
+student: {
+
+name: "NAMA PELAJAR",
+
+id: "ID001",
+
+avatar: "👨‍💻",
+
+xp: 0,
+
+coins: 0,
+
+completedMission: 0,
+
+totalMission: 10,
+
+average: 0,
+
+correctAnswers: 0,
+
+wrongAnswers: 0,
+
+fastAnswers: 0,
+
+bestRank: 0,
+
+badges: []
+
+},
+
+
+init() {
+
+this.loadStudentData();
+
+this.renderProfile();
+
+},
+
+
+loadStudentData() {
+
+const params = new URLSearchParams(
+
+window.location.search
+
+);
+
+
+const localSources = [
+
+"serverHeroStudent",
+
+"serverHeroProfile",
+
+"student",
+
+"playerData",
+
+"serverHeroState"
+
+];
+
+
+let savedData = {};
+
+
+for (
+
+const key of localSources
+
+) {
+
+try {
+
+const raw = localStorage.getItem(key);
+
+
+if (!raw) {
+
+continue;
+
+}
+
+
+const parsed = JSON.parse(raw);
+
+
+if (
+
+parsed &&
+typeof parsed === "object"
+
+) {
+
+savedData = {
+
+...savedData,
+
+...parsed,
+
+...(parsed.student || {}),
+
+...(parsed.player || {})
+
+};
+
+}
+
+} catch (error) {
+
+console.warn(
+
+`Data ${key} tidak dapat dibaca.`,
+
+error
+
+);
+
+}
+
+}
+
+
+this.student = {
+
+...this.student,
+
+...savedData
+
+};
+
+
+if (params.get("name")) {
+
+this.student.name =
+
+params.get("name");
+
+}
+
+
+if (params.get("id")) {
+
+this.student.id =
+
+params.get("id");
+
+}
+
+
+if (params.get("avatar")) {
+
+this.student.avatar =
+
+params.get("avatar");
+
+}
+
+
+if (params.get("xp")) {
+
+this.student.xp =
+
+Number(
+
+params.get("xp")
+
+) || 0;
+
+}
+
+
+if (params.get("coins")) {
+
+this.student.coins =
+
+Number(
+
+params.get("coins")
+
+) || 0;
+
+}
+
+
+if (params.get("mission")) {
+
+this.student.completedMission =
+
+Number(
+
+params.get("mission")
+
+) || 0;
+
+}
+
+
+if (params.get("total")) {
+
+this.student.totalMission =
+
+Number(
+
+params.get("total")
+
+) || 10;
+
+}
+
+
+if (params.get("average")) {
+
+this.student.average =
+
+Number(
+
+params.get("average")
+
+) || 0;
+
+}
+
+
+if (params.get("rank")) {
+
+this.student.bestRank =
+
+Number(
+
+params.get("rank")
+
+) || 0;
+
+}
+
+
+this.student.name =
+
+this.student.name ||
+
+this.student.studentName ||
+
+this.student.playerName ||
+
+"NAMA PELAJAR";
+
+
+this.student.id =
+
+this.student.id ||
+
+this.student.studentId ||
+
+this.student.playerId ||
+
+"ID001";
+
+
+this.student.avatar =
+
+this.student.avatar ||
+
+"👨‍💻";
+
+
+this.student.xp =
+
+Number(
+
+this.student.xp ||
+
+this.student.totalXP
+
+) || 0;
+
+
+this.student.coins =
+
+Number(
+
+this.student.coins ||
+
+this.student.coin
+
+) || 0;
+
+
+this.student.completedMission =
+
+Number(
+
+this.student.completedMission ||
+
+this.student.completed ||
+
+this.student.missionCompleted ||
+
+this.student.progress
+
+) || 0;
+
+
+this.student.totalMission =
+
+Number(
+
+this.student.totalMission ||
+
+this.student.totalMissions
+
+) || 10;
+
+
+this.student.average =
+
+Number(
+
+this.student.average ||
+
+this.student.averageScore ||
+
+this.student.score
+
+) || 0;
+
+
+this.student.correctAnswers =
+
+Number(
+
+this.student.correctAnswers ||
+
+this.student.correctCount
+
+) || 0;
+
+
+this.student.wrongAnswers =
+
+Number(
+
+this.student.wrongAnswers ||
+
+this.student.wrongCount
+
+) || 0;
+
+
+this.student.fastAnswers =
+
+Number(
+
+this.student.fastAnswers ||
+
+this.student.fastCount
+
+) || 0;
+
+
+this.student.bestRank =
+
+Number(
+
+this.student.bestRank ||
+
+this.student.ranking ||
+
+this.student.position
+
+) || 0;
+
+
+if (
+
+!Array.isArray(
+
+this.student.badges
+
+)
+
+) {
+
+this.student.badges = [];
+
+}
+
+},
+
+
+calculateLevel() {
+
+return 1 +
+
+Math.floor(
+
+this.student.xp / 500
+
+);
+
+},
+
+
+calculateRank(level) {
+
+if (level >= 10) {
+
+return "ULTIMATE SERVER HERO";
+
+}
+
+
+if (level >= 7) {
+
+return "SERVER HERO";
+
+}
+
+
+if (level >= 5) {
+
+return "SERVER SPECIALIST";
+
+}
+
+
+if (level >= 3) {
+
+return "SERVER TECHNICIAN";
+
+}
+
+
+return "SERVER TRAINEE";
+
+},
+
+
+calculateProgress() {
+
+const total =
+
+Math.max(
+
+1,
+
+this.student.totalMission
+
+);
+
+
+return Math.min(
+
+100,
+
+Math.round(
+
+this.student.completedMission /
+
+total *
+
+100
+
+)
+
+);
+
+},
+
+
+calculateLevelProgress() {
+
+const xpInsideLevel =
+
+this.student.xp % 500;
+
+
+return Math.round(
+
+xpInsideLevel /
+
+500 *
+
+100
+
+);
+
+},
+
+
+progressStatus(progress) {
+
+if (progress >= 100) {
+
+return "SEMPURNA";
+
+}
+
+
+if (progress >= 80) {
+
+return "CEMERLANG";
+
+}
+
+
+if (progress >= 60) {
+
+return "BAIK";
+
+}
+
+
+if (progress >= 30) {
+
+return "SEDANG MAJU";
+
+}
+
+
+return "BARU BERMULA";
+
+},
+
+
+rankText() {
+
+const rank =
+
+this.student.bestRank;
+
+
+if (!rank) {
+
+return "Belum Direkodkan";
+
+}
+
+
+if (rank === 1) {
+
+return "Tempat Pertama";
+
+}
+
+
+if (rank === 2) {
+
+return "Tempat Kedua";
+
+}
+
+
+if (rank === 3) {
+
+return "Tempat Ketiga";
+
+}
+
+
+return `Tempat Ke-${rank}`;
+
+},
+
+
+hasBadge(
+
+badgeName
+
+) {
+
+const badges =
+
+this.student.badges.map(
+
+badge =>
+
+String(
+
+typeof badge === "object"
+
+? badge.id ||
+
+badge.name ||
+
+badge.title
+
+: badge
+
+).toLowerCase()
+
+);
+
+
+return badges.includes(
+
+String(
+
+badgeName
+
+).toLowerCase()
+
+);
+
+},
+
+
+renderBadges() {
+
+const badgeDefinitions = [
+
+{
+
+id: "first-mission",
+
+icon: "🚀",
+
+title: "First Mission",
+
+description:
+
+"Selesaikan misi pertama",
+
+unlocked:
+
+this.student.completedMission >= 1
+
+},
+
+
+{
+
+id: "speed-hero",
+
+icon: "⚡",
+
+title: "Speed Hero",
+
+description:
+
+"Jawab dengan pantas",
+
+unlocked:
+
+this.student.fastAnswers >= 5
+
+},
+
+
+{
+
+id: "perfect-score",
+
+icon: "🎯",
+
+title: "Perfect Score",
+
+description:
+
+"Dapatkan markah penuh",
+
+unlocked:
+
+this.student.average >= 100
+
+},
+
+
+{
+
+id: "server-master",
+
+icon: "👑",
+
+title: "Server Master",
+
+description:
+
+"Selesaikan semua misi",
+
+unlocked:
+
+this.student.completedMission >=
+
+this.student.totalMission
+
+},
+
+
+{
+
+id: "winning-streak",
+
+icon: "🔥",
+
+title: "Winning Streak",
+
+description:
+
+"Menang tiga kali berturut-turut",
+
+unlocked:
+
+Number(
+
+this.student.winStreak
+
+) >= 3
+
+},
+
+
+{
+
+id: "ultimate-hero",
+
+icon: "🏆",
+
+title: "Ultimate Hero",
+
+description:
+
+"Capai tahap tertinggi",
+
+unlocked:
+
+this.calculateLevel() >= 10
+
+}
+
+];
+
+
+badgeGrid.innerHTML =
+
+badgeDefinitions
+
+.map(
+
+badge => {
+
+const unlocked =
+
+badge.unlocked ||
+
+this.hasBadge(
+
+badge.id
+
+) ||
+
+this.hasBadge(
+
+badge.title
+
+);
+
+
+return `
+
+<div class="badgeCard ${
+unlocked
+? "unlocked"
+: "locked"
+}">
+
+<div class="badgeIcon">
+
+${badge.icon}
+
+</div>
+
+<h3>
+
+${badge.title}
+
+</h3>
+
+<p>
+
+${badge.description}
+
+</p>
+
+<span>
+
+${
+unlocked
+? "UNLOCKED"
+: "LOCKED"
+}
+
+</span>
+
+</div>
+
+`;
+
+}
+
+)
+
+.join("");
+
+},
+
+
+renderActivities() {
+
+const activities =
+
+Array.isArray(
+
+this.student.activities
+
+)
+
+? this.student.activities
+
+: [];
+
+
+if (!activities.length) {
+
+activityList.innerHTML = `
+
+<div class="activityItem">
+
+<div class="activityIcon">
+
+👤
+
+</div>
+
+<div class="activityContent">
+
+<h3>
+
+Profil Pelajar Dibuka
+
+</h3>
+
+<p>
+
+Teruskan misi untuk mengumpul XP, coin dan badge.
+
+</p>
+
+</div>
+
+<div class="activityTime">
+
+Sekarang
+
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+activityList.innerHTML =
+
+activities
+
+.slice(
+
+0,
+
+6
+
+)
+
+.map(
+
+activity => `
+
+<div class="activityItem">
+
+<div class="activityIcon">
+
+${activity.icon || "✅"}
+
+</div>
+
+<div class="activityContent">
+
+<h3>
+
+${activity.title || "Aktiviti"}
+
+</h3>
+
+<p>
+
+${activity.description || ""}
+
+</p>
+
+</div>
+
+<div class="activityTime">
+
+${activity.time || ""}
+
+</div>
+
+</div>
+
+`
+
+)
+
+.join("");
+
+},
+
+
+renderProfile() {
+
+const level =
+
+this.calculateLevel();
+
+
+const rankName =
+
+this.calculateRank(level);
+
+
+const progress =
+
+this.calculateProgress();
+
+
+const levelProgress =
+
+this.calculateLevelProgress();
+
+
+avatar.textContent =
+
+this.student.avatar;
+
+
+studentName.textContent =
+
+this.student.name;
+
+
+studentID.textContent =
+
+this.student.id;
+
+
+rank.textContent =
+
+rankName;
+
+
+document.getElementById(
+
+"level"
+
+).textContent = level;
+
+
+xp.textContent =
+
+this.student.xp.toLocaleString();
+
+
+coins.textContent =
+
+this.student.coins.toLocaleString();
+
+
+mission.textContent =
+
+`${this.student.completedMission} / ${this.student.totalMission}`;
+
+
+average.textContent =
+
+`${this.student.average}%`;
+
+
+progressText.textContent =
+
+`${progress}%`;
+
+
+progressFill.style.width =
+
+`${progress}%`;
+
+
+completedMission.textContent =
+
+this.student.completedMission;
+
+
+totalMission.textContent =
+
+this.student.totalMission;
+
+
+progressStatus.textContent =
+
+this.progressStatus(
+
+progress
+
+);
+
+
+bestRank.textContent =
+
+this.rankText();
+
+
+highestXP.textContent =
+
+`${this.student.xp.toLocaleString()} XP`;
+
+
+document.getElementById(
+
+"correctAnswers"
+
+).textContent =
+
+`${this.student.correctAnswers} Soalan`;
+
+
+document.getElementById(
+
+"fastAnswers"
+
+).textContent =
+
+`${this.student.fastAnswers} Soalan`;
+
+
+const levelCircle =
+
+document.querySelector(
+
+".levelCircle"
+
+);
+
+
+levelCircle.style.background = `
+
+conic-gradient(
+
+#FFD84D ${levelProgress}%,
+
+#17395c 0
+
+)
+
+`;
+
+
+this.renderBadges();
+
+this.renderActivities();
+
+}
+
+};
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+() => PROFILE.init()
+
+);
+
+</script>
+
+</body>
+
+</html>
