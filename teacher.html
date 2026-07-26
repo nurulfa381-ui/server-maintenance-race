@@ -1,431 +1,411 @@
-<!-- ===========================
-PART 1
-GANTIKAN SEMUA KANDUNGAN
-teacher.html
-=========================== -->
-
 <!DOCTYPE html>
 <html lang="ms">
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>
+    <meta
+        name="theme-color"
+        content="#06152d"
+    >
 
-SERVER HERO RACE™
-Teacher Dashboard
+    <title>
+        SERVER HERO RACE™ — Panel Guru
+    </title>
 
-</title>
-
-<link
-rel="stylesheet"
-href="game.css">
+    <link
+        rel="stylesheet"
+        href="game.css"
+    >
 
 </head>
+
 
 <body>
 
 <main class="screen">
 
-<div class="teacher-wrap">
+    <div class="teacher-wrap">
 
-<!-- ================= HEADER ================= -->
 
-<header class="topbar">
+        <!-- HEADER -->
 
-<div>
+        <header class="topbar">
 
-<h1>
+            <div>
 
-👨‍🏫 SERVER HERO RACE™
+                <h1>
+                    👨‍🏫 SERVER HERO RACE™
+                </h1>
 
-</h1>
+                <p>
+                    Teacher Dashboard
+                </p>
 
-<p>
+            </div>
 
-Teacher Dashboard
 
-</p>
+            <div class="row">
 
-</div>
+                <a
+                    href="index.html"
+                    class="linkbtn"
+                >
+                    👨‍🎓 Paparan Pelajar
+                </a>
 
-<div class="row">
 
-<a
-href="index.html"
-class="linkbtn">
+                <button
+                    id="fullscreenBtn"
+                    type="button"
+                >
+                    ⛶ Fullscreen
+                </button>
 
-👨‍🎓 Pelajar
+            </div>
 
-</a>
+        </header>
 
-<button
-id="fullscreenBtn">
 
-⛶ Fullscreen
 
-</button>
+        <!-- ROOM + CONTROL -->
 
-</div>
+        <section class="teacher-grid">
 
-</header>
 
-<!-- ================= ROOM ================= -->
+            <div class="panel">
 
-<section class="teacher-grid">
+                <h2>
+                    🏁 Bilik Perlumbaan
+                </h2>
 
-<div class="panel">
 
-<h2>
+                <input
+                    id="teacherName"
+                    type="text"
+                    placeholder="Nama Guru"
+                >
 
-🏁 BILIK PERLUMBAAN
 
-</h2>
+                <input
+                    id="newRoomCode"
+                    type="text"
+                    placeholder="Kod Bilik"
+                >
 
-<input
-id="teacherName"
-placeholder="Nama Guru">
 
-<input
-id="newRoomCode"
-placeholder="Kod Bilik">
+                <button
+                    id="createRoomBtn"
+                    type="button"
+                    class="primary"
+                >
+                    🚀 Cipta / Buka Bilik
+                </button>
 
-<button
-id="createRoomBtn"
-class="primary">
 
-🚀 CIPTA BILIK
+                <p id="roomStatus">
+                    Belum membuka bilik.
+                </p>
 
-</button>
+            </div>
 
-<p
-id="roomStatus">
 
-Belum membuka bilik.
 
-</p>
+            <div class="panel">
 
-</div>
+                <h2>
+                    🎮 Kawalan Guru
+                </h2>
 
-<div class="panel">
 
-<h2>
+                <div class="row">
 
-🎮 KAWALAN GURU
+                    <button
+                        id="approveAllBtn"
+                        type="button"
+                    >
+                        ✅ Approve All
+                    </button>
 
-</h2>
 
-<div class="row">
+                    <button
+                        id="startRaceBtn"
+                        type="button"
+                        class="primary"
+                    >
+                        🚦 Start Race
+                    </button>
 
-<button
-id="approveAllBtn">
 
-✅ APPROVE ALL
+                    <button
+                        id="finishRaceBtn"
+                        type="button"
+                    >
+                        🏁 Finish
+                    </button>
 
-</button>
 
-<button
-id="startRaceBtn"
-class="primary">
+                    <button
+                        id="exportCsvBtn"
+                        type="button"
+                    >
+                        📊 Export CSV
+                    </button>
 
-🚦 START
+                </div>
 
-</button>
+            </div>
 
-<button
-id="finishRaceBtn">
+        </section>
 
-🏁 FINISH
 
-</button>
 
-<button
-id="exportCsvBtn">
+        <!-- STATISTICS + LEADERBOARD -->
 
-📊 EXPORT
+        <section class="teacher-grid">
 
-</button>
 
-</div>
+            <div class="panel">
 
-</div>
+                <h2>
+                    📊 Statistik
+                </h2>
 
-</section>
 
-<!-- ================= STAT ================= -->
+                <div class="stats">
 
-<section class="teacher-grid">
+                    <span>
+                        👨‍🎓
+                        <br>
+                        <strong id="totalStudents">
+                            0
+                        </strong>
+                    </span>
 
-<div class="panel">
 
-<h2>
+                    <span>
+                        ✅
+                        <br>
+                        <strong id="approvedStudents">
+                            0
+                        </strong>
+                    </span>
 
-📊 STATISTIK
 
-</h2>
+                    <span>
+                        🏎️
+                        <br>
+                        <strong id="racingStudents">
+                            0
+                        </strong>
+                    </span>
 
-<div class="stats">
 
-<span>
+                    <span>
+                        🏁
+                        <br>
+                        <strong id="finishedStudents">
+                            0
+                        </strong>
+                    </span>
 
-👨‍🎓
+                </div>
 
-<br>
+            </div>
 
-<b id="totalStudents">
 
-0
 
-</b>
+            <div class="panel">
 
-</span>
+                <h2>
+                    🥇 Live Leaderboard
+                </h2>
 
-<span>
 
-✅
+                <div id="liveLeaderboard">
+                    Tiada pemain.
+                </div>
 
-<br>
+            </div>
 
-<b id="approvedStudents">
+        </section>
 
-0
 
-</b>
 
-</span>
+        <!-- STUDENT LIST -->
 
-<span>
+        <section class="panel">
 
-🏎️
+            <h2>
+                👨‍🎓 Pelajar Dalam Bilik
+            </h2>
 
-<br>
 
-<b id="racingStudents">
+            <div
+                id="summary"
+                class="summary"
+            >
+            </div>
 
-0
 
-</b>
+            <div id="studentList">
+            </div>
 
-</span>
+        </section>
 
-<span>
 
-🏁
 
-<br>
+        <!-- LIVE TRACK + PODIUM -->
 
-<b id="finishedStudents">
+        <section class="teacher-grid">
 
-0
 
-</b>
+            <div class="panel">
 
-</span>
+                <h2>
+                    🏎️ Live Race Track
+                </h2>
 
-</div>
 
-</div>
+                <div
+                    id="raceTrack"
+                    class="track"
+                >
 
-<div class="panel">
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
 
-<h2>
+                </div>
 
-🥇 LIVE LEADERBOARD
+            </div>
 
-</h2>
 
-<div
-id="liveLeaderboard">
 
-Tiada pemain.
+            <div class="panel">
 
-</div>
+                <h2>
+                    🏆 Top 3
+                </h2>
 
-</div>
 
-</section>
+                <div id="podium">
 
-<!-- ================= STUDENT ================= -->
 
-<section class="panel">
+                    <div class="result">
 
-<h2>
+                        <div class="trophy">
+                            🥇
+                        </div>
 
-👨‍🎓 PELAJAR
+                        <h3 id="firstPlace">
+                            -
+                        </h3>
 
-</h2>
+                    </div>
 
-<div
-id="summary"
-class="summary">
 
-</div>
 
-<div
-id="studentList">
+                    <div class="result">
 
-</div>
+                        <div class="trophy">
+                            🥈
+                        </div>
 
-</section>
+                        <h3 id="secondPlace">
+                            -
+                        </h3>
 
-<!-- ================= LIVE RACE ================= -->
+                    </div>
 
-<section class="teacher-grid">
 
-<div class="panel">
 
-<h2>
+                    <div class="result">
 
-🏎️ LIVE RACE TRACK
+                        <div class="trophy">
+                            🥉
+                        </div>
 
-</h2>
+                        <h3 id="thirdPlace">
+                            -
+                        </h3>
 
-<div
-id="raceTrack"
-class="track">
+                    </div>
 
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
-<div class="lane"></div>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-<div class="panel">
+        </section>
 
-<h2>
 
-🏆 TOP 3
 
-</h2>
+        <!-- LINK -->
 
-<div
-id="podium">
+        <section class="teacher-grid">
 
-<div class="result">
 
-<div class="trophy">
+            <div class="panel">
 
-🥇
+                <h2>
+                    📱 QR Code
+                </h2>
 
-</div>
 
-<h3
-id="firstPlace">
+                <div id="qrBox">
+                    QR CODE
+                </div>
 
--
+            </div>
 
-</h3>
 
-</div>
 
-<hr>
+            <div class="panel">
 
-<div class="result">
+                <h2>
+                    🔗 Pautan Pelajar
+                </h2>
 
-<div class="trophy">
 
-🥈
+                <input
+                    id="joinLink"
+                    type="text"
+                    readonly
+                    placeholder="Pautan pelajar akan muncul di sini"
+                >
 
-</div>
 
-<h3
-id="secondPlace">
+                <button
+                    id="copyLinkBtn"
+                    type="button"
+                >
+                    📋 Copy Link
+                </button>
 
--
+            </div>
 
-</h3>
+        </section>
 
-</div>
 
-<hr>
-
-<div class="result">
-
-<div class="trophy">
-
-🥉
-
-</div>
-
-<h3
-id="thirdPlace">
-
--
-
-</h3>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ================= QR ================= -->
-
-<section class="teacher-grid">
-
-<div class="panel">
-
-<h2>
-
-📱 QR CODE
-
-</h2>
-
-<div
-id="qrBox">
-
-QR CODE
-
-</div>
-
-</div>
-
-<div class="panel">
-
-<h2>
-
-🔗 LINK PELAJAR
-
-</h2>
-
-<input
-
-id="joinLink"
-
-readonly>
-
-<button
-
-id="copyLinkBtn">
-
-📋 COPY LINK
-
-</button>
-
-</div>
-
-</section>
+    </div>
 
 </main>
 
-<!-- ================= SCRIPTS ================= -->
+
 
 <script src="firebase-config.js"></script>
 
@@ -433,47 +413,64 @@ id="copyLinkBtn">
 
 <script src="teacher.js"></script>
 
+
 <script>
 
 document
-.getElementById("fullscreenBtn")
-.onclick=function(){
+    .getElementById("fullscreenBtn")
+    .onclick = function () {
 
-if(!document.fullscreenElement){
+        if (
+            !document.fullscreenElement
+        ) {
 
-document.documentElement
-.requestFullscreen();
+            document
+                .documentElement
+                .requestFullscreen();
 
-}else{
+        } else {
 
-document.exitFullscreen();
+            document
+                .exitFullscreen();
+        }
+    };
 
-}
-
-};
 
 document
-.getElementById("copyLinkBtn")
-.onclick=function(){
+    .getElementById("copyLinkBtn")
+    .onclick = function () {
 
-const box=
-document.getElementById("joinLink");
+        const box =
+            document.getElementById(
+                "joinLink"
+            );
 
-box.select();
 
-document.execCommand("copy");
+        box.select();
 
-this.innerHTML="✅ DISALIN";
+        document.execCommand(
+            "copy"
+        );
 
-setTimeout(()=>{
 
-this.innerHTML="📋 COPY LINK";
+        this.textContent =
+            "✅ DISALIN";
 
-},1500);
 
-};
+        setTimeout(
+
+            () => {
+
+                this.textContent =
+                    "📋 Copy Link";
+            },
+
+            1500
+        );
+    };
 
 </script>
+
 
 </body>
 
