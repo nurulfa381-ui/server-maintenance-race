@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#06152d"
+    >
+
+    <title>
+        SERVER HERO RACE™ — Laporan Guru
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        :root {
+            --dark: #020814;
+            --navy: #06152d;
+            --navy-2: #0a274d;
+            --navy-3: #0d315c;
+            --blue: #198cff;
+            --cyan: #4dd8ff;
+            --yellow: #ffd84d;
+            --orange: #ff9d00;
+            --green: #35d978;
+            --red: #ff4d5e;
+            --white: #ffffff;
+            --muted: #a9bdd7;
+        }
+
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: var(--white);
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at top,
+                    #174f8f,
+                    #06152d 58%,
+                    #020814
+                );
+        }
+
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        .page {
+            width: min(1500px, 100%);
+            margin: auto;
+        }
+
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            padding: 18px;
+            border: 1px solid #356b9d;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    90deg,
+                    #06152d,
+                    #103b70
+                );
+            box-shadow:
+                0 15px 38px rgba(0, 0, 0, 0.38);
+        }
+
+
+        .topbar h1,
+        .topbar p {
+            margin: 0;
+        }
+
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        button,
+        .linkbtn {
+            padding: 12px 16px;
+            color: var(--white);
+            font-weight: 800;
+            text-decoration: none;
+            border: 1px solid #3b6d99;
+            border-radius: 12px;
+            background: var(--navy-3);
+        }
+
+
+        button:hover,
+        .linkbtn:hover {
+            border-color: var(--yellow);
+        }
+
+
+        .primary {
+            color: #06152d;
+            border: none;
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--orange),
+                    var(--yellow)
+                );
+        }
+
+
+        .panel {
+            margin-bottom: 18px;
+            padding: 22px;
+            border: 1px solid #356b9d;
+            border-radius: 20px;
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(5, 23, 51, 0.97),
+                    rgba(3, 16, 35, 0.97)
+                );
+            box-shadow:
+                0 18px 45px rgba(0, 0, 0, 0.38);
+        }
+
+
+        .panel h2 {
+            margin-top: 0;
+        }
+
+
+        .search-grid {
+            display: grid;
+            grid-template-columns:
+                1fr auto;
+            gap: 10px;
+        }
+
+
+        input {
+            width: 100%;
+            padding: 14px;
+            color: var(--white);
+            border: 1px solid #376897;
+            border-radius: 12px;
+            outline: none;
+            background: #071a35;
+        }
+
+
+        input:focus {
+            border-color: var(--cyan);
+            box-shadow:
+                0 0 0 4px rgba(77, 216, 255, 0.12);
+        }
+
+
+        .status {
+            margin: 12px 0 0;
+            color: var(--muted);
+        }
+
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(6, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+
+        .stat {
+            padding: 17px;
+            text-align: center;
+            border: 1px solid #3b6d99;
+            border-radius: 15px;
+            background:
+                linear-gradient(
+                    180deg,
+                    #15457b,
+                    #0b274a
+                );
+        }
+
+
+        .stat span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        .stat strong {
+            display: block;
+            margin-top: 8px;
+            color: var(--yellow);
+            font-size: 28px;
+        }
+
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+            min-width: 1100px;
+            border-collapse: collapse;
+        }
+
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+
+        th {
+            color: var(--cyan);
+            background: #09284b;
+        }
+
+
+        tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+
+        tbody tr:hover {
+            background: rgba(77, 216, 255, 0.07);
+        }
+
+
+        .rank {
+            font-weight: 900;
+        }
+
+
+        .pass {
+            color: var(--green);
+            font-weight: 800;
+        }
+
+
+        .fail {
+            color: var(--red);
+            font-weight: 800;
+        }
+
+
+        .progress {
+            min-width: 130px;
+            height: 14px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #071a35;
+        }
+
+
+        .progress > span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--cyan)
+                );
+        }
+
+
+        .empty {
+            padding: 30px;
+            color: var(--muted);
+            text-align: center;
+            border: 1px dashed #356b9d;
+            border-radius: 14px;
+        }
+
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 8px;
+            }
+
+
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .actions {
+                width: 100%;
+            }
+
+
+            .actions > * {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+
+        @media print {
+
+            body {
+                padding: 0;
+                color: #000000;
+                background: #ffffff;
+            }
+
+
+            .topbar .actions,
+            .search-panel {
+                display: none;
+            }
+
+
+            .topbar,
+            .panel {
+                color: #000000;
+                border-color: #999999;
+                background: #ffffff;
+                box-shadow: none;
+            }
+
+
+            .stat {
+                color: #000000;
+                border-color: #999999;
+                background: #ffffff;
+            }
+
+
+            .stat strong,
+            .stat span,
+            th {
+                color: #000000;
+            }
+
+
+            th {
+                background: #eeeeee;
+            }
+
+
+            table {
+                min-width: 0;
+                font-size: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                📊 SERVER HERO RACE™
+            </h1>
+
+            <p>
+                Laporan Prestasi Pelajar
+            </p>
+
+        </div>
+
+
+        <div class="actions">
+
+            <a
+                href="teacher.html"
+                class="linkbtn"
+            >
+                👨‍🏫 Panel Guru
+            </a>
+
+            <a
+                href="index.html"
+                class="linkbtn"
+            >
+                🏎️ Permainan
+            </a>
+
+            <button
+                id="printBtn"
+                type="button"
+            >
+                🖨️ Cetak / PDF
+            </button>
+
+            <button
+                id="csvBtn"
+                type="button"
+            >
+                📥 Export CSV
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <section class="panel search-panel">
+
+        <h2>
+            Buka Laporan Bilik
+        </h2>
+
+
+        <div class="search-grid">
+
+            <input
+                id="roomCode"
+                type="text"
+                placeholder="Masukkan kod bilik, contoh C05-01"
+                maxlength="20"
+            >
+
+
+            <button
+                id="loadBtn"
+                type="button"
+                class="primary"
+            >
+                BUKA LAPORAN
+            </button>
+
+        </div>
+
+
+        <p
+            id="statusText"
+            class="status"
+        >
+            Masukkan kod bilik untuk melihat laporan.
+        </p>
+
+    </section>
+
+
+
+    <section class="panel">
+
+        <h2 id="reportTitle">
+            Ringkasan Kelas
+        </h2>
+
+
+        <div class="stats">
+
+            <article class="stat">
+
+                <span>
+                    JUMLAH PELAJAR
+                </span>
+
+                <strong id="totalStudents">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="stat">
+
+                <span>
+                    SELESAI
+                </span>
+
+                <strong id="finishedStudents">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="stat">
+
+                <span>
+                    PURATA MARKAH
+                </span>
+
+                <strong id="averageScore">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="stat">
+
+                <span>
+                    JAWAPAN BETUL
+                </span>
+
+                <strong id="correctAnswers">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="stat">
+
+                <span>
+                    JAWAPAN SALAH
+                </span>
+
+                <strong id="wrongAnswers">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="stat">
+
+                <span>
+                    JAWAPAN PANTAS
+                </span>
+
+                <strong id="fastAnswers">
+                    0
+                </strong>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <section class="panel">
+
+        <h2>
+            Senarai Prestasi Pelajar
+        </h2>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Rank
+                        </th>
+
+                        <th>
+                            Nama
+                        </th>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Markah
+                        </th>
+
+                        <th>
+                            XP
+                        </th>
+
+                        <th>
+                            Kemajuan
+                        </th>
+
+                        <th>
+                            Betul
+                        </th>
+
+                        <th>
+                            Salah
+                        </th>
+
+                        <th>
+                            Pantas
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="reportBody">
+
+                    <tr>
+
+                        <td colspan="10">
+
+                            <div class="empty">
+                                Tiada data laporan.
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+
+<script src="firebase-config.js"></script>
+
+
+<script>
+
+const R = {
+
+    room: "",
+
+    players: [],
+
+
+    async api() {
+
+        return await window.SERVER_HERO_FIREBASE_READY;
+    },
+
+
+    clean(value) {
+
+        return String(value || "")
+
+            .trim()
+
+            .toUpperCase()
+
+            .replace(/[^A-Z0-9-]/g, "")
+
+            .slice(0, 20);
+    },
+
+
+    init() {
+
+        const roomFromUrl =
+
+            new URLSearchParams(
+                window.location.search
+            )
+
+                .get("room");
+
+
+        if (roomFromUrl) {
+
+            roomCode.value =
+
+                this.clean(roomFromUrl);
+
+
+            this.load();
+        }
+
+
+        loadBtn.onclick =
+
+            () => this.load();
+
+
+        csvBtn.onclick =
+
+            () => this.exportCsv();
+
+
+        printBtn.onclick =
+
+            () => window.print();
+
+
+        roomCode.addEventListener(
+
+            "keydown",
+
+            event => {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    this.load();
+                }
+            }
+        );
+    },
+
+
+    async load() {
+
+        this.room =
+
+            this.clean(
+                roomCode.value
+            );
+
+
+        if (!this.room) {
+
+            statusText.textContent =
+
+                "Sila masukkan kod bilik.";
+
+            return;
+        }
+
+
+        statusText.textContent =
+
+            "Memuatkan laporan...";
+
+
+        try {
+
+            const F =
+
+                await this.api();
+
+
+            const snapshot =
+
+                await F.get(
+
+                    F.ref(
+
+                        F.database,
+
+                        `rooms/${this.room}`
+                    )
+                );
+
+
+            const roomData =
+
+                snapshot.val();
+
+
+            if (!roomData) {
+
+                statusText.textContent =
+
+                    `Bilik ${this.room} tidak ditemui.`;
+
+
+                this.players = [];
+
+                this.render();
+
+                return;
+            }
+
+
+            this.players =
+
+                Object.values(
+                    roomData.players || {}
+                );
+
+
+            reportTitle.textContent =
+
+                `Ringkasan Bilik ${this.room}`;
+
+
+            statusText.textContent =
+
+                `${this.players.length} pelajar ditemui.`;
+
+
+            this.render();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            statusText.textContent =
+
+                "Laporan tidak dapat dimuatkan.";
+        }
+    },
+
+
+    sortedPlayers() {
+
+        return [...this.players]
+
+            .sort(
+
+                (
+                    a,
+                    b
+                ) =>
+
+                    (
+                        Number(
+                            b.score
+                        ) || 0
+                    )
+
+                    -
+
+                    (
+                        Number(
+                            a.score
+                        ) || 0
+                    )
+
+                    ||
+
+                    (
+                        Number(
+                            a.lastAnswerMs
+                        ) || 999999
+                    )
+
+                    -
+
+                    (
+                        Number(
+                            b.lastAnswerMs
+                        ) || 999999
+                    )
+            );
+    },
+
+
+    render() {
+
+        const players =
+
+            this.sortedPlayers();
+
+
+        const finished =
+
+            players.filter(
+
+                player =>
+
+                    player.finished ||
+
+                    player.status ===
+                    "finished"
+            );
+
+
+        const totalScore =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+
+                    (
+                        Number(
+                            player.score
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        const totalCorrect =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+
+                    (
+                        Number(
+                            player.correctCount
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        const totalWrong =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+
+                    (
+                        Number(
+                            player.wrongCount
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        const totalFast =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+
+                    (
+                        Number(
+                            player.fastCount
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        totalStudents.textContent =
+
+            players.length;
+
+
+        finishedStudents.textContent =
+
+            finished.length;
+
+
+        averageScore.textContent =
+
+            players.length
+
+                ? Math.round(
+
+                    totalScore /
+                    players.length
+                )
+
+                : 0;
+
+
+        correctAnswers.textContent =
+
+            totalCorrect;
+
+
+        wrongAnswers.textContent =
+
+            totalWrong;
+
+
+        fastAnswers.textContent =
+
+            totalFast;
+
+
+        if (!players.length) {
+
+            reportBody.innerHTML = `
+
+                <tr>
+
+                    <td colspan="10">
+
+                        <div class="empty">
+
+                            Tiada data laporan.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+        }
+
+
+        const questionCount =
+
+            26;
+
+
+        reportBody.innerHTML =
+
+            players
+
+                .map(
+
+                    (
+                        player,
+                        index
+                    ) => {
+
+                        const progress =
+
+                            Number(
+                                player.progress
+                            ) || 0;
+
+
+                        const progressPercent =
+
+                            Math.min(
+
+                                100,
+
+                                progress /
+                                questionCount *
+                                100
+                            );
+
+
+                        const completed =
+
+                            player.finished ||
+
+                            player.status ===
+                            "finished";
+
+
+                        return `
+
+                            <tr>
+
+                                <td class="rank">
+
+                                    ${
+                                        index === 0
+                                            ? "🥇"
+                                            : index === 1
+                                            ? "🥈"
+                                            : index === 2
+                                            ? "🥉"
+                                            : `#${index + 1}`
+                                    }
+
+                                </td>
+
+
+                                <td>
+
+                                    ${player.avatar || "👤"}
+
+                                    ${player.name || "-"}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${player.id || "-"}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${Number(player.score) || 0}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${Number(player.xp) || 0}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${progress} / ${questionCount}
+
+                                    <div class="progress">
+
+                                        <span
+                                            style="
+                                                width:
+                                                ${progressPercent}%;
+                                            "
+                                        >
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    ${Number(player.correctCount) || 0}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${Number(player.wrongCount) || 0}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${Number(player.fastCount) || 0}
+
+                                </td>
+
+
+                                <td class="${
+                                    completed
+                                        ? "pass"
+                                        : "fail"
+                                }">
+
+                                    ${
+                                        completed
+                                            ? "SELESAI"
+                                            : "BELUM SELESAI"
+                                    }
+
+                                </td>
+
+                            </tr>
+
+                        `;
+                    }
+                )
+
+                .join("");
+    },
+
+
+    exportCsv() {
+
+        const players =
+
+            this.sortedPlayers();
+
+
+        if (!players.length) {
+
+            statusText.textContent =
+
+                "Tiada data untuk dieksport.";
+
+            return;
+        }
+
+
+        const rows = [
+
+            [
+                "Rank",
+                "Name",
+                "ID",
+                "Score",
+                "XP",
+                "Progress",
+                "Correct",
+                "Wrong",
+                "Fast",
+                "Status"
+            ],
+
+            ...players.map(
+
+                (
+                    player,
+                    index
+                ) => [
+
+                    index + 1,
+
+                    player.name || "",
+
+                    player.id || "",
+
+                    Number(
+                        player.score
+                    ) || 0,
+
+                    Number(
+                        player.xp
+                    ) || 0,
+
+                    Number(
+                        player.progress
+                    ) || 0,
+
+                    Number(
+                        player.correctCount
+                    ) || 0,
+
+                    Number(
+                        player.wrongCount
+                    ) || 0,
+
+                    Number(
+                        player.fastCount
+                    ) || 0,
+
+                    player.status || ""
+                ]
+            )
+        ];
+
+
+        const csvText =
+
+            rows
+
+                .map(
+
+                    row =>
+
+                        row
+
+                            .map(
+
+                                value =>
+
+                                    `"${String(
+                                        value
+                                    ).replaceAll(
+                                        '"',
+                                        '""'
+                                    )}"`
+                            )
+
+                            .join(",")
+                )
+
+                .join("\n");
+
+
+        const link =
+
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+
+            URL.createObjectURL(
+
+                new Blob(
+
+                    [csvText],
+
+                    {
+                        type:
+                            "text/csv;charset=utf-8"
+                    }
+                )
+            );
+
+
+        link.download =
+
+            `${this.room || "server-hero"}-teacher-report.csv`;
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+        link.remove();
+    }
+
+};
+
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => R.init()
+);
+
+</script>
+
+
+</body>
+
+</html>
