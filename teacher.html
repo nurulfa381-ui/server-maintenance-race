@@ -1,28 +1,30 @@
+<!-- ===========================
+PART 1
+GANTIKAN SEMUA KANDUNGAN
+teacher.html
+=========================== -->
+
 <!DOCTYPE html>
 <html lang="ms">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="theme-color"
-        content="#06152d"
-    >
+<title>
 
-    <title>
-        SERVER HERO RACE™ — Panel Guru
-    </title>
+SERVER HERO RACE™
+Teacher Dashboard
 
-    <link
-        rel="stylesheet"
-        href="game.css"
-    >
+</title>
+
+<link
+rel="stylesheet"
+href="game.css">
 
 </head>
 
@@ -30,489 +32,400 @@
 
 <main class="screen">
 
-    <div class="teacher-wrap">
+<div class="teacher-wrap">
 
+<!-- ================= HEADER ================= -->
 
-        <!-- HEADER -->
+<header class="topbar">
 
-        <header class="topbar teacher-topbar">
+<div>
 
-            <div>
+<h1>
 
-                <h1>
-                    👨‍🏫 SERVER HERO RACE™
-                </h1>
+👨‍🏫 SERVER HERO RACE™
 
-                <span>
-                    Panel Guru • Multiplayer Classroom Edition
-                </span>
+</h1>
 
-            </div>
+<p>
 
+Teacher Dashboard
 
-            <div class="teacher-actions">
+</p>
 
-                <a
-                    class="linkbtn"
-                    href="index.html"
-                >
-                    Paparan Pelajar
-                </a>
+</div>
 
-                <button
-                    id="fullscreenBtn"
-                    type="button"
-                >
-                    ⛶ Skrin Penuh
-                </button>
+<div class="row">
 
-            </div>
+<a
+href="index.html"
+class="linkbtn">
 
-        </header>
+👨‍🎓 Pelajar
 
+</a>
 
+<button
+id="fullscreenBtn">
 
-        <!-- ROOM CREATION -->
+⛶ Fullscreen
 
-        <section class="teacher-hero panel">
+</button>
 
-            <div>
+</div>
 
-                <span class="eyebrow">
-                    BILIK PERLUMBAAN
-                </span>
+</header>
 
-                <h2 id="activeRoomTitle">
-                    Belum ada bilik aktif
-                </h2>
+<!-- ================= ROOM ================= -->
 
-                <p id="roomStatus">
-                    Masukkan nama guru dan kod bilik untuk memulakan.
-                </p>
+<section class="teacher-grid">
 
-            </div>
+<div class="panel">
 
+<h2>
 
-            <div class="teacher-form">
+🏁 BILIK PERLUMBAAN
 
-                <input
-                    id="teacherName"
-                    type="text"
-                    placeholder="Nama guru"
-                >
+</h2>
 
-                <input
-                    id="newRoomCode"
-                    type="text"
-                    placeholder="Kod bilik, contoh C05-01"
-                >
+<input
+id="teacherName"
+placeholder="Nama Guru">
 
-                <button
-                    id="createRoomBtn"
-                    type="button"
-                    class="primary"
-                >
-                    CIPTA / BUKA BILIK
-                </button>
+<input
+id="newRoomCode"
+placeholder="Kod Bilik">
 
-            </div>
+<button
+id="createRoomBtn"
+class="primary">
 
-        </section>
+🚀 CIPTA BILIK
 
+</button>
 
+<p
+id="roomStatus">
 
-        <!-- STATISTICS -->
+Belum membuka bilik.
 
-        <section class="teacher-stats">
+</p>
 
-            <article class="stat-card">
+</div>
 
-                <span>
-                    👨‍🎓
-                </span>
+<div class="panel">
 
-                <div>
+<h2>
 
-                    <small>
-                        Jumlah Pelajar
-                    </small>
+🎮 KAWALAN GURU
 
-                    <strong id="totalStudents">
-                        0
-                    </strong>
+</h2>
 
-                </div>
+<div class="row">
 
-            </article>
+<button
+id="approveAllBtn">
 
+✅ APPROVE ALL
 
-            <article class="stat-card">
+</button>
 
-                <span>
-                    ✅
-                </span>
+<button
+id="startRaceBtn"
+class="primary">
 
-                <div>
+🚦 START
 
-                    <small>
-                        Diluluskan
-                    </small>
+</button>
 
-                    <strong id="approvedStudents">
-                        0
-                    </strong>
+<button
+id="finishRaceBtn">
 
-                </div>
+🏁 FINISH
 
-            </article>
+</button>
 
+<button
+id="exportCsvBtn">
 
-            <article class="stat-card">
+📊 EXPORT
 
-                <span>
-                    🏎️
-                </span>
+</button>
 
-                <div>
+</div>
 
-                    <small>
-                        Sedang Berlumba
-                    </small>
+</div>
 
-                    <strong id="racingStudents">
-                        0
-                    </strong>
+</section>
 
-                </div>
+<!-- ================= STAT ================= -->
 
-            </article>
+<section class="teacher-grid">
 
+<div class="panel">
 
-            <article class="stat-card">
+<h2>
 
-                <span>
-                    🏁
-                </span>
+📊 STATISTIK
 
-                <div>
+</h2>
 
-                    <small>
-                        Sudah Tamat
-                    </small>
+<div class="stats">
 
-                    <strong id="finishedStudents">
-                        0
-                    </strong>
+<span>
 
-                </div>
+👨‍🎓
 
-            </article>
+<br>
 
+<b id="totalStudents">
 
-            <article class="stat-card">
+0
 
-                <span>
-                    📈
-                </span>
+</b>
 
-                <div>
+</span>
 
-                    <small>
-                        Purata Markah
-                    </small>
+<span>
 
-                    <strong id="averageScore">
-                        0
-                    </strong>
+✅
 
-                </div>
+<br>
 
-            </article>
+<b id="approvedStudents">
 
-        </section>
+0
 
+</b>
 
+</span>
 
-        <!-- CONTROL AND ROOM LINK -->
+<span>
 
-        <section class="teacher-grid">
+🏎️
 
+<br>
 
-            <!-- CONTROL PANEL -->
+<b id="racingStudents">
 
-            <div class="panel control-panel">
+0
 
-                <div class="section-heading">
+</b>
 
-                    <div>
+</span>
 
-                        <span class="eyebrow">
-                            KAWALAN GURU
-                        </span>
+<span>
 
-                        <h2>
-                            Kawal Perlumbaan
-                        </h2>
+🏁
 
-                    </div>
+<br>
 
-                </div>
+<b id="finishedStudents">
 
+0
 
-                <div class="control-grid">
+</b>
 
-                    <button
-                        id="approveAllBtn"
-                        type="button"
-                        class="control-button approve"
-                    >
-                        ✅ APPROVE ALL
-                    </button>
+</span>
 
+</div>
 
-                    <button
-                        id="startRaceBtn"
-                        type="button"
-                        class="control-button start"
-                    >
-                        🚦 START RACE
-                    </button>
+</div>
 
+<div class="panel">
 
-                    <button
-                        id="finishRaceBtn"
-                        type="button"
-                        class="control-button finish"
-                    >
-                        🏁 TAMATKAN
-                    </button>
+<h2>
 
+🥇 LIVE LEADERBOARD
 
-                    <button
-                        id="exportCsvBtn"
-                        type="button"
-                        class="control-button export"
-                    >
-                        📊 EXPORT CSV
-                    </button>
+</h2>
 
-                </div>
+<div
+id="liveLeaderboard">
 
+Tiada pemain.
 
-                <div class="room-state-box">
+</div>
 
-                    <span>
-                        Status bilik
-                    </span>
+</div>
 
-                    <strong
-                        id="roomStateBadge"
-                        data-state="idle"
-                    >
-                        BELUM DIBUKA
-                    </strong>
+</section>
 
-                </div>
+<!-- ================= STUDENT ================= -->
 
-            </div>
+<section class="panel">
 
+<h2>
 
+👨‍🎓 PELAJAR
 
-            <!-- ROOM LINK -->
+</h2>
 
-            <div class="panel qr-panel">
+<div
+id="summary"
+class="summary">
 
-                <div class="section-heading">
+</div>
 
-                    <div>
+<div
+id="studentList">
 
-                        <span class="eyebrow">
-                            SERTAI BILIK
-                        </span>
+</div>
 
-                        <h2>
-                            Pautan Pelajar
-                        </h2>
+</section>
 
-                    </div>
+<!-- ================= LIVE RACE ================= -->
 
-                </div>
+<section class="teacher-grid">
 
+<div class="panel">
 
-                <div
-                    class="qr-placeholder"
-                    id="qrPlaceholder"
-                >
+<h2>
 
-                    <div class="qr-icon">
-                        ▦
-                    </div>
+🏎️ LIVE RACE TRACK
 
-                    <p>
-                        Kod QR akan dipaparkan selepas bilik dibuka.
-                    </p>
+</h2>
 
-                </div>
+<div
+id="raceTrack"
+class="track">
 
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
+<div class="lane"></div>
 
-                <div class="join-link-box">
+</div>
 
-                    <input
-                        id="joinLink"
-                        type="text"
-                        readonly
-                        placeholder="Pautan pelajar akan muncul di sini"
-                    >
+</div>
 
-                    <button
-                        id="copyLinkBtn"
-                        type="button"
-                    >
-                        SALIN PAUTAN
-                    </button>
+<div class="panel">
 
-                </div>
+<h2>
 
-            </div>
+🏆 TOP 3
 
-        </section>
+</h2>
 
+<div
+id="podium">
 
+<div class="result">
 
-        <!-- STUDENT LIST -->
+<div class="trophy">
 
-        <section class="panel">
+🥇
 
-            <div class="section-heading">
+</div>
 
-                <div>
+<h3
+id="firstPlace">
 
-                    <span class="eyebrow">
-                        PESERTA
-                    </span>
+-
 
-                    <h2>
-                        Pelajar Dalam Bilik
-                    </h2>
+</h3>
 
-                </div>
+</div>
 
+<hr>
 
-                <span
-                    id="studentCountBadge"
-                    class="count-badge"
-                >
-                    0 pelajar
-                </span>
+<div class="result">
 
-            </div>
+<div class="trophy">
 
+🥈
 
-            <div class="table-head student-table-head">
+</div>
 
-                <span>
-                    #
-                </span>
+<h3
+id="secondPlace">
 
-                <span>
-                    Pelajar
-                </span>
+-
 
-                <span>
-                    Status
-                </span>
+</h3>
 
-                <span>
-                    Markah
-                </span>
+</div>
 
-                <span>
-                    Tindakan
-                </span>
+<hr>
 
-            </div>
+<div class="result">
 
+<div class="trophy">
 
-            <div
-                id="studentList"
-                class="student-list empty-state"
-            >
-                Tiada pelajar dalam bilik.
-            </div>
+🥉
 
-        </section>
+</div>
 
+<h3
+id="thirdPlace">
 
+-
 
-        <!-- LIVE LEADERBOARD -->
+</h3>
 
-        <section class="panel leaderboard-panel">
+</div>
 
-            <div class="section-heading">
+</div>
 
-                <div>
+</div>
 
-                    <span class="eyebrow">
-                        MASA NYATA
-                    </span>
+</section>
 
-                    <h2>
-                        Leaderboard Langsung
-                    </h2>
+<!-- ================= QR ================= -->
 
-                </div>
+<section class="teacher-grid">
 
+<div class="panel">
 
-                <span
-                    id="leaderboardUpdated"
-                    class="live-badge"
-                >
-                    ● LIVE
-                </span>
+<h2>
 
-            </div>
+📱 QR CODE
 
+</h2>
 
-            <div class="table-head leaderboard-head">
+<div
+id="qrBox">
 
-                <span>
-                    Kedudukan
-                </span>
+QR CODE
 
-                <span>
-                    Nama
-                </span>
+</div>
 
-                <span>
-                    Markah
-                </span>
+</div>
 
-                <span>
-                    Kemajuan
-                </span>
+<div class="panel">
 
-                <span>
-                    Status
-                </span>
+<h2>
 
-            </div>
+🔗 LINK PELAJAR
 
+</h2>
 
-            <div
-                id="liveLeaderboard"
-                class="leaderboard-list empty-state"
-            >
-                Leaderboard akan dipaparkan selepas pelajar menyertai.
-            </div>
+<input
 
-        </section>
+id="joinLink"
 
+readonly>
 
-    </div>
+<button
+
+id="copyLinkBtn">
+
+📋 COPY LINK
+
+</button>
+
+</div>
+
+</section>
 
 </main>
 
-
+<!-- ================= SCRIPTS ================= -->
 
 <script src="firebase-config.js"></script>
 
@@ -520,6 +433,47 @@
 
 <script src="teacher.js"></script>
 
+<script>
+
+document
+.getElementById("fullscreenBtn")
+.onclick=function(){
+
+if(!document.fullscreenElement){
+
+document.documentElement
+.requestFullscreen();
+
+}else{
+
+document.exitFullscreen();
+
+}
+
+};
+
+document
+.getElementById("copyLinkBtn")
+.onclick=function(){
+
+const box=
+document.getElementById("joinLink");
+
+box.select();
+
+document.execCommand("copy");
+
+this.innerHTML="✅ DISALIN";
+
+setTimeout(()=>{
+
+this.innerHTML="📋 COPY LINK";
+
+},1500);
+
+};
+
+</script>
 
 </body>
 
