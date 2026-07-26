@@ -1,783 +1,2498 @@
-/* ===========================================
-TEACHER.JS
-PART 1
-=========================================== */
+/* =========================================================
+   SERVER HERO RACE™
+   TEACHER.JS FULL VERSION V3.1
 
-const T={
+   Firebase Multiplayer
+   Approve / Reject / Approve All
+   Start / Pause / Resume / Restart / Finish
+   Live Race Track
+   Live Leaderboard
+   Class Statistics
+   Race Timer
+   Current Question
+   Export CSV
+========================================================= */
 
-room:"",
-roomData:null,
+const T = {
 
-async api(){
+    room: "",
 
-return await SERVER_HERO_FIREBASE_READY;
+    roomData: null,
 
-},
+    timerInterval: null,
 
-clean(x){
+    timerStartedAt: 0,
 
-return String(x||"")
+    elapsedBeforePause: 0,
 
-.trim()
 
-.toUpperCase()
+    /* =====================================================
+       FIREBASE
+    ===================================================== */
 
-.replace(/[^A-Z0-9-]/g,"")
+    async api() {
 
-.slice(0,20);
+        return await window.SERVER_HERO_FIREBASE_READY;
+    },
 
-},
 
-async create(){
+    clean(value) {
 
-this.room=
+        return String(value || "")
 
-this.clean(
+            .trim()
 
-newRoomCode.value
+            .toUpperCase()
 
-);
+            .replace(/[^A-Z0-9-]/g, "")
 
-const teacher=
+            .slice(0, 20);
+    },
 
-teacherName.value.trim();
 
-if(
+    /* =====================================================
+       INITIALISE DASHBOARD
+    ===================================================== */
 
-!this.room||
+    init() {
 
-!teacher
+        this.createExtraControls();
 
-){
+        this.createAnalyticsPanel();
 
-roomStatus.innerHTML=
 
-"Isi nama guru dan kod bilik.";
+        createRoomBtn.onclick =
+            () => this.create();
 
-return;
 
-}
+        approveAllBtn.onclick =
+            () => this.approveAll();
 
-const F=
 
-await this.api();
+        startRaceBtn.onclick =
+            () => this.status("racing");
 
-await F.update(
 
-F.ref(
+        finishRaceBtn.onclick =
+            () => this.status("finished");
 
-F.database,
 
-`rooms/${this.room}`
+        exportCsvBtn.onclick =
+            () => this.csv();
 
-),
 
-{
+        const fullscreenButton =
+            document.getElementById(
+                "fullscreenBtn"
+            );
 
-code:this.room,
 
-teacher,
+        if (fullscreenButton) {
 
-status:"waiting",
+            fullscreenButton.onclick =
+                () => this.toggleFullscreen();
+        }
 
-createdAt:
 
-F.serverTimestamp()
+        const copyButton =
+            document.getElementById(
+                "copyLinkBtn"
+            );
 
-}
 
-);
+        if (copyButton) {
 
-roomStatus.innerHTML=
+            copyButton.onclick =
+                () => this.copyLink();
+        }
 
-`Bilik ${this.room} berjaya dibuka.`;
 
-const base=
+        setInterval(
 
-`${location.origin}${location.pathname.replace("teacher.html","")}`;
+            () => {
 
-joinLink.value=
+                this.drawRace();
 
-`${base}index.html?room=${this.room}`;
+            },
 
-this.watch();
+            500
+        );
+    },
 
-},
 
-async watch(){
+    /* =====================================================
+       CREATE EXTRA BUTTONS
+    ===================================================== */
 
-const F=
+    createExtraControls() {
 
-await this.api();
+        if (
+            document.getElementById(
+                "pauseRaceBtn"
+            )
+        ) {
 
-F.onValue(
+            return;
+        }
 
-F.ref(
 
-F.database,
+        const controlPanel =
 
-`rooms/${this.room}`
+            document.getElementById(
+                "approveAllBtn"
+            )
 
-),
+                ?.parentElement;
 
-snap=>{
 
-this.roomData=
+        if (!controlPanel) {
 
-snap.val()||{};
+            return;
+        }
 
-this.render(
 
-this.roomData
+        const pauseButton =
 
-);
+            document.createElement(
+                "button"
+            );
 
-}
 
-);
+        pauseButton.id =
+            "pauseRaceBtn";
 
-},
 
-render(data){
+        pauseButton.type =
+            "button";
 
-const players=
 
-Object.values(
+        pauseButton.textContent =
+            "⏸️ Pause";
 
-data.players||{}
 
-);
+        pauseButton.onclick =
+            () => this.pauseRace();
 
-totalStudents.innerHTML=
 
-players.length;
+        const resumeButton =
 
-approvedStudents.innerHTML=
+            document.createElement(
+                "button"
+            );
 
-players.filter(
 
-p=>p.approved
+        resumeButton.id =
+            "resumeRaceBtn";
 
-).length;
 
-racingStudents.innerHTML=
+        resumeButton.type =
+            "button";
 
-players.filter(
 
-p=>p.status==="racing"
+        resumeButton.textContent =
+            "▶️ Resume";
 
-).length;
 
-finishedStudents.innerHTML=
+        resumeButton.onclick =
+            () => this.resumeRace();
 
-players.filter(
 
-p=>p.finished
+        const restartButton =
 
-).length;
+            document.createElement(
+                "button"
+            );
 
-summary.innerHTML=
 
-`Jumlah Pelajar :
-<b>${players.length}</b>`;
+        restartButton.id =
+            "restartRaceBtn";
 
-studentList.innerHTML=
 
-players
+        restartButton.type =
+            "button";
 
-.map(
 
-(p,i)=>`
+        restartButton.textContent =
+            "🔄 Restart";
 
-<div class="student-row">
 
-<b>
+        restartButton.onclick =
+            () => this.restartRace();
 
-${i+1}
 
-</b>
+        controlPanel.appendChild(
+            pauseButton
+        );
 
-<span>
 
-${p.avatar||"👤"}
+        controlPanel.appendChild(
+            resumeButton
+        );
 
-<br>
 
-<b>
+        controlPanel.appendChild(
+            restartButton
+        );
+    },
 
-${p.name}
 
-</b>
+    /* =====================================================
+       ANALYTICS PANEL
+    ===================================================== */
 
-<br>
+    createAnalyticsPanel() {
 
-<small>
+        if (
+            document.getElementById(
+                "teacherAnalytics"
+            )
+        ) {
 
-${p.id}
+            return;
+        }
 
-</small>
 
-</span>
+        const teacherWrap =
 
-<span>
+            document.querySelector(
+                ".teacher-wrap"
+            );
 
-${p.approved?"✅":"⌛"}
 
-</span>
+        if (!teacherWrap) {
 
-<strong>
+            return;
+        }
 
-${p.score||0}
 
-</strong>
+        const section =
 
-<button
+            document.createElement(
+                "section"
+            );
 
-onclick="T.approve('${p.key}',${!p.approved})">
 
-${p.approved?"Batalkan":"Approve"}
+        section.id =
+            "teacherAnalytics";
 
-</button>
 
-</div>
+        section.className =
+            "teacher-grid";
 
-`
 
-)
+        section.innerHTML = `
 
-.join("");
+            <div class="panel">
 
-/* ===========================================
-TEACHER.JS
-PART 2
-=========================================== */
+                <h2>
+                    ⏱️ Pemasa Perlumbaan
+                </h2>
 
-const sorted=
+                <div
+                    id="raceTimer"
+                    style="
+                        font-size:46px;
+                        font-weight:900;
+                        color:#ffd84d;
+                        text-align:center;
+                        padding:20px;
+                    "
+                >
+                    00:00
+                </div>
 
-[...players]
+                <p
+                    id="raceStatusText"
+                    style="text-align:center"
+                >
+                    Belum bermula
+                </p>
 
-.filter(
+            </div>
 
-p=>p.approved
 
-)
+            <div class="panel">
 
-.sort(
+                <h2>
+                    🧠 Soalan Semasa
+                </h2>
 
-(a,b)=>
+                <div
+                    id="currentQuestionBox"
+                    style="
+                        min-height:120px;
+                        padding:16px;
+                        background:#071a35;
+                        border:1px solid #356b9d;
+                        border-radius:14px;
+                    "
+                >
+                    Menunggu perlumbaan bermula.
+                </div>
 
-(b.score||0)
+            </div>
 
--
 
-(a.score||0)
+            <div class="panel">
 
-||
+                <h2>
+                    📊 Analisis Kelas
+                </h2>
 
-(a.lastAnswerMs||999999)
+                <div
+                    id="classAnalytics"
+                    class="stats"
+                >
+                </div>
 
--
+            </div>
 
-(b.lastAnswerMs||999999)
 
-);
+            <div class="panel">
 
-liveLeaderboard.innerHTML=
+                <h2>
+                    🏅 Top 10
+                </h2>
 
-sorted
+                <div id="topTenList">
+                    Tiada data.
+                </div>
 
-.map(
+            </div>
 
-(p,i)=>`
+        `;
 
-<div class="leader-row">
 
-<b>
+        const firstGrid =
 
-${i==0?"🥇":i==1?"🥈":i==2?"🥉":"#"+(i+1)}
+            teacherWrap.querySelector(
+                ".teacher-grid"
+            );
 
-</b>
 
-<span>
+        if (firstGrid) {
 
-${p.name}
+            firstGrid.insertAdjacentElement(
 
-</span>
+                "afterend",
 
-<strong>
+                section
+            );
 
-${p.score||0}
+        } else {
 
-</strong>
+            teacherWrap.appendChild(
+                section
+            );
+        }
+    },
 
-<span>
 
-${p.progress||0}/10
+    /* =====================================================
+       CREATE ROOM
+    ===================================================== */
 
-</span>
+    async create() {
 
-<span>
+        this.room =
 
-${p.status||"-"}
+            this.clean(
+                newRoomCode.value
+            );
 
-</span>
 
-</div>
+        const teacher =
 
-`
+            teacherName.value.trim();
 
-)
 
-.join("");
+        if (
+            !this.room ||
+            !teacher
+        ) {
 
-firstPlace.innerHTML=
+            roomStatus.textContent =
 
-sorted[0]?.name||"-";
+                "Isi nama guru dan kod bilik.";
 
-secondPlace.innerHTML=
+            return;
+        }
 
-sorted[1]?.name||"-";
 
-thirdPlace.innerHTML=
+        try {
 
-sorted[2]?.name||"-";
+            const F =
 
-},
+                await this.api();
 
-async approve(
 
-key,
+            await F.update(
 
-value
+                F.ref(
 
-){
+                    F.database,
 
-const F=
+                    `rooms/${this.room}`
+                ),
 
-await this.api();
+                {
+                    code:
+                        this.room,
 
-await F.update(
+                    teacher,
 
-F.ref(
+                    status:
+                        "waiting",
 
-F.database,
+                    currentQuestion:
+                        0,
 
-`rooms/${this.room}/players/${key}`
+                    createdAt:
+                        F.serverTimestamp()
+                }
+            );
 
-),
 
-{
+            roomStatus.textContent =
 
-approved:value,
+                `Bilik ${this.room} berjaya dibuka.`;
 
-status:
 
-value
+            this.updateJoinLink();
 
-?
+            this.watch();
 
-"approved"
 
-:
+        } catch (error) {
 
-"waiting"
+            console.error(
+                error
+            );
 
-}
 
-);
+            roomStatus.textContent =
 
-},
+                "Bilik tidak dapat dibuka.";
+        }
+    },
 
-async approveAll(){
 
-const F=
+    /* =====================================================
+       JOIN LINK
+    ===================================================== */
 
-await this.api();
+    updateJoinLink() {
 
-const snap=
+        const joinLinkInput =
 
-await F.get(
+            document.getElementById(
+                "joinLink"
+            );
 
-F.ref(
 
-F.database,
+        if (!joinLinkInput) {
 
-`rooms/${this.room}/players`
+            return;
+        }
 
-)
 
-);
+        const base =
 
-const updates={};
+            `${location.origin}${location.pathname.replace(
+                "teacher.html",
+                ""
+            )}`;
 
-Object.keys(
 
-snap.val()||{}
+        joinLinkInput.value =
 
-)
+            `${base}index.html?room=${encodeURIComponent(
+                this.room
+            )}`;
 
-.forEach(
 
-k=>{
+        const qrBox =
 
-updates[`${k}/approved`]=true;
+            document.getElementById(
+                "qrBox"
+            );
 
-updates[`${k}/status`]="approved";
 
-}
+        if (qrBox) {
 
-);
+            qrBox.innerHTML = `
 
-await F.update(
+                <div style="text-align:center">
 
-F.ref(
+                    <div style="font-size:60px">
+                        ▦
+                    </div>
 
-F.database,
+                    <strong>
+                        ${this.room}
+                    </strong>
 
-`rooms/${this.room}/players`),
+                    <p style="font-size:14px">
+                        Salin pautan untuk diberikan kepada pelajar.
+                    </p>
 
-updates
+                </div>
 
-);
+            `;
+        }
+    },
 
-/* ===========================================
-TEACHER.JS
-PART 3
-=========================================== */
 
-},
+    copyLink() {
 
-async status(
+        const linkInput =
 
-value
+            document.getElementById(
+                "joinLink"
+            );
 
-){
 
-const F=
+        if (
+            !linkInput ||
+            !linkInput.value
+        ) {
 
-await this.api();
+            return;
+        }
 
-await F.update(
 
-F.ref(
+        navigator.clipboard
 
-F.database,
+            .writeText(
+                linkInput.value
+            )
 
-`rooms/${this.room}`
+            .then(
 
-),
+                () => {
 
-{
+                    copyLinkBtn.textContent =
 
-status:value,
+                        "✅ Disalin";
 
-startedAt:
 
-value==="racing"
+                    setTimeout(
 
-?
+                        () => {
 
-F.serverTimestamp()
+                            copyLinkBtn.textContent =
 
-:
+                                "📋 Copy Link";
 
-null
+                        },
 
-}
+                        1500
+                    );
+                }
+            )
 
-);
+            .catch(
 
-},
+                () => {
 
-async remove(
+                    linkInput.select();
 
-key
+                    document.execCommand(
+                        "copy"
+                    );
+                }
+            );
+    },
 
-){
 
-const F=
+    /* =====================================================
+       WATCH ROOM
+    ===================================================== */
 
-await this.api();
+    async watch() {
 
-await F.remove(
+        const F =
 
-F.ref(
+            await this.api();
 
-F.database,
 
-`rooms/${this.room}/players/${key}`
+        F.onValue(
 
-)
+            F.ref(
 
-);
+                F.database,
 
-},
+                `rooms/${this.room}`
+            ),
 
-async csv(){
+            snapshot => {
 
-const F=
+                this.roomData =
 
-await this.api();
+                    snapshot.val() || {};
 
-const snap=
 
-await F.get(
+                this.render(
+                    this.roomData
+                );
+            }
+        );
+    },
 
-F.ref(
 
-F.database,
+    /* =====================================================
+       MAIN RENDER
+    ===================================================== */
 
-`rooms/${this.room}/players`
+    render(data) {
 
-)
+        const players =
 
-);
+            Object.values(
+                data.players || {}
+            );
 
-const players=
 
-Object.values(
+        const approved =
 
-snap.val()||{}
+            players.filter(
 
-)
+                player =>
+                    player.approved
+            );
 
-.sort(
 
-(a,b)=>
+        const racing =
 
-(b.score||0)
+            players.filter(
 
--
+                player =>
+                    player.status ===
+                    "racing"
+            );
 
-(a.score||0)
 
-);
+        const finished =
 
-const rows=[
+            players.filter(
 
-["Rank","Name","ID","Score","XP"],
+                player =>
+                    player.finished ||
+                    player.status ===
+                    "finished"
+            );
 
-...players.map(
 
-(p,i)=>[
+        totalStudents.textContent =
 
-i+1,
+            players.length;
 
-p.name,
 
-p.id,
+        approvedStudents.textContent =
 
-p.score||0,
+            approved.length;
 
-p.xp||0
 
-]
+        racingStudents.textContent =
 
-)
+            racing.length;
 
-];
 
-const csv=
+        finishedStudents.textContent =
 
-rows
+            finished.length;
 
-.map(
 
-r=>
+        summary.innerHTML = `
 
-r.join(",")
+            Jumlah:
 
-)
+            <strong>
+                ${players.length}
+            </strong>
 
-.join("\n");
+            • Diluluskan:
 
-const a=
+            <strong>
+                ${approved.length}
+            </strong>
 
-document.createElement(
+            • Berlumba:
 
-"a"
+            <strong>
+                ${racing.length}
+            </strong>
 
-);
+            • Tamat:
 
-a.href=
+            <strong>
+                ${finished.length}
+            </strong>
 
-URL.createObjectURL(
+        `;
 
-new Blob(
 
-[csv],
+        this.renderStudents(
+            players
+        );
 
-{
 
-type:"text/csv"
+        const sorted =
 
-}
+            this.sortPlayers(
+                approved
+            );
 
-)
 
-);
+        this.renderLeaderboard(
+            sorted
+        );
 
-a.download=
 
-`${this.room}.csv`;
+        this.renderTopThree(
+            sorted
+        );
 
-a.click();
 
-},
+        this.renderTopTen(
+            sorted
+        );
 
-drawRace(){
 
-if(
+        this.renderAnalytics(
+            players
+        );
 
-!this.roomData||
 
-!this.roomData.players
+        this.renderCurrentQuestion(
+            data
+        );
 
-){
 
-return;
+        this.handleTimerState(
+            data
+        );
+    },
 
-}
 
-const players=
+    /* =====================================================
+       SORT PLAYERS
+    ===================================================== */
 
-Object.values(
+    sortPlayers(players) {
 
-this.roomData.players
+        return [...players]
 
-)
+            .sort(
 
-.filter(
+                (
+                    a,
+                    b
+                ) =>
 
-p=>p.approved
+                    (
+                        Number(
+                            b.score
+                        ) || 0
+                    )
 
-)
+                    -
 
-.sort(
+                    (
+                        Number(
+                            a.score
+                        ) || 0
+                    )
 
-(a,b)=>
+                    ||
 
-(b.score||0)
+                    (
+                        Number(
+                            a.lastAnswerMs
+                        ) || 999999
+                    )
 
--
+                    -
 
-(a.score||0)
+                    (
+                        Number(
+                            b.lastAnswerMs
+                        ) || 999999
+                    )
+            );
+    },
 
-);
 
-const lanes=
+    /* =====================================================
+       STUDENT LIST
+    ===================================================== */
 
-document
+    renderStudents(players) {
 
-.querySelectorAll(
+        if (!players.length) {
 
-"#raceTrack .lane"
+            studentList.innerHTML =
 
-);
+                "<p>Tiada pelajar dalam bilik.</p>";
 
-lanes.forEach(
+            return;
+        }
 
-lane=>lane.innerHTML=""
 
-);
+        studentList.innerHTML =
 
-players
+            [...players]
 
-.slice(0,10)
+                .sort(
 
-.forEach(
+                    (
+                        a,
+                        b
+                    ) =>
 
-(player,index)=>{
+                        String(
+                            a.name || ""
+                        )
 
-const lane=
+                            .localeCompare(
 
-lanes[index];
+                                String(
+                                    b.name || ""
+                                )
+                            )
+                )
 
-if(!lane)return;
+                .map(
 
-const car=
+                    (
+                        player,
+                        index
+                    ) => `
 
-document.createElement(
+                        <div class="student-row">
 
-"div"
+                            <b>
+                                ${index + 1}
+                            </b>
 
-);
 
-car.className="car";
+                            <span>
 
-car.style.left=
+                                ${player.avatar || "👤"}
 
-Math.min(
+                                <strong>
+                                    ${player.name || "-"}
+                                </strong>
 
-90,
+                                <br>
 
-(player.progress||0)
+                                <small>
+                                    ${player.id || "-"}
+                                </small>
 
-*10
+                            </span>
 
-)+"%";
 
-car.innerHTML=
+                            <span class="${
+                                player.approved
+                                    ? "status-ok"
+                                    : "status-wait"
+                            }">
 
-`🚗 <b>${player.name}</b>`;
+                                ${
+                                    player.approved
+                                        ? "✅ Approved"
+                                        : "⌛ Waiting"
+                                }
 
-lane.appendChild(
+                            </span>
 
-car
 
-);
+                            <strong>
+                                ${Number(player.score) || 0}
+                            </strong>
 
-}
 
-);
+                            <span>
 
-}
+                                <button
 
-/* ===========================================
-TEACHER.JS
-PART 4 (FINAL)
-=========================================== */
+                                    type="button"
+
+                                    onclick="
+                                        T.approve(
+                                            '${player.key}',
+                                            ${!player.approved}
+                                        )
+                                    "
+                                >
+
+                                    ${
+                                        player.approved
+                                            ? "Batalkan"
+                                            : "Approve"
+                                    }
+
+                                </button>
+
+
+                                <button
+
+                                    type="button"
+
+                                    onclick="
+                                        T.remove(
+                                            '${player.key}'
+                                        )
+                                    "
+                                >
+
+                                    Tolak
+
+                                </button>
+
+                            </span>
+
+                        </div>
+
+                    `
+                )
+
+                .join("");
+    },
+
+
+    /* =====================================================
+       LEADERBOARD
+    ===================================================== */
+
+    renderLeaderboard(players) {
+
+        if (!players.length) {
+
+            liveLeaderboard.innerHTML =
+
+                "Tiada pemain diluluskan.";
+
+            return;
+        }
+
+
+        liveLeaderboard.innerHTML =
+
+            players
+
+                .map(
+
+                    (
+                        player,
+                        index
+                    ) => `
+
+                        <div class="leader-row">
+
+                            <b>
+
+                                ${
+                                    index === 0
+                                        ? "🥇"
+                                        : index === 1
+                                        ? "🥈"
+                                        : index === 2
+                                        ? "🥉"
+                                        : `#${index + 1}`
+                                }
+
+                            </b>
+
+
+                            <span>
+                                ${player.name || "-"}
+                            </span>
+
+
+                            <strong>
+                                ${Number(player.score) || 0}
+                            </strong>
+
+
+                            <span>
+
+                                ${Number(player.progress) || 0}
+
+                                /
+
+                                ${
+                                    window.SERVER_HERO_QUESTIONS
+                                        ?.length || 14
+                                }
+
+                            </span>
+
+
+                            <span>
+                                ${player.status || "-"}
+                            </span>
+
+                        </div>
+
+                    `
+                )
+
+                .join("");
+    },
+
+
+    /* =====================================================
+       TOP THREE
+    ===================================================== */
+
+    renderTopThree(players) {
+
+        const first =
+
+            document.getElementById(
+                "firstPlace"
+            );
+
+
+        const second =
+
+            document.getElementById(
+                "secondPlace"
+            );
+
+
+        const third =
+
+            document.getElementById(
+                "thirdPlace"
+            );
+
+
+        if (first) {
+
+            first.textContent =
+
+                players[0]?.name || "-";
+        }
+
+
+        if (second) {
+
+            second.textContent =
+
+                players[1]?.name || "-";
+        }
+
+
+        if (third) {
+
+            third.textContent =
+
+                players[2]?.name || "-";
+        }
+    },
+
+
+    /* =====================================================
+       TOP TEN
+    ===================================================== */
+
+    renderTopTen(players) {
+
+        const box =
+
+            document.getElementById(
+                "topTenList"
+            );
+
+
+        if (!box) {
+
+            return;
+        }
+
+
+        if (!players.length) {
+
+            box.innerHTML =
+
+                "Tiada data.";
+
+            return;
+        }
+
+
+        box.innerHTML =
+
+            players
+
+                .slice(0, 10)
+
+                .map(
+
+                    (
+                        player,
+                        index
+                    ) => `
+
+                        <div class="leader-row">
+
+                            <b>
+                                #${index + 1}
+                            </b>
+
+                            <span>
+                                ${player.name}
+                            </span>
+
+                            <strong>
+                                ${Number(player.score) || 0}
+                            </strong>
+
+                            <span>
+
+                                ${Number(player.progress) || 0}
+
+                                /
+
+                                ${
+                                    window.SERVER_HERO_QUESTIONS
+                                        ?.length || 14
+                                }
+
+                            </span>
+
+                            <span>
+                                ${player.status || "-"}
+                            </span>
+
+                        </div>
+
+                    `
+                )
+
+                .join("");
+    },
+
+
+    /* =====================================================
+       CLASS ANALYTICS
+    ===================================================== */
+
+    renderAnalytics(players) {
+
+        const box =
+
+            document.getElementById(
+                "classAnalytics"
+            );
+
+
+        if (!box) {
+
+            return;
+        }
+
+
+        const totalScore =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+                    (
+                        Number(
+                            player.score
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        const averageScore =
+
+            players.length
+
+                ? Math.round(
+
+                    totalScore /
+                    players.length
+                )
+
+                : 0;
+
+
+        const correctAnswers =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+                    (
+                        Number(
+                            player.correctCount
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        const wrongAnswers =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+                    (
+                        Number(
+                            player.wrongCount
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        const fastAnswers =
+
+            players.reduce(
+
+                (
+                    total,
+                    player
+                ) =>
+
+                    total +
+                    (
+                        Number(
+                            player.fastCount
+                        ) || 0
+                    ),
+
+                0
+            );
+
+
+        box.innerHTML = `
+
+            <span>
+
+                📈 Purata
+
+                <br>
+
+                <b>
+                    ${averageScore}
+                </b>
+
+            </span>
+
+
+            <span>
+
+                ✅ Betul
+
+                <br>
+
+                <b>
+                    ${correctAnswers}
+                </b>
+
+            </span>
+
+
+            <span>
+
+                ❌ Salah
+
+                <br>
+
+                <b>
+                    ${wrongAnswers}
+                </b>
+
+            </span>
+
+
+            <span>
+
+                ⚡ Pantas
+
+                <br>
+
+                <b>
+                    ${fastAnswers}
+                </b>
+
+            </span>
+
+        `;
+    },
+
+
+    /* =====================================================
+       CURRENT QUESTION
+    ===================================================== */
+
+    renderCurrentQuestion(data) {
+
+        const box =
+
+            document.getElementById(
+                "currentQuestionBox"
+            );
+
+
+        if (!box) {
+
+            return;
+        }
+
+
+        const players =
+
+            Object.values(
+                data.players || {}
+            );
+
+
+        const highestProgress =
+
+            Math.max(
+
+                0,
+
+                ...players.map(
+
+                    player =>
+
+                        Number(
+                            player.progress
+                        ) || 0
+                )
+            );
+
+
+        const question =
+
+            window.SERVER_HERO_QUESTIONS?.[
+                highestProgress
+            ];
+
+
+        if (!question) {
+
+            box.innerHTML =
+
+                data.status === "finished"
+
+                    ? "🏁 Perlumbaan telah tamat."
+
+                    : "Menunggu pelajar menjawab.";
+
+            return;
+        }
+
+
+        box.innerHTML = `
+
+            <strong>
+
+                Soalan ${highestProgress + 1}
+
+                /
+
+                ${
+                    window.SERVER_HERO_QUESTIONS
+                        .length
+                }
+
+            </strong>
+
+            <hr>
+
+            ${question.q.ms}
+
+        `;
+    },
+
+
+    /* =====================================================
+       APPROVE / REMOVE
+    ===================================================== */
+
+    async approve(
+
+        key,
+
+        value
+
+    ) {
+
+        if (!this.room) {
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        await F.update(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}/players/${key}`
+            ),
+
+            {
+                approved:
+                    value,
+
+                status:
+
+                    value
+                        ? "approved"
+                        : "waiting"
+            }
+        );
+    },
+
+
+    async remove(key) {
+
+        if (!this.room) {
+
+            return;
+        }
+
+
+        const confirmed =
+
+            confirm(
+
+                "Keluarkan pelajar ini daripada bilik?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        await F.remove(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}/players/${key}`
+            )
+        );
+    },
+
+
+    async approveAll() {
+
+        if (!this.room) {
+
+            roomStatus.textContent =
+
+                "Buka bilik terlebih dahulu.";
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        const snapshot =
+
+            await F.get(
+
+                F.ref(
+
+                    F.database,
+
+                    `rooms/${this.room}/players`
+                )
+            );
+
+
+        const players =
+
+            snapshot.val() || {};
+
+
+        const updates = {};
+
+
+        Object.keys(players)
+
+            .forEach(
+
+                key => {
+
+                    updates[
+                        `${key}/approved`
+                    ] = true;
+
+
+                    updates[
+                        `${key}/status`
+                    ] = "approved";
+                }
+            );
+
+
+        if (!Object.keys(updates).length) {
+
+            roomStatus.textContent =
+
+                "Belum ada pelajar.";
+
+            return;
+        }
+
+
+        await F.update(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}/players`
+            ),
+
+            updates
+        );
+
+
+        roomStatus.textContent =
+
+            "Semua pelajar telah diluluskan.";
+    },
+
+
+    /* =====================================================
+       START / FINISH
+    ===================================================== */
+
+    async status(value) {
+
+        if (!this.room) {
+
+            roomStatus.textContent =
+
+                "Buka bilik terlebih dahulu.";
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        const approvedCount =
+
+            Number(
+                approvedStudents.textContent
+            ) || 0;
+
+
+        if (
+            value === "racing" &&
+            approvedCount === 0
+        ) {
+
+            roomStatus.textContent =
+
+                "Luluskan pelajar dahulu.";
+
+            return;
+        }
+
+
+        const updates = {
+
+            status:
+                value
+        };
+
+
+        if (
+            value === "racing"
+        ) {
+
+            updates.startedAt =
+
+                F.serverTimestamp();
+
+
+            updates.pausedAt =
+
+                null;
+
+
+            updates.elapsedBeforePause =
+
+                0;
+
+
+            this.elapsedBeforePause = 0;
+        }
+
+
+        if (
+            value === "finished"
+        ) {
+
+            updates.finishedAt =
+
+                F.serverTimestamp();
+        }
+
+
+        await F.update(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}`
+            ),
+
+            updates
+        );
+
+
+        roomStatus.textContent =
+
+            value === "racing"
+
+                ? "Perlumbaan telah dimulakan."
+
+                : "Perlumbaan telah ditamatkan.";
+    },
+
+
+    /* =====================================================
+       PAUSE
+    ===================================================== */
+
+    async pauseRace() {
+
+        if (!this.room) {
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        this.elapsedBeforePause =
+
+            this.getElapsedSeconds();
+
+
+        await F.update(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}`
+            ),
+
+            {
+                status:
+                    "paused",
+
+                pausedAt:
+                    F.serverTimestamp(),
+
+                elapsedBeforePause:
+                    this.elapsedBeforePause
+            }
+        );
+
+
+        roomStatus.textContent =
+
+            "Perlumbaan dijeda.";
+    },
+
+
+    /* =====================================================
+       RESUME
+    ===================================================== */
+
+    async resumeRace() {
+
+        if (!this.room) {
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        await F.update(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}`
+            ),
+
+            {
+                status:
+                    "racing",
+
+                startedAt:
+                    F.serverTimestamp(),
+
+                pausedAt:
+                    null,
+
+                elapsedBeforePause:
+                    Number(
+                        this.roomData
+                            ?.elapsedBeforePause
+                    ) || 0
+            }
+        );
+
+
+        roomStatus.textContent =
+
+            "Perlumbaan disambung.";
+    },
+
+
+    /* =====================================================
+       RESTART
+    ===================================================== */
+
+    async restartRace() {
+
+        if (!this.room) {
+
+            return;
+        }
+
+
+        const confirmed =
+
+            confirm(
+
+                "Mulakan semula perlumbaan dan kosongkan semua markah?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        const snapshot =
+
+            await F.get(
+
+                F.ref(
+
+                    F.database,
+
+                    `rooms/${this.room}/players`
+                )
+            );
+
+
+        const players =
+
+            snapshot.val() || {};
+
+
+        const updates = {};
+
+
+        Object.keys(players)
+
+            .forEach(
+
+                key => {
+
+                    updates[
+                        `${key}/score`
+                    ] = 0;
+
+
+                    updates[
+                        `${key}/xp`
+                    ] = 0;
+
+
+                    updates[
+                        `${key}/progress`
+                    ] = 0;
+
+
+                    updates[
+                        `${key}/finished`
+                    ] = false;
+
+
+                    updates[
+                        `${key}/correctCount`
+                    ] = 0;
+
+
+                    updates[
+                        `${key}/wrongCount`
+                    ] = 0;
+
+
+                    updates[
+                        `${key}/fastCount`
+                    ] = 0;
+
+
+                    updates[
+                        `${key}/status`
+                    ] = "approved";
+                }
+            );
+
+
+        await F.update(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}/players`
+            ),
+
+            updates
+        );
+
+
+        await F.update(
+
+            F.ref(
+
+                F.database,
+
+                `rooms/${this.room}`
+            ),
+
+            {
+                status:
+                    "waiting",
+
+                startedAt:
+                    null,
+
+                finishedAt:
+                    null,
+
+                pausedAt:
+                    null,
+
+                elapsedBeforePause:
+                    0
+            }
+        );
+
+
+        this.stopTimer();
+
+        this.setTimerDisplay(
+            0
+        );
+
+
+        roomStatus.textContent =
+
+            "Perlumbaan telah ditetapkan semula.";
+    },
+
+
+    /* =====================================================
+       TIMER
+    ===================================================== */
+
+    handleTimerState(data) {
+
+        const statusText =
+
+            document.getElementById(
+                "raceStatusText"
+            );
+
+
+        if (
+            statusText
+        ) {
+
+            const labels = {
+
+                waiting:
+                    "Menunggu",
+
+                racing:
+                    "Sedang berlumba",
+
+                paused:
+                    "Dijeda",
+
+                finished:
+                    "Tamat"
+            };
+
+
+            statusText.textContent =
+
+                labels[data.status] ||
+                "Belum bermula";
+        }
+
+
+        if (
+            data.status === "racing"
+        ) {
+
+            this.timerStartedAt =
+
+                Date.now();
+
+
+            this.elapsedBeforePause =
+
+                Number(
+                    data.elapsedBeforePause
+                ) || 0;
+
+
+            this.startTimer();
+
+            return;
+        }
+
+
+        if (
+            data.status === "paused"
+        ) {
+
+            this.stopTimer();
+
+
+            this.setTimerDisplay(
+
+                Number(
+                    data.elapsedBeforePause
+                ) || 0
+            );
+
+            return;
+        }
+
+
+        if (
+            data.status === "finished"
+        ) {
+
+            this.stopTimer();
+
+            return;
+        }
+
+
+        this.stopTimer();
+
+        this.setTimerDisplay(
+            0
+        );
+    },
+
+
+    startTimer() {
+
+        this.stopTimer();
+
+
+        this.timerInterval =
+
+            setInterval(
+
+                () => {
+
+                    this.setTimerDisplay(
+
+                        this.getElapsedSeconds()
+                    );
+
+                },
+
+                1000
+            );
+    },
+
+
+    stopTimer() {
+
+        if (
+            this.timerInterval
+        ) {
+
+            clearInterval(
+                this.timerInterval
+            );
+
+
+            this.timerInterval =
+                null;
+        }
+    },
+
+
+    getElapsedSeconds() {
+
+        if (
+            !this.timerStartedAt
+        ) {
+
+            return this.elapsedBeforePause;
+        }
+
+
+        return (
+
+            this.elapsedBeforePause +
+
+            Math.floor(
+
+                (
+                    Date.now() -
+                    this.timerStartedAt
+                ) / 1000
+            )
+        );
+    },
+
+
+    setTimerDisplay(seconds) {
+
+        const timer =
+
+            document.getElementById(
+                "raceTimer"
+            );
+
+
+        if (!timer) {
+
+            return;
+        }
+
+
+        const minutes =
+
+            Math.floor(
+                seconds / 60
+            );
+
+
+        const remainingSeconds =
+
+            seconds % 60;
+
+
+        timer.textContent =
+
+            `${String(minutes).padStart(
+                2,
+                "0"
+            )}:${String(
+                remainingSeconds
+            ).padStart(
+                2,
+                "0"
+            )}`;
+    },
+
+
+    /* =====================================================
+       LIVE RACE TRACK
+    ===================================================== */
+
+    drawRace() {
+
+        if (
+            !this.roomData?.players
+        ) {
+
+            return;
+        }
+
+
+        const track =
+
+            document.getElementById(
+                "raceTrack"
+            );
+
+
+        if (!track) {
+
+            return;
+        }
+
+
+        const players =
+
+            this.sortPlayers(
+
+                Object.values(
+                    this.roomData.players
+                )
+
+                    .filter(
+
+                        player =>
+                            player.approved
+                    )
+            );
+
+
+        track.innerHTML =
+
+            players
+
+                .slice(0, 10)
+
+                .map(
+
+                    (
+                        player,
+                        index
+                    ) => {
+
+                        const progress =
+
+                            Math.min(
+
+                                90,
+
+                                (
+                                    Number(
+                                        player.progress
+                                    ) || 0
+                                )
+
+                                /
+
+                                (
+                                    window
+                                        .SERVER_HERO_QUESTIONS
+                                        ?.length || 14
+                                )
+
+                                *
+
+                                90
+                            );
+
+
+                        return `
+
+                            <div class="lane">
+
+                                <div
+
+                                    class="car"
+
+                                    style="
+                                        left:${progress}%;
+                                    "
+                                >
+
+                                    <span class="car-icon">
+                                        🏎️
+                                    </span>
+
+                                    <b>
+
+                                        ${index + 1}.
+
+                                        ${player.name}
+
+                                    </b>
+
+                                </div>
+
+                            </div>
+
+                        `;
+                    }
+                )
+
+                .join("");
+    },
+
+
+    /* =====================================================
+       EXPORT CSV
+    ===================================================== */
+
+    async csv() {
+
+        if (!this.room) {
+
+            roomStatus.textContent =
+
+                "Buka bilik terlebih dahulu.";
+
+            return;
+        }
+
+
+        const F =
+
+            await this.api();
+
+
+        const snapshot =
+
+            await F.get(
+
+                F.ref(
+
+                    F.database,
+
+                    `rooms/${this.room}/players`
+                )
+            );
+
+
+        const players =
+
+            this.sortPlayers(
+
+                Object.values(
+                    snapshot.val() || {}
+                )
+            );
+
+
+        const rows = [
+
+            [
+                "Rank",
+                "Name",
+                "ID",
+                "Score",
+                "XP",
+                "Progress",
+                "Correct",
+                "Wrong",
+                "Fast",
+                "Status"
+            ],
+
+            ...players.map(
+
+                (
+                    player,
+                    index
+                ) => [
+
+                    index + 1,
+
+                    player.name || "",
+
+                    player.id || "",
+
+                    Number(
+                        player.score
+                    ) || 0,
+
+                    Number(
+                        player.xp
+                    ) || 0,
+
+                    Number(
+                        player.progress
+                    ) || 0,
+
+                    Number(
+                        player.correctCount
+                    ) || 0,
+
+                    Number(
+                        player.wrongCount
+                    ) || 0,
+
+                    Number(
+                        player.fastCount
+                    ) || 0,
+
+                    player.status || ""
+                ]
+            )
+        ];
+
+
+        const csvText =
+
+            rows
+
+                .map(
+
+                    row =>
+
+                        row
+
+                            .map(
+
+                                value =>
+
+                                    `"${String(
+                                        value
+                                    ).replaceAll(
+                                        '"',
+                                        '""'
+                                    )}"`
+                            )
+
+                            .join(",")
+                )
+
+                .join("\n");
+
+
+        const link =
+
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+
+            URL.createObjectURL(
+
+                new Blob(
+
+                    [csvText],
+
+                    {
+                        type:
+                            "text/csv;charset=utf-8"
+                    }
+                )
+            );
+
+
+        link.download =
+
+            `${this.room}-results.csv`;
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+        link.remove();
+    },
+
+
+    /* =====================================================
+       FULLSCREEN
+    ===================================================== */
+
+    toggleFullscreen() {
+
+        if (
+            !document.fullscreenElement
+        ) {
+
+            document
+                .documentElement
+                .requestFullscreen
+                ?.();
+
+        } else {
+
+            document
+                .exitFullscreen
+                ?.();
+        }
+    }
 
 };
+
+
+/* =========================================================
+   START
+========================================================= */
 
 document.addEventListener(
 
-"DOMContentLoaded",
+    "DOMContentLoaded",
 
-()=>{
+    () => {
 
-createRoomBtn.onclick=()=>T.create();
+        T.init();
+    }
+);
 
-approveAllBtn.onclick=()=>T.approveAll();
 
-startRaceBtn.onclick=()=>T.status("racing");
-
-finishRaceBtn.onclick=()=>T.status("finished");
-
-exportCsvBtn.onclick=()=>T.csv();
-
-copyLinkBtn.onclick=()=>{
-
-joinLink.select();
-
-document.execCommand("copy");
-
-copyLinkBtn.innerHTML="✅ DISALIN";
-
-setTimeout(()=>{
-
-copyLinkBtn.innerHTML="📋 COPY LINK";
-
-},1500);
-
-};
-
-setInterval(()=>{
-
-T.drawRace();
-
-},500);
-
-});
-
-window.T=T;
+window.T = T;
