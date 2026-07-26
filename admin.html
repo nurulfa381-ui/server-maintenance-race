@@ -1,0 +1,6622 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+name="theme-color"
+content="#020916"
+>
+
+<title>
+SERVER HERO RACE™ — Admin Control Panel
+</title>
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com"
+>
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin
+>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet"
+>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Poppins",sans-serif;
+}
+
+:root{
+--dark:#020916;
+--navy:#06172f;
+--navy2:#092b52;
+--navy3:#0e477f;
+--blue:#168cff;
+--cyan:#51ddff;
+--gold:#ffd84d;
+--orange:#ff9d00;
+--green:#35df83;
+--red:#ff5667;
+--purple:#9d7cff;
+--white:#ffffff;
+--muted:#a9bdd7;
+--border:#356d9f;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+min-height:100vh;
+color:var(--white);
+background:
+radial-gradient(
+circle at top right,
+#174f8e 0%,
+#06172f 44%,
+#020916 100%
+);
+}
+
+button,
+input,
+select,
+textarea,
+a{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+button:disabled{
+cursor:not-allowed;
+opacity:.5;
+}
+
+.adminApp{
+display:grid;
+grid-template-columns:280px minmax(0,1fr);
+min-height:100vh;
+}
+
+.sidebar{
+position:sticky;
+top:0;
+height:100vh;
+overflow-y:auto;
+padding:22px 16px;
+border-right:1px solid #2e5f8d;
+background:
+linear-gradient(
+180deg,
+#071d3b,
+#020b18
+);
+box-shadow:
+15px 0 45px rgba(0,0,0,.25);
+z-index:20;
+}
+
+.logoBox{
+padding:18px;
+margin-bottom:20px;
+text-align:center;
+border:1px solid #3a74a8;
+border-radius:20px;
+background:
+linear-gradient(
+145deg,
+#103d72,
+#071b38
+);
+}
+
+.logoIcon{
+font-size:54px;
+filter:
+drop-shadow(
+0 0 15px rgba(81,221,255,.5)
+);
+}
+
+.logoBox h1{
+margin-top:8px;
+color:var(--gold);
+font-size:21px;
+font-weight:900;
+line-height:1.2;
+}
+
+.logoBox p{
+margin-top:5px;
+color:var(--muted);
+font-size:11px;
+font-weight:700;
+}
+
+.adminBadge{
+display:inline-block;
+margin-top:11px;
+padding:6px 11px;
+color:#06152d;
+font-size:10px;
+font-weight:900;
+border-radius:999px;
+background:
+linear-gradient(
+90deg,
+var(--orange),
+var(--gold)
+);
+}
+
+.navTitle{
+margin:18px 10px 8px;
+color:#6485a9;
+font-size:10px;
+font-weight:900;
+letter-spacing:1.5px;
+}
+
+.navList{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.navBtn{
+display:flex;
+align-items:center;
+gap:11px;
+width:100%;
+padding:12px 13px;
+color:#dcecff;
+text-align:left;
+font-weight:700;
+border:1px solid transparent;
+border-radius:12px;
+background:transparent;
+transition:.22s;
+}
+
+.navBtn:hover{
+border-color:#326a9e;
+background:#0b315e;
+transform:translateX(3px);
+}
+
+.navBtn.active{
+color:var(--gold);
+border-color:#3f79ac;
+background:
+linear-gradient(
+90deg,
+#0d3a70,
+#09294f
+);
+box-shadow:
+0 8px 22px rgba(0,0,0,.2);
+}
+
+.navIcon{
+display:flex;
+align-items:center;
+justify-content:center;
+width:30px;
+height:30px;
+flex-shrink:0;
+font-size:18px;
+border-radius:9px;
+background:rgba(255,255,255,.06);
+}
+
+.sidebarFooter{
+margin-top:22px;
+padding:14px;
+border:1px solid #2e5f8d;
+border-radius:14px;
+background:#06172f;
+}
+
+.sidebarFooter p{
+color:var(--muted);
+font-size:10px;
+font-weight:600;
+}
+
+.sidebarFooter strong{
+display:block;
+margin-top:4px;
+color:var(--green);
+font-size:12px;
+}
+
+.mainArea{
+min-width:0;
+padding:22px;
+}
+
+.topbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:20px;
+padding:17px 19px;
+border:1px solid var(--border);
+border-radius:18px;
+background:
+linear-gradient(
+90deg,
+rgba(6,29,60,.97),
+rgba(13,58,112,.95)
+);
+box-shadow:
+0 16px 38px rgba(0,0,0,.3);
+}
+
+.topbarLeft{
+display:flex;
+align-items:center;
+gap:13px;
+}
+
+.menuBtn{
+display:none;
+align-items:center;
+justify-content:center;
+width:44px;
+height:44px;
+color:var(--white);
+font-size:23px;
+border:1px solid #3972a5;
+border-radius:11px;
+background:#0b315e;
+}
+
+.pageTitle h2{
+font-size:clamp(22px,3vw,34px);
+font-weight:900;
+color:var(--gold);
+}
+
+.pageTitle p{
+color:var(--muted);
+font-size:12px;
+font-weight:600;
+}
+
+.topActions{
+display:flex;
+gap:9px;
+flex-wrap:wrap;
+}
+
+.btn,
+.linkBtn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+padding:11px 15px;
+color:var(--white);
+font-weight:800;
+text-decoration:none;
+border:1px solid #4079ac;
+border-radius:11px;
+background:#0b315e;
+transition:.22s;
+}
+
+.btn:hover,
+.linkBtn:hover{
+transform:translateY(-2px);
+border-color:var(--gold);
+}
+
+.btnPrimary{
+color:#06152d;
+border:none;
+background:
+linear-gradient(
+90deg,
+var(--orange),
+var(--gold)
+);
+}
+
+.btnSuccess{
+color:#031a0e;
+border:none;
+background:
+linear-gradient(
+90deg,
+#22ba69,
+var(--green)
+);
+}
+
+.btnDanger{
+color:#fff;
+border-color:#cc4153;
+background:
+linear-gradient(
+90deg,
+#a82236,
+var(--red)
+);
+}
+
+.btnPurple{
+border-color:#8b73e8;
+background:
+linear-gradient(
+90deg,
+#5d45b5,
+var(--purple)
+);
+}
+
+.view{
+display:none;
+animation:fadeIn .25s ease;
+}
+
+.view.active{
+display:block;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(6px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.hero{
+position:relative;
+overflow:hidden;
+margin-bottom:20px;
+padding:26px;
+border:1px solid #3972a5;
+border-radius:22px;
+background:
+linear-gradient(
+135deg,
+#10457e,
+#071f40 60%,
+#04132a
+);
+box-shadow:
+0 18px 42px rgba(0,0,0,.32);
+}
+
+.hero::after{
+content:"⚙️";
+position:absolute;
+right:25px;
+top:5px;
+font-size:120px;
+opacity:.08;
+transform:rotate(12deg);
+}
+
+.heroContent{
+position:relative;
+z-index:2;
+}
+
+.hero h3{
+font-size:clamp(27px,4vw,46px);
+font-weight:900;
+color:var(--gold);
+}
+
+.hero p{
+max-width:780px;
+margin-top:7px;
+color:#dcecff;
+font-weight:600;
+}
+
+.statusLine{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:15px;
+font-size:12px;
+font-weight:800;
+}
+
+.statusDot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--green);
+box-shadow:
+0 0 10px rgba(53,223,131,.8);
+}
+
+.statGrid{
+display:grid;
+grid-template-columns:
+repeat(6,minmax(0,1fr));
+gap:13px;
+margin-bottom:20px;
+}
+
+.statCard{
+position:relative;
+overflow:hidden;
+padding:18px;
+border:1px solid #3972a5;
+border-radius:17px;
+background:
+linear-gradient(
+180deg,
+#103d72,
+#082544
+);
+box-shadow:
+0 12px 28px rgba(0,0,0,.25);
+}
+
+.statCard::after{
+content:"";
+position:absolute;
+right:-25px;
+bottom:-35px;
+width:85px;
+height:85px;
+border-radius:50%;
+background:rgba(81,221,255,.07);
+}
+
+.statIcon{
+font-size:29px;
+}
+
+.statCard span{
+display:block;
+margin-top:8px;
+color:var(--muted);
+font-size:10px;
+font-weight:800;
+}
+
+.statCard strong{
+display:block;
+margin-top:4px;
+color:var(--gold);
+font-size:25px;
+font-weight:900;
+}
+
+.grid2{
+display:grid;
+grid-template-columns:
+repeat(2,minmax(0,1fr));
+gap:18px;
+margin-bottom:20px;
+}
+
+.grid3{
+display:grid;
+grid-template-columns:
+repeat(3,minmax(0,1fr));
+gap:18px;
+margin-bottom:20px;
+}
+
+.panel{
+margin-bottom:20px;
+padding:21px;
+border:1px solid var(--border);
+border-radius:20px;
+background:
+linear-gradient(
+180deg,
+rgba(6,29,60,.98),
+rgba(3,16,36,.98)
+);
+box-shadow:
+0 16px 36px rgba(0,0,0,.28);
+}
+
+.panelHeader{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:16px;
+}
+
+.panelTitle{
+font-size:21px;
+font-weight:900;
+color:var(--gold);
+}
+
+.panelSubtitle{
+margin-top:3px;
+color:var(--muted);
+font-size:11px;
+font-weight:600;
+}
+
+.panelActions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.quickGrid{
+display:grid;
+grid-template-columns:
+repeat(4,minmax(0,1fr));
+gap:13px;
+}
+
+.quickCard{
+padding:18px;
+text-align:left;
+color:var(--white);
+border:1px solid #3972a5;
+border-radius:16px;
+background:
+linear-gradient(
+145deg,
+#0d3a70,
+#071d3b
+);
+transition:.23s;
+}
+
+.quickCard:hover{
+transform:translateY(-4px);
+border-color:var(--gold);
+box-shadow:
+0 12px 25px rgba(0,0,0,.25);
+}
+
+.quickIcon{
+font-size:31px;
+}
+
+.quickCard strong{
+display:block;
+margin-top:9px;
+font-size:14px;
+}
+
+.quickCard span{
+display:block;
+margin-top:4px;
+color:var(--muted);
+font-size:10px;
+}
+
+.tableWrap{
+overflow-x:auto;
+border-radius:15px;
+}
+
+table{
+width:100%;
+min-width:1080px;
+border-collapse:collapse;
+}
+
+th,
+td{
+padding:12px;
+text-align:left;
+border-bottom:
+1px solid rgba(255,255,255,.1);
+}
+
+th{
+color:var(--cyan);
+font-size:11px;
+font-weight:900;
+background:#09284d;
+}
+
+tbody tr:nth-child(even){
+background:rgba(255,255,255,.025);
+}
+
+tbody tr:hover{
+background:rgba(81,221,255,.065);
+}
+
+.statusBadge{
+display:inline-flex;
+align-items:center;
+gap:6px;
+padding:6px 10px;
+font-size:10px;
+font-weight:900;
+border-radius:999px;
+}
+
+.statusOpen{
+color:var(--green);
+background:rgba(53,223,131,.13);
+}
+
+.statusLocked{
+color:var(--red);
+background:rgba(255,86,103,.13);
+}
+
+.statusWaiting{
+color:var(--gold);
+background:rgba(255,216,77,.13);
+}
+
+.rowActions{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+
+.smallBtn{
+padding:7px 10px;
+font-size:10px;
+font-weight:800;
+border:1px solid #3972a5;
+border-radius:8px;
+color:var(--white);
+background:#0b315e;
+}
+
+.smallBtn:hover{
+border-color:var(--gold);
+}
+
+.formGrid{
+display:grid;
+grid-template-columns:
+repeat(2,minmax(0,1fr));
+gap:15px;
+}
+
+.formGroup{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.formGroup.full{
+grid-column:1/-1;
+}
+
+label{
+color:#dcecff;
+font-size:11px;
+font-weight:800;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:12px 13px;
+color:var(--white);
+border:1px solid #3b73a6;
+border-radius:11px;
+outline:none;
+background:#071d3c;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:var(--cyan);
+box-shadow:
+0 0 0 4px rgba(81,221,255,.11);
+}
+
+textarea{
+min-height:110px;
+resize:vertical;
+}
+
+select option{
+background:#071d3c;
+}
+
+.switchRow{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:14px;
+border:1px solid #315f8b;
+border-radius:13px;
+background:#071d3c;
+}
+
+.switchText strong{
+display:block;
+font-size:12px;
+}
+
+.switchText span{
+display:block;
+margin-top:3px;
+color:var(--muted);
+font-size:10px;
+}
+
+.toggle{
+position:relative;
+width:52px;
+height:28px;
+flex-shrink:0;
+}
+
+.toggle input{
+position:absolute;
+opacity:0;
+pointer-events:none;
+}
+
+.toggleSlider{
+position:absolute;
+inset:0;
+border-radius:999px;
+background:#344c65;
+transition:.25s;
+}
+
+.toggleSlider::after{
+content:"";
+position:absolute;
+left:4px;
+top:4px;
+width:20px;
+height:20px;
+border-radius:50%;
+background:#fff;
+transition:.25s;
+}
+
+.toggle input:checked + .toggleSlider{
+background:var(--green);
+}
+
+.toggle input:checked + .toggleSlider::after{
+transform:translateX(24px);
+}
+
+.dangerZone{
+border-color:#8f3040;
+background:
+linear-gradient(
+180deg,
+rgba(86,19,32,.72),
+rgba(28,8,16,.94)
+);
+}
+
+.dangerItem{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:15px;
+margin-top:11px;
+border:1px solid rgba(255,86,103,.36);
+border-radius:13px;
+background:rgba(255,86,103,.07);
+}
+
+.dangerItem strong{
+display:block;
+font-size:12px;
+}
+
+.dangerItem span{
+display:block;
+margin-top:3px;
+color:#e6aeb6;
+font-size:10px;
+}
+
+.logList{
+display:flex;
+flex-direction:column;
+gap:9px;
+max-height:470px;
+overflow-y:auto;
+}
+
+.logItem{
+display:grid;
+grid-template-columns:120px 1fr auto;
+gap:12px;
+align-items:center;
+padding:12px;
+border:1px solid #315f8b;
+border-radius:12px;
+background:#071d3c;
+}
+
+.logTime{
+color:var(--cyan);
+font-size:10px;
+font-weight:800;
+}
+
+.logText{
+font-size:11px;
+font-weight:600;
+}
+
+.logType{
+padding:5px 8px;
+font-size:9px;
+font-weight:900;
+border-radius:999px;
+background:rgba(81,221,255,.12);
+color:var(--cyan);
+}
+
+.uploadBox{
+padding:28px;
+text-align:center;
+border:2px dashed #3b73a6;
+border-radius:16px;
+background:rgba(7,29,60,.6);
+}
+
+.uploadBox input{
+margin-top:13px;
+}
+
+.emptyState{
+padding:32px;
+text-align:center;
+color:var(--muted);
+font-weight:700;
+}
+
+.modalOverlay{
+position:fixed;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:rgba(0,5,14,.82);
+backdrop-filter:blur(7px);
+z-index:100;
+}
+
+.modalOverlay.show{
+display:flex;
+}
+
+.modal{
+width:min(520px,100%);
+padding:24px;
+border:1px solid #4a84b7;
+border-radius:20px;
+background:
+linear-gradient(
+180deg,
+#0d315d,
+#06172f
+);
+box-shadow:
+0 28px 70px rgba(0,0,0,.55);
+}
+
+.modalIcon{
+font-size:48px;
+text-align:center;
+}
+
+.modal h3{
+margin-top:9px;
+text-align:center;
+font-size:23px;
+font-weight:900;
+color:var(--gold);
+}
+
+.modal p{
+margin-top:8px;
+color:#dcecff;
+text-align:center;
+font-size:12px;
+}
+
+.modalActions{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+
+.toast{
+position:fixed;
+right:20px;
+bottom:20px;
+max-width:360px;
+padding:14px 17px;
+color:var(--white);
+font-size:12px;
+font-weight:700;
+border:1px solid #3972a5;
+border-radius:13px;
+background:#08294f;
+box-shadow:
+0 16px 40px rgba(0,0,0,.4);
+transform:translateY(120px);
+opacity:0;
+transition:.3s;
+z-index:200;
+}
+
+.toast.show{
+transform:translateY(0);
+opacity:1;
+}
+
+@media(max-width:1250px){
+
+.statGrid{
+grid-template-columns:
+repeat(3,1fr);
+}
+
+.quickGrid{
+grid-template-columns:
+repeat(2,1fr);
+}
+
+}
+
+@media(max-width:900px){
+
+.adminApp{
+grid-template-columns:1fr;
+}
+
+.sidebar{
+position:fixed;
+left:-300px;
+width:280px;
+transition:.28s;
+}
+
+.sidebar.open{
+left:0;
+}
+
+.menuBtn{
+display:flex;
+}
+
+.grid2,
+.grid3{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:620px){
+
+.mainArea{
+padding:10px;
+}
+
+.statGrid{
+grid-template-columns:
+repeat(2,1fr);
+}
+
+.quickGrid{
+grid-template-columns:1fr;
+}
+
+.formGrid{
+grid-template-columns:1fr;
+}
+
+.formGroup.full{
+grid-column:auto;
+}
+
+.topActions{
+width:100%;
+}
+
+.topActions>*{
+flex:1;
+}
+
+.dangerItem{
+align-items:flex-start;
+flex-direction:column;
+}
+
+.logItem{
+grid-template-columns:1fr;
+}
+
+}
+
+@media print{
+
+.sidebar,
+.topActions,
+.panelActions,
+.rowActions,
+.menuBtn,
+.dangerZone{
+display:none!important;
+}
+
+.adminApp{
+display:block;
+}
+
+.mainArea{
+padding:0;
+}
+
+body{
+color:#000;
+background:#fff;
+}
+
+.topbar,
+.hero,
+.panel,
+.statCard{
+color:#000;
+border-color:#999;
+background:#fff;
+box-shadow:none;
+}
+
+.pageTitle h2,
+.hero h3,
+.panelTitle,
+.statCard strong{
+color:#000;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="adminApp">
+
+<aside
+class="sidebar"
+id="sidebar"
+>
+
+<div class="logoBox">
+
+<div class="logoIcon">
+🛡️
+</div>
+
+<h1>
+SERVER HERO RACE™
+</h1>
+
+<p>
+MASTER CONTROL PANEL
+</p>
+
+<span class="adminBadge">
+ADMINISTRATOR
+</span>
+
+</div>
+
+<p class="navTitle">
+UTAMA
+</p>
+
+<nav class="navList">
+
+<button
+class="navBtn active"
+data-view="dashboardView"
+data-title="Dashboard Pentadbir"
+>
+
+<span class="navIcon">
+📊
+</span>
+
+Dashboard
+
+</button>
+
+<button
+class="navBtn"
+data-view="roomsView"
+data-title="Pengurusan Bilik"
+>
+
+<span class="navIcon">
+🏫
+</span>
+
+Pengurusan Bilik
+
+</button>
+
+<button
+class="navBtn"
+data-view="playersView"
+data-title="Pengurusan Pelajar"
+>
+
+<span class="navIcon">
+👥
+</span>
+
+Pelajar
+
+</button>
+
+<button
+class="navBtn"
+data-view="hallView"
+data-title="Hall of Fame"
+>
+
+<span class="navIcon">
+🏆
+</span>
+
+Hall of Fame
+
+</button>
+
+<p class="navTitle">
+DATA
+</p>
+
+<button
+class="navBtn"
+data-view="backupView"
+data-title="Backup dan Import Data"
+>
+
+<span class="navIcon">
+💾
+</span>
+
+Backup / Import
+
+</button>
+
+<button
+class="navBtn"
+data-view="logsView"
+data-title="Log Aktiviti"
+>
+
+<span class="navIcon">
+📋
+</span>
+
+Log Aktiviti
+
+</button>
+
+<p class="navTitle">
+SISTEM
+</p>
+
+<button
+class="navBtn"
+data-view="settingsView"
+data-title="Tetapan Permainan"
+>
+
+<span class="navIcon">
+⚙️
+</span>
+
+Tetapan Permainan
+
+</button>
+
+<button
+class="navBtn"
+data-view="securityView"
+data-title="Keselamatan Pentadbir"
+>
+
+<span class="navIcon">
+🔐
+</span>
+
+Keselamatan
+
+</button>
+
+<button
+class="navBtn"
+data-view="dangerView"
+data-title="Danger Zone"
+>
+
+<span class="navIcon">
+⚠️
+</span>
+
+Danger Zone
+
+</button>
+
+</nav>
+
+<div class="sidebarFooter">
+
+<p>
+STATUS FIREBASE
+</p>
+
+<strong id="firebaseStatus">
+🟡 Memeriksa sambungan...
+</strong>
+
+</div>
+
+</aside>
+
+<main class="mainArea">
+
+<header class="topbar">
+
+<div class="topbarLeft">
+
+<button
+id="menuBtn"
+class="menuBtn"
+type="button"
+>
+☰
+</button>
+
+<div class="pageTitle">
+
+<h2 id="currentPageTitle">
+Dashboard Pentadbir
+</h2>
+
+<p>
+SERVER HERO RACE™ V4 Administration
+</p>
+
+</div>
+
+</div>
+
+<div class="topActions">
+
+<a
+href="index.html"
+class="linkBtn"
+>
+🏎️ Permainan
+</a>
+
+<a
+href="teacher.html"
+class="linkBtn"
+>
+👨‍🏫 Panel Guru
+</a>
+
+<button
+id="globalRefreshBtn"
+type="button"
+class="btn"
+>
+🔄 Refresh
+</button>
+
+<button
+id="adminLogoutBtn"
+type="button"
+class="btn btnDanger"
+>
+🚪 Keluar
+</button>
+
+</div>
+
+</header>
+
+<!-- DASHBOARD -->
+
+<section
+id="dashboardView"
+class="view active"
+>
+
+<div class="hero">
+
+<div class="heroContent">
+
+<h3>
+🛡️ Admin Control Centre
+</h3>
+
+<p>
+Pantau bilik permainan, pelajar, keputusan perlumbaan, tetapan sistem dan keselamatan data SERVER HERO RACE™.
+</p>
+
+<div class="statusLine">
+
+<span class="statusDot"></span>
+
+<span id="systemStatusText">
+Sistem sedang dimuatkan...
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="statGrid">
+
+<article class="statCard">
+
+<div class="statIcon">
+🏫
+</div>
+
+<span>
+JUMLAH BILIK
+</span>
+
+<strong id="adminTotalRooms">
+0
+</strong>
+
+</article>
+
+<article class="statCard">
+
+<div class="statIcon">
+👥
+</div>
+
+<span>
+JUMLAH PELAJAR
+</span>
+
+<strong id="adminTotalPlayers">
+0
+</strong>
+
+</article>
+
+<article class="statCard">
+
+<div class="statIcon">
+🎮
+</div>
+
+<span>
+PERMAINAN
+</span>
+
+<strong id="adminTotalGames">
+0
+</strong>
+
+</article>
+
+<article class="statCard">
+
+<div class="statIcon">
+🏆
+</div>
+
+<span>
+PEMENANG
+</span>
+
+<strong id="adminTotalWinners">
+0
+</strong>
+
+</article>
+
+<article class="statCard">
+
+<div class="statIcon">
+⭐
+</div>
+
+<span>
+JUMLAH XP
+</span>
+
+<strong id="adminTotalXp">
+0
+</strong>
+
+</article>
+
+<article class="statCard">
+
+<div class="statIcon">
+📈
+</div>
+
+<span>
+PURATA MARKAH
+</span>
+
+<strong id="adminAverageScore">
+0
+</strong>
+
+</article>
+
+</div>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+⚡ Tindakan Pantas
+</h3>
+
+<p class="panelSubtitle">
+Akses pantas kepada fungsi pentadbiran utama.
+</p>
+
+</div>
+
+</div>
+
+<div class="quickGrid">
+
+<button
+type="button"
+class="quickCard"
+data-open-view="roomsView"
+>
+
+<div class="quickIcon">
+🏫
+</div>
+
+<strong>
+Urus Bilik
+</strong>
+
+<span>
+Lihat, buka, kunci atau padam bilik.
+</span>
+
+</button>
+
+<button
+type="button"
+class="quickCard"
+data-open-view="playersView"
+>
+
+<div class="quickIcon">
+👥
+</div>
+
+<strong>
+Urus Pelajar
+</strong>
+
+<span>
+Semak markah, XP dan kemajuan pelajar.
+</span>
+
+</button>
+
+<button
+type="button"
+class="quickCard"
+data-open-view="backupView"
+>
+
+<div class="quickIcon">
+💾
+</div>
+
+<strong>
+Backup Data
+</strong>
+
+<span>
+Eksport semua data dalam format JSON.
+</span>
+
+</button>
+
+<button
+type="button"
+class="quickCard"
+data-open-view="settingsView"
+>
+
+<div class="quickIcon">
+⚙️
+</div>
+
+<strong>
+Tetapan Sistem
+</strong>
+
+<span>
+Tetapkan masa, audio, bahasa dan soalan.
+</span>
+
+</button>
+
+</div>
+
+</section>
+
+<div class="grid2">
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+🏫 Bilik Terkini
+</h3>
+
+<p class="panelSubtitle">
+Senarai ringkas bilik permainan semasa.
+</p>
+
+</div>
+
+<button
+type="button"
+class="btn"
+data-open-view="roomsView"
+>
+Lihat Semua
+</button>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+BILIK
+</th>
+
+<th>
+PELAJAR
+</th>
+
+<th>
+STATUS
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="dashboardRoomsBody">
+
+<tr>
+
+<td colspan="3">
+
+<div class="emptyState">
+Memuatkan data...
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+🏆 Pemain Terbaik
+</h3>
+
+<p class="panelSubtitle">
+Ranking tertinggi berdasarkan markah.
+</p>
+
+</div>
+
+<a
+href="hall-of-fame.html"
+class="linkBtn"
+>
+Hall of Fame
+</a>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+PELAJAR
+</th>
+
+<th>
+MARKAH
+</th>
+
+<th>
+XP
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="dashboardPlayersBody">
+
+<tr>
+
+<td colspan="3">
+
+<div class="emptyState">
+Memuatkan data...
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- ROOMS -->
+
+<section
+id="roomsView"
+class="view"
+>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+🏫 Pengurusan Semua Bilik
+</h3>
+
+<p class="panelSubtitle">
+Pantau status bilik dan lakukan tindakan pentadbiran.
+</p>
+
+</div>
+
+<div class="panelActions">
+
+<input
+id="roomSearchInput"
+type="search"
+placeholder="Cari kod bilik..."
+>
+
+<button
+id="exportRoomsCsvBtn"
+type="button"
+class="btn"
+>
+📥 CSV
+</button>
+
+</div>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+KOD BILIK
+</th>
+
+<th>
+PENSYARAH
+</th>
+
+<th>
+PELAJAR
+</th>
+
+<th>
+SOALAN
+</th>
+
+<th>
+STATUS
+</th>
+
+<th>
+DICIPTA
+</th>
+
+<th>
+TINDAKAN
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="roomsTableBody">
+
+<tr>
+
+<td colspan="7">
+
+<div class="emptyState">
+Memuatkan bilik...
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</section>
+
+<!-- PLAYERS -->
+
+<section
+id="playersView"
+class="view"
+>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+👥 Pengurusan Pelajar
+</h3>
+
+<p class="panelSubtitle">
+Semak semua pemain daripada setiap bilik.
+</p>
+
+</div>
+
+<div class="panelActions">
+
+<input
+id="playerSearchInput"
+type="search"
+placeholder="Cari nama atau ID..."
+>
+
+<select id="playerRoomFilter">
+
+<option value="">
+Semua Bilik
+</option>
+
+</select>
+
+<button
+id="exportPlayersCsvBtn"
+type="button"
+class="btn"
+>
+📥 CSV
+</button>
+
+</div>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+PELAJAR
+</th>
+
+<th>
+BILIK
+</th>
+
+<th>
+MARKAH
+</th>
+
+<th>
+XP
+</th>
+
+<th>
+BETUL
+</th>
+
+<th>
+SALAH
+</th>
+
+<th>
+STATUS
+</th>
+
+<th>
+TINDAKAN
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="playersTableBody">
+
+<tr>
+
+<td colspan="8">
+
+<div class="emptyState">
+Memuatkan pelajar...
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</section>
+
+<!-- HALL OF FAME -->
+
+<section
+id="hallView"
+class="view"
+>
+
+<div class="grid3">
+
+<article class="statCard">
+
+<div class="statIcon">
+👑
+</div>
+
+<span>
+JUARA KESELURUHAN
+</span>
+
+<strong id="adminChampionName">
+-
+</strong>
+
+</article>
+
+<article class="statCard">
+
+<div class="statIcon">
+⚡
+</div>
+
+<span>
+PALING PANTAS
+</span>
+
+<strong id="adminFastestName">
+-
+</strong>
+
+</article>
+
+<article class="statCard">
+
+<div class="statIcon">
+🎖️
+</div>
+
+<span>
+BADGE TERTINGGI
+</span>
+
+<strong id="adminMostBadges">
+-
+</strong>
+
+</article>
+
+</div>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+🏆 Pengurusan Hall of Fame
+</h3>
+
+<p class="panelSubtitle">
+Semak ranking, eksport atau reset pencapaian.
+</p>
+
+</div>
+
+<div class="panelActions">
+
+<a
+href="hall-of-fame.html"
+class="linkBtn"
+>
+👁️ Buka Halaman
+</a>
+
+<button
+id="exportHallCsvBtn"
+type="button"
+class="btn"
+>
+📥 Export CSV
+</button>
+
+</div>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+RANK
+</th>
+
+<th>
+PELAJAR
+</th>
+
+<th>
+MARKAH
+</th>
+
+<th>
+XP
+</th>
+
+<th>
+MENANG
+</th>
+
+<th>
+BADGE
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="adminHallBody">
+
+<tr>
+
+<td colspan="6">
+
+<div class="emptyState">
+Memuatkan ranking...
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</section>
+
+<!-- BACKUP -->
+
+<section
+id="backupView"
+class="view"
+>
+
+<div class="grid2">
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+💾 Eksport dan Backup
+</h3>
+
+<p class="panelSubtitle">
+Simpan salinan semua data sebelum melakukan perubahan besar.
+</p>
+
+</div>
+
+</div>
+
+<div class="quickGrid">
+
+<button
+id="exportJsonBtn"
+type="button"
+class="quickCard"
+>
+
+<div class="quickIcon">
+💾
+</div>
+
+<strong>
+Backup JSON
+</strong>
+
+<span>
+Eksport semua bilik dan pemain.
+</span>
+
+</button>
+
+<button
+id="exportAllCsvBtn"
+type="button"
+class="quickCard"
+>
+
+<div class="quickIcon">
+📊
+</div>
+
+<strong>
+Export CSV
+</strong>
+
+<span>
+Eksport ringkasan data pelajar.
+</span>
+
+</button>
+
+<button
+id="printAdminBtn"
+type="button"
+class="quickCard"
+>
+
+<div class="quickIcon">
+🖨️
+</div>
+
+<strong>
+Cetak Laporan
+</strong>
+
+<span>
+Cetak ringkasan pentadbir.
+</span>
+
+</button>
+
+<button
+id="downloadSettingsBtn"
+type="button"
+class="quickCard"
+>
+
+<div class="quickIcon">
+⚙️
+</div>
+
+<strong>
+Eksport Tetapan
+</strong>
+
+<span>
+Simpan tetapan permainan.
+</span>
+
+</button>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+📤 Import Data
+</h3>
+
+<p class="panelSubtitle">
+Gunakan fail backup JSON SERVER HERO RACE™.
+</p>
+
+</div>
+
+</div>
+
+<div class="uploadBox">
+
+<div style="font-size:52px;">
+📁
+</div>
+
+<strong>
+Pilih fail backup JSON
+</strong>
+
+<p style="margin-top:6px;color:var(--muted);font-size:11px;">
+Data import hanya akan digunakan selepas pengesahan.
+</p>
+
+<input
+id="importFileInput"
+type="file"
+accept=".json,application/json"
+>
+
+<button
+id="importDataBtn"
+type="button"
+class="btn btnSuccess"
+style="margin-top:13px;"
+>
+📤 Import Data
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- LOGS -->
+
+<section
+id="logsView"
+class="view"
+>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+📋 Log Aktiviti Pentadbir
+</h3>
+
+<p class="panelSubtitle">
+Rekod tindakan yang dilakukan dalam panel admin.
+</p>
+
+</div>
+
+<div class="panelActions">
+
+<button
+id="exportLogsBtn"
+type="button"
+class="btn"
+>
+📥 Export
+</button>
+
+<button
+id="clearLogsBtn"
+type="button"
+class="btn btnDanger"
+>
+🗑️ Padam Log
+</button>
+
+</div>
+
+</div>
+
+<div
+id="activityLogList"
+class="logList"
+>
+
+<div class="emptyState">
+Belum ada aktiviti direkodkan.
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+<!-- SETTINGS -->
+
+<section
+id="settingsView"
+class="view"
+>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+⚙️ Tetapan Permainan
+</h3>
+
+<p class="panelSubtitle">
+Tetapan ini disimpan dalam Firebase dan localStorage.
+</p>
+
+</div>
+
+<button
+id="saveSettingsBtn"
+type="button"
+class="btn btnSuccess"
+>
+💾 Simpan Tetapan
+</button>
+
+</div>
+
+<div class="formGrid">
+
+<div class="formGroup">
+
+<label for="settingGameTitle">
+Nama Permainan
+</label>
+
+<input
+id="settingGameTitle"
+type="text"
+value="SERVER HERO RACE™"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label for="settingLanguage">
+Bahasa Lalai
+</label>
+
+<select id="settingLanguage">
+
+<option value="ms">
+Bahasa Melayu
+</option>
+
+<option value="en">
+English
+</option>
+
+</select>
+
+</div>
+
+<div class="formGroup">
+
+<label for="settingQuestionCount">
+Jumlah Soalan
+</label>
+
+<input
+id="settingQuestionCount"
+type="number"
+min="1"
+max="100"
+value="20"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label for="settingRaceTime">
+Masa Perlumbaan (minit)
+</label>
+
+<input
+id="settingRaceTime"
+type="number"
+min="1"
+max="120"
+value="30"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label for="settingPassMark">
+Markah Lulus (%)
+</label>
+
+<input
+id="settingPassMark"
+type="number"
+min="1"
+max="100"
+value="60"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label for="settingMaxPlayers">
+Maksimum Pemain Setiap Bilik
+</label>
+
+<input
+id="settingMaxPlayers"
+type="number"
+min="1"
+max="200"
+value="50"
+>
+
+</div>
+
+<div class="formGroup full">
+
+<div class="switchRow">
+
+<div class="switchText">
+
+<strong>
+Benarkan Audio
+</strong>
+
+<span>
+Muzik, kesan bunyi dan bunyi kemenangan.
+</span>
+
+</div>
+
+<label class="toggle">
+
+<input
+id="settingAudio"
+type="checkbox"
+checked
+>
+
+<span class="toggleSlider"></span>
+
+</label>
+
+</div>
+
+</div>
+
+<div class="formGroup full">
+
+<div class="switchRow">
+
+<div class="switchText">
+
+<strong>
+Permainan Dibuka
+</strong>
+
+<span>
+Jika ditutup, pelajar tidak boleh menyertai permainan baharu.
+</span>
+
+</div>
+
+<label class="toggle">
+
+<input
+id="settingGameOpen"
+type="checkbox"
+checked
+>
+
+<span class="toggleSlider"></span>
+
+</label>
+
+</div>
+
+</div>
+
+<div class="formGroup full">
+
+<div class="switchRow">
+
+<div class="switchText">
+
+<strong>
+Paparkan Jawapan Betul
+</strong>
+
+<span>
+Jawapan betul ditunjukkan selepas pelajar menjawab.
+</span>
+
+</div>
+
+<label class="toggle">
+
+<input
+id="settingShowAnswers"
+type="checkbox"
+checked
+>
+
+<span class="toggleSlider"></span>
+
+</label>
+
+</div>
+
+</div>
+
+<div class="formGroup full">
+
+<label for="settingAnnouncement">
+Pengumuman Sistem
+</label>
+
+<textarea
+id="settingAnnouncement"
+placeholder="Masukkan pengumuman untuk semua pemain..."
+></textarea>
+
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+<!-- SECURITY -->
+
+<section
+id="securityView"
+class="view"
+>
+
+<div class="grid2">
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+🔐 PIN Pentadbir
+</h3>
+
+<p class="panelSubtitle">
+Tukar PIN akses admin.
+</p>
+
+</div>
+
+</div>
+
+<div class="formGrid">
+
+<div class="formGroup full">
+
+<label for="currentAdminPin">
+PIN Semasa
+</label>
+
+<input
+id="currentAdminPin"
+type="password"
+inputmode="numeric"
+maxlength="12"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label for="newAdminPin">
+PIN Baharu
+</label>
+
+<input
+id="newAdminPin"
+type="password"
+inputmode="numeric"
+maxlength="12"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label for="confirmAdminPin">
+Sahkan PIN Baharu
+</label>
+
+<input
+id="confirmAdminPin"
+type="password"
+inputmode="numeric"
+maxlength="12"
+>
+
+</div>
+
+<div class="formGroup full">
+
+<button
+id="changeAdminPinBtn"
+type="button"
+class="btn btnSuccess"
+>
+🔐 Tukar PIN
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+🛡️ Status Keselamatan
+</h3>
+
+<p class="panelSubtitle">
+Maklumat sesi pentadbir semasa.
+</p>
+
+</div>
+
+</div>
+
+<div class="switchRow">
+
+<div class="switchText">
+
+<strong>
+Sesi Admin
+</strong>
+
+<span id="adminSessionStatus">
+Aktif
+</span>
+
+</div>
+
+<span class="statusBadge statusOpen">
+● SELAMAT
+</span>
+
+</div>
+
+<div
+class="switchRow"
+style="margin-top:12px;"
+>
+
+<div class="switchText">
+
+<strong>
+Percubaan Login Terakhir
+</strong>
+
+<span id="lastAdminLogin">
+-
+</span>
+
+</div>
+
+</div>
+
+<div
+class="switchRow"
+style="margin-top:12px;"
+>
+
+<div class="switchText">
+
+<strong>
+Auto Logout
+</strong>
+
+<span>
+Sesi tamat selepas 60 minit tidak aktif.
+</span>
+
+</div>
+
+<label class="toggle">
+
+<input
+id="autoLogoutToggle"
+type="checkbox"
+checked
+>
+
+<span class="toggleSlider"></span>
+
+</label>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- DANGER ZONE -->
+
+<section
+id="dangerView"
+class="view"
+>
+
+<section class="panel dangerZone">
+
+<div class="panelHeader">
+
+<div>
+
+<h3 class="panelTitle">
+⚠️ DANGER ZONE
+</h3>
+
+<p class="panelSubtitle">
+Tindakan di bawah boleh memadam data secara kekal.
+</p>
+
+</div>
+
+</div>
+
+<div class="dangerItem">
+
+<div>
+
+<strong>
+Reset Semua Bilik
+</strong>
+
+<span>
+Kosongkan semua pemain dan keputusan tetapi kekalkan bilik.
+</span>
+
+</div>
+
+<button
+id="resetAllRoomsBtn"
+type="button"
+class="btn btnDanger"
+>
+Reset Bilik
+</button>
+
+</div>
+
+<div class="dangerItem">
+
+<div>
+
+<strong>
+Padam Semua Bilik
+</strong>
+
+<span>
+Padam semua data bilik, pemain dan keputusan.
+</span>
+
+</div>
+
+<button
+id="deleteAllRoomsBtn"
+type="button"
+class="btn btnDanger"
+>
+Padam Semua
+</button>
+
+</div>
+
+<div class="dangerItem">
+
+<div>
+
+<strong>
+Reset Hall of Fame
+</strong>
+
+<span>
+Padam rekod pencapaian dan ranking keseluruhan.
+</span>
+
+</div>
+
+<button
+id="resetHallOfFameBtn"
+type="button"
+class="btn btnDanger"
+>
+Reset Ranking
+</button>
+
+</div>
+
+<div class="dangerItem">
+
+<div>
+
+<strong>
+Reset Tetapan Sistem
+</strong>
+
+<span>
+Kembalikan semua tetapan kepada tetapan lalai.
+</span>
+
+</div>
+
+<button
+id="resetSettingsBtn"
+type="button"
+class="btn btnDanger"
+>
+Reset Tetapan
+</button>
+
+</div>
+
+<div class="dangerItem">
+
+<div>
+
+<strong>
+Factory Reset
+</strong>
+
+<span>
+Padam semua data SERVER HERO RACE™. Backup dahulu.
+</span>
+
+</div>
+
+<button
+id="factoryResetBtn"
+type="button"
+class="btn btnDanger"
+>
+Factory Reset
+</button>
+
+</div>
+
+</section>
+
+</section>
+
+</main>
+
+</div>
+
+<div
+id="confirmModal"
+class="modalOverlay"
+>
+
+<div class="modal">
+
+<div
+id="confirmModalIcon"
+class="modalIcon"
+>
+⚠️
+</div>
+
+<h3 id="confirmModalTitle">
+Sahkan Tindakan
+</h3>
+
+<p id="confirmModalMessage">
+Adakah anda pasti mahu meneruskan?
+</p>
+
+<div class="modalActions">
+
+<button
+id="confirmModalCancel"
+type="button"
+class="btn"
+>
+Batal
+</button>
+
+<button
+id="confirmModalProceed"
+type="button"
+class="btn btnDanger"
+>
+Ya, Teruskan
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+id="toast"
+class="toast"
+>
+Tindakan berjaya.
+</div>
+
+  <script src="firebase-config.js"></script>
+
+<script>
+
+const ADMIN = {
+
+rooms: {},
+
+players: [],
+
+settings: {},
+
+logs: [],
+
+firebase: null,
+
+pendingAction: null,
+
+defaultPin: "0505",
+
+
+async init() {
+
+this.bindNavigation();
+
+this.bindButtons();
+
+this.checkAdminAccess();
+
+this.loadLogs();
+
+this.loadLocalSettings();
+
+await this.connectFirebase();
+
+await this.refreshAllData();
+
+this.renderLogs();
+
+this.updateSecurityInfo();
+
+},
+
+
+/* =========================
+   ADMIN ACCESS
+========================= */
+
+checkAdminAccess() {
+
+const session =
+
+sessionStorage.getItem(
+
+"serverHeroAdminSession"
+
+);
+
+
+if (session === "active") {
+
+return;
+
+}
+
+
+const storedPin =
+
+localStorage.getItem(
+
+"serverHeroAdminPin"
+
+) || this.defaultPin;
+
+
+const enteredPin =
+
+window.prompt(
+
+"Masukkan PIN Pentadbir SERVER HERO RACE™"
+
+);
+
+
+if (enteredPin === null) {
+
+window.location.href =
+
+"teacher.html";
+
+return;
+
+}
+
+
+if (
+
+String(enteredPin).trim() !==
+
+String(storedPin).trim()
+
+) {
+
+alert("PIN pentadbir tidak betul.");
+
+window.location.href =
+
+"teacher.html";
+
+return;
+
+}
+
+
+sessionStorage.setItem(
+
+"serverHeroAdminSession",
+
+"active"
+
+);
+
+
+localStorage.setItem(
+
+"serverHeroLastAdminLogin",
+
+new Date().toISOString()
+
+);
+
+
+this.addLog(
+
+"Login pentadbir berjaya.",
+
+"SECURITY"
+
+);
+
+},
+
+
+logout() {
+
+sessionStorage.removeItem(
+
+"serverHeroAdminSession"
+
+);
+
+
+this.addLog(
+
+"Pentadbir log keluar.",
+
+"SECURITY"
+
+);
+
+
+window.location.href =
+
+"teacher.html";
+
+},
+
+
+changeAdminPin() {
+
+const storedPin =
+
+localStorage.getItem(
+
+"serverHeroAdminPin"
+
+) || this.defaultPin;
+
+
+const current =
+
+currentAdminPin.value.trim();
+
+
+const next =
+
+newAdminPin.value.trim();
+
+
+const confirmPin =
+
+confirmAdminPin.value.trim();
+
+
+if (current !== storedPin) {
+
+this.toast(
+
+"PIN semasa tidak betul."
+
+);
+
+return;
+
+}
+
+
+if (
+
+next.length < 4 ||
+
+next.length > 12
+
+) {
+
+this.toast(
+
+"PIN baharu mesti mempunyai 4 hingga 12 aksara."
+
+);
+
+return;
+
+}
+
+
+if (next !== confirmPin) {
+
+this.toast(
+
+"Pengesahan PIN baharu tidak sepadan."
+
+);
+
+return;
+
+}
+
+
+localStorage.setItem(
+
+"serverHeroAdminPin",
+
+next
+
+);
+
+
+currentAdminPin.value = "";
+
+newAdminPin.value = "";
+
+confirmAdminPin.value = "";
+
+
+this.addLog(
+
+"PIN pentadbir telah ditukar.",
+
+"SECURITY"
+
+);
+
+
+this.toast(
+
+"PIN pentadbir berjaya ditukar."
+
+);
+
+},
+
+
+updateSecurityInfo() {
+
+const lastLogin =
+
+localStorage.getItem(
+
+"serverHeroLastAdminLogin"
+
+);
+
+
+lastAdminLogin.textContent =
+
+lastLogin
+
+? new Date(lastLogin)
+
+.toLocaleString("ms-MY")
+
+: "-";
+
+
+adminSessionStatus.textContent =
+
+sessionStorage.getItem(
+
+"serverHeroAdminSession"
+
+) === "active"
+
+? "Aktif"
+
+: "Tidak aktif";
+
+},
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+bindNavigation() {
+
+document.querySelectorAll(
+
+".navBtn"
+
+).forEach(
+
+button => {
+
+button.addEventListener(
+
+"click",
+
+() => {
+
+this.openView(
+
+button.dataset.view,
+
+button.dataset.title
+
+);
+
+}
+
+);
+
+}
+
+);
+
+
+document.querySelectorAll(
+
+"[data-open-view]"
+
+).forEach(
+
+button => {
+
+button.addEventListener(
+
+"click",
+
+() => {
+
+const viewId =
+
+button.dataset.openView;
+
+
+const navButton =
+
+document.querySelector(
+
+`.navBtn[data-view="${viewId}"]`
+
+);
+
+
+this.openView(
+
+viewId,
+
+navButton?.dataset.title ||
+
+"Admin Control Panel"
+
+);
+
+}
+
+);
+
+}
+
+);
+
+
+menuBtn.onclick =
+
+() => sidebar.classList.toggle("open");
+
+},
+
+
+openView(viewId, title) {
+
+document.querySelectorAll(
+
+".view"
+
+).forEach(
+
+view => view.classList.remove("active")
+
+);
+
+
+document.querySelectorAll(
+
+".navBtn"
+
+).forEach(
+
+button => button.classList.remove("active")
+
+);
+
+
+document.getElementById(
+
+viewId
+
+)?.classList.add("active");
+
+
+document.querySelector(
+
+`.navBtn[data-view="${viewId}"]`
+
+)?.classList.add("active");
+
+
+currentPageTitle.textContent =
+
+title;
+
+
+sidebar.classList.remove("open");
+
+
+window.scrollTo({
+
+top: 0,
+
+behavior: "smooth"
+
+});
+
+},
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+bindButtons() {
+
+globalRefreshBtn.onclick =
+
+() => this.refreshAllData();
+
+
+adminLogoutBtn.onclick =
+
+() => this.logout();
+
+
+roomSearchInput.addEventListener(
+
+"input",
+
+() => this.renderRooms()
+
+);
+
+
+playerSearchInput.addEventListener(
+
+"input",
+
+() => this.renderPlayers()
+
+);
+
+
+playerRoomFilter.addEventListener(
+
+"change",
+
+() => this.renderPlayers()
+
+);
+
+
+exportRoomsCsvBtn.onclick =
+
+() => this.exportRoomsCsv();
+
+
+exportPlayersCsvBtn.onclick =
+
+() => this.exportPlayersCsv();
+
+
+exportHallCsvBtn.onclick =
+
+() => this.exportPlayersCsv();
+
+
+exportJsonBtn.onclick =
+
+() => this.exportJsonBackup();
+
+
+exportAllCsvBtn.onclick =
+
+() => this.exportPlayersCsv();
+
+
+printAdminBtn.onclick =
+
+() => window.print();
+
+
+downloadSettingsBtn.onclick =
+
+() => this.downloadSettings();
+
+
+importDataBtn.onclick =
+
+() => this.importJsonData();
+
+
+exportLogsBtn.onclick =
+
+() => this.exportLogs();
+
+
+clearLogsBtn.onclick =
+
+() => this.confirm(
+
+"Padam Semua Log",
+
+"Semua log aktiviti pentadbir akan dipadam.",
+
+() => {
+
+this.logs = [];
+
+localStorage.removeItem(
+
+"serverHeroAdminLogs"
+
+);
+
+this.renderLogs();
+
+this.toast("Log telah dipadam.");
+
+}
+
+);
+
+
+saveSettingsBtn.onclick =
+
+() => this.saveSettings();
+
+
+changeAdminPinBtn.onclick =
+
+() => this.changeAdminPin();
+
+
+resetAllRoomsBtn.onclick =
+
+() => this.confirm(
+
+"Reset Semua Bilik",
+
+"Semua pemain dan keputusan dalam setiap bilik akan dikosongkan.",
+
+() => this.resetAllRooms()
+
+);
+
+
+deleteAllRoomsBtn.onclick =
+
+() => this.confirm(
+
+"Padam Semua Bilik",
+
+"Semua bilik, pemain dan keputusan akan dipadam secara kekal.",
+
+() => this.deleteAllRooms()
+
+);
+
+
+resetHallOfFameBtn.onclick =
+
+() => this.confirm(
+
+"Reset Hall of Fame",
+
+"Semua rekod Hall of Fame akan dipadam.",
+
+() => this.resetHallOfFame()
+
+);
+
+
+resetSettingsBtn.onclick =
+
+() => this.confirm(
+
+"Reset Tetapan",
+
+"Semua tetapan akan dikembalikan kepada nilai asal.",
+
+() => this.resetSettings()
+
+);
+
+
+factoryResetBtn.onclick =
+
+() => this.confirm(
+
+"Factory Reset",
+
+"SEMUA data SERVER HERO RACE™ akan dipadam. Tindakan ini tidak boleh dibatalkan.",
+
+() => this.factoryReset()
+
+);
+
+
+confirmModalCancel.onclick =
+
+() => this.closeConfirm();
+
+
+confirmModalProceed.onclick =
+
+async () => {
+
+const action =
+
+this.pendingAction;
+
+
+this.closeConfirm();
+
+
+if (action) {
+
+await action();
+
+}
+
+};
+
+},
+
+
+confirm(title, message, action) {
+
+confirmModalTitle.textContent =
+
+title;
+
+
+confirmModalMessage.textContent =
+
+message;
+
+
+this.pendingAction =
+
+action;
+
+
+confirmModal.classList.add("show");
+
+},
+
+
+closeConfirm() {
+
+confirmModal.classList.remove("show");
+
+this.pendingAction = null;
+
+},
+
+
+/* =========================
+   FIREBASE
+========================= */
+
+async connectFirebase() {
+
+try {
+
+if (
+
+window.SERVER_HERO_FIREBASE_READY
+
+) {
+
+this.firebase =
+
+await window.SERVER_HERO_FIREBASE_READY;
+
+}
+
+
+if (this.firebase) {
+
+firebaseStatus.textContent =
+
+"🟢 Firebase bersambung";
+
+
+systemStatusText.textContent =
+
+"Sistem aktif dan Firebase bersambung.";
+
+
+return;
+
+}
+
+} catch (error) {
+
+console.error(error);
+
+}
+
+
+firebaseStatus.textContent =
+
+"🟠 Mod tempatan";
+
+
+systemStatusText.textContent =
+
+"Firebase tidak tersedia. Sistem menggunakan data tempatan.";
+
+},
+
+
+async refreshAllData() {
+
+globalRefreshBtn.disabled = true;
+
+globalRefreshBtn.textContent =
+
+"⏳ Memuatkan";
+
+
+try {
+
+if (this.firebase) {
+
+const snapshot =
+
+await this.firebase.get(
+
+this.firebase.ref(
+
+this.firebase.database,
+
+"rooms"
+
+)
+
+);
+
+
+this.rooms =
+
+snapshot.val() || {};
+
+} else {
+
+this.rooms =
+
+this.loadLocalRooms();
+
+}
+
+
+this.buildPlayers();
+
+this.renderAll();
+
+this.addLog(
+
+"Data sistem dimuat semula.",
+
+"DATA"
+
+);
+
+} catch (error) {
+
+console.error(error);
+
+this.toast(
+
+"Data tidak dapat dimuatkan."
+
+);
+
+} finally {
+
+globalRefreshBtn.disabled = false;
+
+globalRefreshBtn.textContent =
+
+"🔄 Refresh";
+
+}
+
+},
+
+
+loadLocalRooms() {
+
+const keys = [
+
+"serverHeroRooms",
+
+"rooms",
+
+"serverHeroRaceRooms"
+
+];
+
+
+for (const key of keys) {
+
+try {
+
+const value =
+
+localStorage.getItem(key);
+
+
+if (value) {
+
+const parsed = JSON.parse(value);
+
+
+if (
+
+parsed &&
+
+typeof parsed === "object"
+
+) {
+
+return parsed;
+
+}
+
+}
+
+} catch (error) {
+
+console.warn(error);
+
+}
+
+}
+
+
+return {};
+
+},
+
+
+async saveRooms() {
+
+if (this.firebase) {
+
+await this.firebase.set(
+
+this.firebase.ref(
+
+this.firebase.database,
+
+"rooms"
+
+),
+
+this.rooms
+
+);
+
+} else {
+
+localStorage.setItem(
+
+"serverHeroRooms",
+
+JSON.stringify(this.rooms)
+
+);
+
+}
+
+},
+
+
+/* =========================
+   DATA PROCESSING
+========================= */
+
+buildPlayers() {
+
+this.players = [];
+
+
+Object.entries(
+
+this.rooms
+
+).forEach(
+
+([roomCode, room]) => {
+
+Object.entries(
+
+room.players || {}
+
+).forEach(
+
+([playerKey, player]) => {
+
+this.players.push(
+
+this.normalisePlayer(
+
+player,
+
+roomCode,
+
+playerKey
+
+)
+
+);
+
+}
+
+);
+
+}
+
+);
+
+
+this.players.sort(
+
+(a, b) =>
+
+b.score - a.score ||
+
+b.xp - a.xp
+
+);
+
+},
+
+
+normalisePlayer(
+
+player,
+
+roomCode,
+
+playerKey
+
+) {
+
+return {
+
+playerKey,
+
+roomCode,
+
+name:
+
+player.name ||
+
+player.studentName ||
+
+player.playerName ||
+
+"Pelajar",
+
+id:
+
+player.id ||
+
+player.studentId ||
+
+player.playerId ||
+
+playerKey ||
+
+"-",
+
+avatar:
+
+player.avatar ||
+
+"👤",
+
+score:
+
+Number(
+
+player.score ||
+
+player.totalScore
+
+) || 0,
+
+xp:
+
+Number(
+
+player.xp ||
+
+player.totalXP
+
+) || 0,
+
+correctCount:
+
+Number(
+
+player.correctCount ||
+
+player.correctAnswers
+
+) || 0,
+
+wrongCount:
+
+Number(
+
+player.wrongCount ||
+
+player.wrongAnswers
+
+) || 0,
+
+fastCount:
+
+Number(
+
+player.fastCount ||
+
+player.fastAnswers
+
+) || 0,
+
+fastestAnswerMs:
+
+Number(
+
+player.fastestAnswerMs ||
+
+player.lastAnswerMs ||
+
+player.answerTime
+
+) || 999999,
+
+rank:
+
+Number(
+
+player.rank ||
+
+player.position
+
+) || 0,
+
+badges:
+
+Array.isArray(player.badges)
+
+? player.badges
+
+: player.badges &&
+
+typeof player.badges === "object"
+
+? Object.values(player.badges)
+
+: [],
+
+status:
+
+player.finished ||
+
+player.completed ||
+
+player.status === "finished"
+
+? "SELESAI"
+
+: "AKTIF"
+
+};
+
+},
+
+
+roomStatus(room) {
+
+if (
+
+room.locked === true ||
+
+room.status === "locked"
+
+) {
+
+return "LOCKED";
+
+}
+
+
+if (
+
+room.started === true ||
+
+room.status === "playing"
+
+) {
+
+return "PLAYING";
+
+}
+
+
+return "WAITING";
+
+},
+
+
+renderAll() {
+
+this.renderDashboard();
+
+this.renderRooms();
+
+this.renderPlayers();
+
+this.renderHallOfFame();
+
+this.populatePlayerRoomFilter();
+
+this.loadSettingsIntoForm();
+
+},
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+renderDashboard() {
+
+const roomList =
+
+Object.entries(this.rooms);
+
+
+const totalRooms =
+
+roomList.length;
+
+
+const totalPlayers =
+
+this.players.length;
+
+
+const totalGames =
+
+roomList.filter(
+
+([, room]) =>
+
+room.started ||
+
+room.finished ||
+
+room.status === "finished"
+
+).length;
+
+
+const winners =
+
+this.players.filter(
+
+player =>
+
+player.rank === 1
+
+).length;
+
+
+const totalXp =
+
+this.players.reduce(
+
+(sum, player) =>
+
+sum + player.xp,
+
+0
+
+);
+
+
+const totalScore =
+
+this.players.reduce(
+
+(sum, player) =>
+
+sum + player.score,
+
+0
+
+);
+
+
+adminTotalRooms.textContent =
+
+totalRooms;
+
+
+adminTotalPlayers.textContent =
+
+totalPlayers;
+
+
+adminTotalGames.textContent =
+
+totalGames;
+
+
+adminTotalWinners.textContent =
+
+winners;
+
+
+adminTotalXp.textContent =
+
+totalXp.toLocaleString();
+
+
+adminAverageScore.textContent =
+
+totalPlayers
+
+? Math.round(
+
+totalScore / totalPlayers
+
+).toLocaleString()
+
+: "0";
+
+
+dashboardRoomsBody.innerHTML =
+
+roomList.length
+
+? roomList
+
+.slice(0, 5)
+
+.map(
+
+([roomCode, room]) => `
+
+<tr>
+
+<td>
+
+<strong>
+
+${this.escapeHtml(roomCode)}
+
+</strong>
+
+</td>
+
+<td>
+
+${
+
+Object.keys(
+
+room.players || {}
+
+).length
+
+}
+
+</td>
+
+<td>
+
+${this.statusBadge(
+
+this.roomStatus(room)
+
+)}
+
+</td>
+
+</tr>
+
+`
+
+).join("")
+
+: this.emptyRow(
+
+3,
+
+"Tiada bilik ditemui."
+
+);
+
+
+dashboardPlayersBody.innerHTML =
+
+this.players.length
+
+? this.players
+
+.slice(0, 5)
+
+.map(
+
+player => `
+
+<tr>
+
+<td>
+
+${this.escapeHtml(player.avatar)}
+
+${this.escapeHtml(player.name)}
+
+</td>
+
+<td class="scoreText">
+
+${player.score.toLocaleString()}
+
+</td>
+
+<td>
+
+${player.xp.toLocaleString()}
+
+</td>
+
+</tr>
+
+`
+
+).join("")
+
+: this.emptyRow(
+
+3,
+
+"Tiada pemain ditemui."
+
+);
+
+},
+
+
+/* =========================
+   ROOMS
+========================= */
+
+renderRooms() {
+
+const query =
+
+roomSearchInput.value
+
+.trim()
+
+.toLowerCase();
+
+
+const roomEntries =
+
+Object.entries(this.rooms)
+
+.filter(
+
+([roomCode]) =>
+
+roomCode.toLowerCase()
+
+.includes(query)
+
+);
+
+
+roomsTableBody.innerHTML =
+
+roomEntries.length
+
+? roomEntries.map(
+
+([roomCode, room]) => {
+
+const status =
+
+this.roomStatus(room);
+
+
+const playerCount =
+
+Object.keys(
+
+room.players || {}
+
+).length;
+
+
+return `
+
+<tr>
+
+<td>
+
+<strong>
+
+${this.escapeHtml(roomCode)}
+
+</strong>
+
+</td>
+
+<td>
+
+${this.escapeHtml(
+
+room.teacherName ||
+
+room.teacher ||
+
+room.lecturer ||
+
+"-"
+
+)}
+
+</td>
+
+<td>
+
+${playerCount}
+
+</td>
+
+<td>
+
+${
+
+Number(
+
+room.questionCount ||
+
+room.totalQuestions ||
+
+room.settings?.questionCount
+
+) || "-"
+
+}
+
+</td>
+
+<td>
+
+${this.statusBadge(status)}
+
+</td>
+
+<td>
+
+${this.formatDate(
+
+room.createdAt ||
+
+room.created
+
+)}
+
+</td>
+
+<td>
+
+<div class="rowActions">
+
+<button
+class="smallBtn"
+onclick="ADMIN.toggleRoomLock('${this.escapeAttribute(roomCode)}')"
+>
+
+${status === "LOCKED"
+
+? "🔓 Buka"
+
+: "🔒 Kunci"}
+
+</button>
+
+<button
+class="smallBtn"
+onclick="ADMIN.resetRoom('${this.escapeAttribute(roomCode)}')"
+>
+♻️ Reset
+</button>
+
+<button
+class="smallBtn"
+onclick="ADMIN.deleteRoom('${this.escapeAttribute(roomCode)}')"
+>
+🗑️ Padam
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+).join("")
+
+: this.emptyRow(
+
+7,
+
+"Tiada bilik ditemui."
+
+);
+
+},
+
+
+async toggleRoomLock(roomCode) {
+
+const room =
+
+this.rooms[roomCode];
+
+
+if (!room) {
+
+return;
+
+}
+
+
+room.locked =
+
+!Boolean(room.locked);
+
+
+room.status =
+
+room.locked
+
+? "locked"
+
+: "waiting";
+
+
+await this.saveRooms();
+
+
+this.addLog(
+
+`${room.locked
+
+? "Bilik dikunci"
+
+: "Bilik dibuka"}: ${roomCode}`,
+
+"ROOM"
+
+);
+
+
+await this.refreshAllData();
+
+},
+
+
+resetRoom(roomCode) {
+
+this.confirm(
+
+"Reset Bilik",
+
+`Semua pemain dan keputusan dalam bilik ${roomCode} akan dikosongkan.`,
+
+async () => {
+
+if (!this.rooms[roomCode]) {
+
+return;
+
+}
+
+
+this.rooms[roomCode].players = {};
+
+this.rooms[roomCode].started = false;
+
+this.rooms[roomCode].finished = false;
+
+this.rooms[roomCode].status = "waiting";
+
+
+await this.saveRooms();
+
+
+this.addLog(
+
+`Bilik ${roomCode} telah direset.`,
+
+"ROOM"
+
+);
+
+
+this.toast(
+
+`Bilik ${roomCode} berjaya direset.`
+
+);
+
+
+await this.refreshAllData();
+
+}
+
+);
+
+},
+
+
+deleteRoom(roomCode) {
+
+this.confirm(
+
+"Padam Bilik",
+
+`Bilik ${roomCode} dan semua datanya akan dipadam.`,
+
+async () => {
+
+delete this.rooms[roomCode];
+
+
+await this.saveRooms();
+
+
+this.addLog(
+
+`Bilik ${roomCode} telah dipadam.`,
+
+"ROOM"
+
+);
+
+
+this.toast(
+
+`Bilik ${roomCode} berjaya dipadam.`
+
+);
+
+
+await this.refreshAllData();
+
+}
+
+);
+
+},
+
+
+async resetAllRooms() {
+
+Object.values(
+
+this.rooms
+
+).forEach(
+
+room => {
+
+room.players = {};
+
+room.started = false;
+
+room.finished = false;
+
+room.status = "waiting";
+
+}
+
+);
+
+
+await this.saveRooms();
+
+
+this.addLog(
+
+"Semua bilik telah direset.",
+
+"DANGER"
+
+);
+
+
+this.toast(
+
+"Semua bilik berjaya direset."
+
+);
+
+
+await this.refreshAllData();
+
+},
+
+
+async deleteAllRooms() {
+
+this.rooms = {};
+
+
+await this.saveRooms();
+
+
+this.addLog(
+
+"Semua bilik telah dipadam.",
+
+"DANGER"
+
+);
+
+
+this.toast(
+
+"Semua bilik berjaya dipadam."
+
+);
+
+
+await this.refreshAllData();
+
+},
+
+
+/* =========================
+   PLAYERS
+========================= */
+
+populatePlayerRoomFilter() {
+
+const current =
+
+playerRoomFilter.value;
+
+
+playerRoomFilter.innerHTML = `
+
+<option value="">
+
+Semua Bilik
+
+</option>
+
+${
+
+Object.keys(this.rooms)
+
+.sort()
+
+.map(
+
+roomCode => `
+
+<option value="${this.escapeAttribute(roomCode)}">
+
+${this.escapeHtml(roomCode)}
+
+</option>
+
+`
+
+).join("")
+
+}
+
+`;
+
+
+if (this.rooms[current]) {
+
+playerRoomFilter.value = current;
+
+}
+
+},
+
+
+renderPlayers() {
+
+const query =
+
+playerSearchInput.value
+
+.trim()
+
+.toLowerCase();
+
+
+const selectedRoom =
+
+playerRoomFilter.value;
+
+
+const filtered =
+
+this.players.filter(
+
+player => {
+
+const searchMatch =
+
+!query ||
+
+player.name
+
+.toLowerCase()
+
+.includes(query) ||
+
+player.id
+
+.toLowerCase()
+
+.includes(query);
+
+
+const roomMatch =
+
+!selectedRoom ||
+
+player.roomCode === selectedRoom;
+
+
+return searchMatch && roomMatch;
+
+}
+
+);
+
+
+playersTableBody.innerHTML =
+
+filtered.length
+
+? filtered.map(
+
+player => `
+
+<tr>
+
+<td>
+
+<div class="playerCell">
+
+<div class="smallAvatar">
+
+${this.escapeHtml(player.avatar)}
+
+</div>
+
+<div class="playerText">
+
+<strong>
+
+${this.escapeHtml(player.name)}
+
+</strong>
+
+<span>
+
+${this.escapeHtml(player.id)}
+
+</span>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+${this.escapeHtml(player.roomCode)}
+
+</td>
+
+<td class="scoreText">
+
+${player.score.toLocaleString()}
+
+</td>
+
+<td>
+
+${player.xp.toLocaleString()}
+
+</td>
+
+<td>
+
+${player.correctCount}
+
+</td>
+
+<td>
+
+${player.wrongCount}
+
+</td>
+
+<td>
+
+<span class="statusBadge statusOpen">
+
+${player.status}
+
+</span>
+
+</td>
+
+<td>
+
+<div class="rowActions">
+
+<a
+class="smallBtn"
+href="student-profile.html?room=${encodeURIComponent(player.roomCode)}&id=${encodeURIComponent(player.id)}"
+>
+👁️ Profil
+</a>
+
+<button
+class="smallBtn"
+onclick="ADMIN.deletePlayer('${this.escapeAttribute(player.roomCode)}','${this.escapeAttribute(player.playerKey)}')"
+>
+🗑️ Padam
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`
+
+).join("")
+
+: this.emptyRow(
+
+8,
+
+"Tiada pelajar ditemui."
+
+);
+
+},
+
+
+deletePlayer(roomCode, playerKey) {
+
+this.confirm(
+
+"Padam Pelajar",
+
+"Rekod pemain ini akan dipadam daripada bilik.",
+
+async () => {
+
+if (
+
+this.rooms[roomCode] &&
+
+this.rooms[roomCode].players
+
+) {
+
+delete this.rooms[roomCode]
+
+.players[playerKey];
+
+
+await this.saveRooms();
+
+
+this.addLog(
+
+`Pelajar dipadam daripada bilik ${roomCode}.`,
+
+"PLAYER"
+
+);
+
+
+this.toast(
+
+"Rekod pelajar berjaya dipadam."
+
+);
+
+
+await this.refreshAllData();
+
+}
+
+}
+
+);
+
+},
+
+
+/* =========================
+   HALL OF FAME
+========================= */
+
+renderHallOfFame() {
+
+const ranked =
+
+[...this.players]
+
+.sort(
+
+(a, b) =>
+
+b.score - a.score ||
+
+b.xp - a.xp
+
+);
+
+
+const champion =
+
+ranked[0];
+
+
+const fastest =
+
+[...ranked]
+
+.filter(
+
+player =>
+
+player.fastestAnswerMs < 999999
+
+)
+
+.sort(
+
+(a, b) =>
+
+a.fastestAnswerMs -
+
+b.fastestAnswerMs
+
+)[0];
+
+
+const mostBadges =
+
+[...ranked]
+
+.sort(
+
+(a, b) =>
+
+b.badges.length -
+
+a.badges.length
+
+)[0];
+
+
+adminChampionName.textContent =
+
+champion?.name || "-";
+
+
+adminFastestName.textContent =
+
+fastest?.name || "-";
+
+
+adminMostBadges.textContent =
+
+mostBadges
+
+? `${mostBadges.name} (${mostBadges.badges.length})`
+
+: "-";
+
+
+adminHallBody.innerHTML =
+
+ranked.length
+
+? ranked
+
+.slice(0, 100)
+
+.map(
+
+(player, index) => `
+
+<tr>
+
+<td>
+
+${this.rankDisplay(index + 1)}
+
+</td>
+
+<td>
+
+${this.escapeHtml(player.name)}
+
+</td>
+
+<td class="scoreText">
+
+${player.score.toLocaleString()}
+
+</td>
+
+<td>
+
+${player.xp.toLocaleString()}
+
+</td>
+
+<td>
+
+${player.rank === 1 ? 1 : 0}
+
+</td>
+
+<td>
+
+${player.badges.length}
+
+</td>
+
+</tr>
+
+`
+
+).join("")
+
+: this.emptyRow(
+
+6,
+
+"Tiada rekod Hall of Fame."
+
+);
+
+},
+
+
+async resetHallOfFame() {
+
+if (this.firebase) {
+
+try {
+
+await this.firebase.remove(
+
+this.firebase.ref(
+
+this.firebase.database,
+
+"hallOfFame"
+
+)
+
+);
+
+} catch (error) {
+
+console.warn(error);
+
+}
+
+}
+
+
+localStorage.removeItem(
+
+"serverHeroHallOfFame"
+
+);
+
+
+localStorage.removeItem(
+
+"hallOfFameRecords"
+
+);
+
+
+this.addLog(
+
+"Hall of Fame telah direset.",
+
+"DANGER"
+
+);
+
+
+this.toast(
+
+"Hall of Fame berjaya direset."
+
+);
+
+},
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+defaultSettings() {
+
+return {
+
+gameTitle: "SERVER HERO RACE™",
+
+language: "ms",
+
+questionCount: 20,
+
+raceTime: 30,
+
+passMark: 60,
+
+maxPlayers: 50,
+
+audio: true,
+
+gameOpen: true,
+
+showAnswers: true,
+
+announcement: ""
+
+};
+
+},
+
+
+loadLocalSettings() {
+
+try {
+
+this.settings =
+
+JSON.parse(
+
+localStorage.getItem(
+
+"serverHeroAdminSettings"
+
+)
+
+) || this.defaultSettings();
+
+} catch {
+
+this.settings =
+
+this.defaultSettings();
+
+}
+
+},
+
+
+loadSettingsIntoForm() {
+
+const settings = {
+
+...this.defaultSettings(),
+
+...this.settings
+
+};
+
+
+settingGameTitle.value =
+
+settings.gameTitle;
+
+
+settingLanguage.value =
+
+settings.language;
+
+
+settingQuestionCount.value =
+
+settings.questionCount;
+
+
+settingRaceTime.value =
+
+settings.raceTime;
+
+
+settingPassMark.value =
+
+settings.passMark;
+
+
+settingMaxPlayers.value =
+
+settings.maxPlayers;
+
+
+settingAudio.checked =
+
+Boolean(settings.audio);
+
+
+settingGameOpen.checked =
+
+Boolean(settings.gameOpen);
+
+
+settingShowAnswers.checked =
+
+Boolean(settings.showAnswers);
+
+
+settingAnnouncement.value =
+
+settings.announcement || "";
+
+},
+
+
+async saveSettings() {
+
+this.settings = {
+
+gameTitle:
+
+settingGameTitle.value.trim() ||
+
+"SERVER HERO RACE™",
+
+language:
+
+settingLanguage.value,
+
+questionCount:
+
+Number(
+
+settingQuestionCount.value
+
+) || 20,
+
+raceTime:
+
+Number(
+
+settingRaceTime.value
+
+) || 30,
+
+passMark:
+
+Number(
+
+settingPassMark.value
+
+) || 60,
+
+maxPlayers:
+
+Number(
+
+settingMaxPlayers.value
+
+) || 50,
+
+audio:
+
+settingAudio.checked,
+
+gameOpen:
+
+settingGameOpen.checked,
+
+showAnswers:
+
+settingShowAnswers.checked,
+
+announcement:
+
+settingAnnouncement.value.trim(),
+
+updatedAt:
+
+new Date().toISOString()
+
+};
+
+
+localStorage.setItem(
+
+"serverHeroAdminSettings",
+
+JSON.stringify(this.settings)
+
+);
+
+
+if (this.firebase) {
+
+try {
+
+await this.firebase.set(
+
+this.firebase.ref(
+
+this.firebase.database,
+
+"settings"
+
+),
+
+this.settings
+
+);
+
+} catch (error) {
+
+console.warn(error);
+
+}
+
+}
+
+
+this.addLog(
+
+"Tetapan permainan dikemas kini.",
+
+"SETTINGS"
+
+);
+
+
+this.toast(
+
+"Tetapan berjaya disimpan."
+
+);
+
+},
+
+
+resetSettings() {
+
+this.settings =
+
+this.defaultSettings();
+
+
+localStorage.setItem(
+
+"serverHeroAdminSettings",
+
+JSON.stringify(this.settings)
+
+);
+
+
+this.loadSettingsIntoForm();
+
+
+this.addLog(
+
+"Tetapan sistem dikembalikan kepada asal.",
+
+"DANGER"
+
+);
+
+
+this.toast(
+
+"Tetapan sistem berjaya direset."
+
+);
+
+},
+
+
+downloadSettings() {
+
+this.downloadJson(
+
+this.settings,
+
+`server-hero-settings-${this.today()}.json`
+
+);
+
+},
+
+
+/* =========================
+   BACKUP / IMPORT
+========================= */
+
+exportJsonBackup() {
+
+const backup = {
+
+application:
+
+"SERVER HERO RACE™",
+
+version: "V4",
+
+exportedAt:
+
+new Date().toISOString(),
+
+rooms:
+
+this.rooms,
+
+settings:
+
+this.settings,
+
+logs:
+
+this.logs
+
+};
+
+
+this.downloadJson(
+
+backup,
+
+`server-hero-backup-${this.today()}.json`
+
+);
+
+
+this.addLog(
+
+"Backup JSON dieksport.",
+
+"BACKUP"
+
+);
+
+},
+
+
+async importJsonData() {
+
+const file =
+
+importFileInput.files[0];
+
+
+if (!file) {
+
+this.toast(
+
+"Sila pilih fail JSON dahulu."
+
+);
+
+return;
+
+}
+
+
+try {
+
+const text =
+
+await file.text();
+
+
+const imported =
+
+JSON.parse(text);
+
+
+if (
+
+!imported ||
+
+typeof imported !== "object"
+
+) {
+
+throw new Error(
+
+"Format fail tidak sah."
+
+);
+
+}
+
+
+this.confirm(
+
+"Import Data",
+
+"Data semasa mungkin akan digantikan dengan data daripada fail backup.",
+
+async () => {
+
+if (
+
+imported.rooms &&
+
+typeof imported.rooms === "object"
+
+) {
+
+this.rooms =
+
+imported.rooms;
+
+
+await this.saveRooms();
+
+}
+
+
+if (
+
+imported.settings &&
+
+typeof imported.settings === "object"
+
+) {
+
+this.settings =
+
+imported.settings;
+
+
+localStorage.setItem(
+
+"serverHeroAdminSettings",
+
+JSON.stringify(this.settings)
+
+);
+
+}
+
+
+if (
+
+Array.isArray(imported.logs)
+
+) {
+
+this.logs =
+
+imported.logs;
+
+
+this.saveLogs();
+
+}
+
+
+this.addLog(
+
+"Data backup JSON telah diimport.",
+
+"BACKUP"
+
+);
+
+
+this.toast(
+
+"Data berjaya diimport."
+
+);
+
+
+await this.refreshAllData();
+
+this.renderLogs();
+
+}
+
+);
+
+} catch (error) {
+
+console.error(error);
+
+
+this.toast(
+
+"Fail JSON tidak sah atau rosak."
+
+);
+
+}
+
+},
+
+
+downloadJson(data, filename) {
+
+const blob =
+
+new Blob(
+
+[
+
+JSON.stringify(
+
+data,
+
+null,
+
+2
+
+)
+
+],
+
+{
+
+type:
+
+"application/json;charset=utf-8"
+
+}
+
+);
+
+
+this.downloadBlob(
+
+blob,
+
+filename
+
+);
+
+},
+
+
+/* =========================
+   CSV EXPORT
+========================= */
+
+exportRoomsCsv() {
+
+const rows = [
+
+[
+
+"Kod Bilik",
+
+"Pensyarah",
+
+"Jumlah Pelajar",
+
+"Jumlah Soalan",
+
+"Status",
+
+"Tarikh Dicipta"
+
+]
+
+];
+
+
+Object.entries(this.rooms)
+
+.forEach(
+
+([roomCode, room]) => {
+
+rows.push([
+
+roomCode,
+
+room.teacherName ||
+
+room.teacher ||
+
+room.lecturer ||
+
+"-",
+
+Object.keys(
+
+room.players || {}
+
+).length,
+
+room.questionCount ||
+
+room.totalQuestions ||
+
+room.settings?.questionCount ||
+
+"-",
+
+this.roomStatus(room),
+
+this.formatDate(
+
+room.createdAt ||
+
+room.created
+
+)
+
+]);
+
+}
+
+);
+
+
+this.downloadCsv(
+
+rows,
+
+`server-hero-rooms-${this.today()}.csv`
+
+);
+
+},
+
+
+exportPlayersCsv() {
+
+const rows = [
+
+[
+
+"Nama",
+
+"ID",
+
+"Bilik",
+
+"Markah",
+
+"XP",
+
+"Betul",
+
+"Salah",
+
+"Pantas",
+
+"Badge",
+
+"Status"
+
+],
+
+...this.players.map(
+
+player => [
+
+player.name,
+
+player.id,
+
+player.roomCode,
+
+player.score,
+
+player.xp,
+
+player.correctCount,
+
+player.wrongCount,
+
+player.fastCount,
+
+player.badges.length,
+
+player.status
+
+]
+
+)
+
+];
+
+
+this.downloadCsv(
+
+rows,
+
+`server-hero-players-${this.today()}.csv`
+
+);
+
+},
+
+
+downloadCsv(rows, filename) {
+
+const csv =
+
+"\uFEFF" +
+
+rows.map(
+
+row =>
+
+row.map(
+
+value =>
+
+`"${String(value ?? "")
+
+.replaceAll('"', '""')}"`
+
+).join(",")
+
+).join("\n");
+
+
+const blob =
+
+new Blob(
+
+[csv],
+
+{
+
+type:
+
+"text/csv;charset=utf-8"
+
+}
+
+);
+
+
+this.downloadBlob(
+
+blob,
+
+filename
+
+);
+
+},
+
+
+downloadBlob(blob, filename) {
+
+const link =
+
+document.createElement("a");
+
+
+link.href =
+
+URL.createObjectURL(blob);
+
+
+link.download =
+
+filename;
+
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+
+setTimeout(
+
+() => URL.revokeObjectURL(
+
+link.href
+
+),
+
+1000
+
+);
+
+},
+
+
+/* =========================
+   LOGS
+========================= */
+
+loadLogs() {
+
+try {
+
+this.logs =
+
+JSON.parse(
+
+localStorage.getItem(
+
+"serverHeroAdminLogs"
+
+)
+
+) || [];
+
+} catch {
+
+this.logs = [];
+
+}
+
+},
+
+
+saveLogs() {
+
+localStorage.setItem(
+
+"serverHeroAdminLogs",
+
+JSON.stringify(
+
+this.logs.slice(0, 300)
+
+)
+
+);
+
+},
+
+
+addLog(text, type = "SYSTEM") {
+
+this.logs.unshift({
+
+time:
+
+new Date().toISOString(),
+
+text,
+
+type
+
+});
+
+
+this.logs =
+
+this.logs.slice(0, 300);
+
+
+this.saveLogs();
+
+this.renderLogs();
+
+},
+
+
+renderLogs() {
+
+if (!activityLogList) {
+
+return;
+
+}
+
+
+activityLogList.innerHTML =
+
+this.logs.length
+
+? this.logs.map(
+
+log => `
+
+<div class="logItem">
+
+<div class="logTime">
+
+${this.formatDateTime(log.time)}
+
+</div>
+
+<div class="logText">
+
+${this.escapeHtml(log.text)}
+
+</div>
+
+<div class="logType">
+
+${this.escapeHtml(log.type)}
+
+</div>
+
+</div>
+
+`
+
+).join("")
+
+: `
+
+<div class="emptyState">
+
+Belum ada aktiviti direkodkan.
+
+</div>
+
+`;
+
+},
+
+
+exportLogs() {
+
+const rows = [
+
+[
+
+"Masa",
+
+"Aktiviti",
+
+"Jenis"
+
+],
+
+...this.logs.map(
+
+log => [
+
+this.formatDateTime(log.time),
+
+log.text,
+
+log.type
+
+]
+
+)
+
+];
+
+
+this.downloadCsv(
+
+rows,
+
+`server-hero-admin-logs-${this.today()}.csv`
+
+);
+
+},
+
+
+/* =========================
+   FACTORY RESET
+========================= */
+
+async factoryReset() {
+
+this.rooms = {};
+
+
+await this.saveRooms();
+
+
+if (this.firebase) {
+
+const paths = [
+
+"hallOfFame",
+
+"settings",
+
+"certificates",
+
+"reports"
+
+];
+
+
+for (const path of paths) {
+
+try {
+
+await this.firebase.remove(
+
+this.firebase.ref(
+
+this.firebase.database,
+
+path
+
+)
+
+);
+
+} catch (error) {
+
+console.warn(error);
+
+}
+
+}
+
+}
+
+
+const pin =
+
+localStorage.getItem(
+
+"serverHeroAdminPin"
+
+);
+
+
+localStorage.clear();
+
+sessionStorage.clear();
+
+
+if (pin) {
+
+localStorage.setItem(
+
+"serverHeroAdminPin",
+
+pin
+
+);
+
+}
+
+
+alert(
+
+"Factory Reset selesai. Sistem akan kembali ke halaman utama."
+
+);
+
+
+window.location.href =
+
+"index.html";
+
+},
+
+
+/* =========================
+   UI HELPERS
+========================= */
+
+statusBadge(status) {
+
+if (status === "LOCKED") {
+
+return `
+
+<span class="statusBadge statusLocked">
+
+🔒 LOCKED
+
+</span>
+
+`;
+
+}
+
+
+if (status === "PLAYING") {
+
+return `
+
+<span class="statusBadge statusOpen">
+
+🟢 PLAYING
+
+</span>
+
+`;
+
+}
+
+
+return `
+
+<span class="statusBadge statusWaiting">
+
+🟡 WAITING
+
+</span>
+
+`;
+
+},
+
+
+rankDisplay(rank) {
+
+if (rank === 1) {
+
+return "🥇";
+
+}
+
+
+if (rank === 2) {
+
+return "🥈";
+
+}
+
+
+if (rank === 3) {
+
+return "🥉";
+
+}
+
+
+return `#${rank}`;
+
+},
+
+
+emptyRow(columns, message) {
+
+return `
+
+<tr>
+
+<td colspan="${columns}">
+
+<div class="emptyState">
+
+${this.escapeHtml(message)}
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+},
+
+
+formatDate(value) {
+
+if (!value) {
+
+return "-";
+
+}
+
+
+const date =
+
+new Date(value);
+
+
+if (
+
+Number.isNaN(
+
+date.getTime()
+
+)
+
+) {
+
+return "-";
+
+}
+
+
+return date.toLocaleDateString(
+
+"ms-MY"
+
+);
+
+},
+
+
+formatDateTime(value) {
+
+if (!value) {
+
+return "-";
+
+}
+
+
+const date =
+
+new Date(value);
+
+
+if (
+
+Number.isNaN(
+
+date.getTime()
+
+)
+
+) {
+
+return "-";
+
+}
+
+
+return date.toLocaleString(
+
+"ms-MY"
+
+);
+
+},
+
+
+today() {
+
+return new Date()
+
+.toISOString()
+
+.slice(0, 10);
+
+},
+
+
+toast(message) {
+
+toast.textContent =
+
+message;
+
+
+toast.classList.add("show");
+
+
+clearTimeout(
+
+this.toastTimer
+
+);
+
+
+this.toastTimer =
+
+setTimeout(
+
+() => toast.classList.remove("show"),
+
+3200
+
+);
+
+},
+
+
+escapeHtml(value) {
+
+return String(value ?? "")
+
+.replaceAll("&", "&amp;")
+
+.replaceAll("<", "&lt;")
+
+.replaceAll(">", "&gt;")
+
+.replaceAll('"', "&quot;")
+
+.replaceAll("'", "&#039;");
+
+},
+
+
+escapeAttribute(value) {
+
+return this.escapeHtml(value)
+
+.replaceAll("`", "&#096;");
+
+}
+
+};
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+() => ADMIN.init()
+
+);
+
+</script>
+
+</body>
+
+</html>
