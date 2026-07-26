@@ -1,15 +1,22 @@
 /* =========================================================
    SERVER HERO RACE™
-   QUESTIONS.JS FULL VERSION
-   C05 – Server Maintenance
-   Objektif + Padanan + Drag & Drop
-   Bahasa Melayu Malaysia / English
+   QUESTIONS.JS FULL VERSION V4
+   BANK SOALAN C05 – PENYELENGGARAAN SERVER
+
+   Jenis soalan:
+   1. Objektif
+   2. Padanan
+   3. Susunan / Drag & Drop
+
+   Bahasa:
+   - Bahasa Melayu Malaysia
+   - English
 ========================================================= */
 
 window.SERVER_HERO_QUESTIONS = [
 
     /* =====================================================
-       SOALAN OBJEKTIF
+       SOALAN 1 — KP01
     ===================================================== */
 
     {
@@ -28,7 +35,7 @@ window.SERVER_HERO_QUESTIONS = [
             },
             {
                 ms: "Merekod dan menyemak maklumat server",
-                en: "Record and verify the server information"
+                en: "Record and check the server information"
             },
             {
                 ms: "Menukar semua komponen server",
@@ -44,7 +51,7 @@ window.SERVER_HERO_QUESTIONS = [
 
         ok: {
             ms: "Tahniah! Maklumat server perlu direkod dan disemak supaya juruteknik mengetahui spesifikasi, konfigurasi dan keadaan server sebelum penyelenggaraan.",
-            en: "Congratulations! Server information must be recorded and checked so the technician understands its specifications, configuration and condition before maintenance."
+            en: "Congratulations! Server information must be recorded and checked so the technician understands its specifications, configuration and condition."
         },
 
         bad: {
@@ -53,8 +60,59 @@ window.SERVER_HERO_QUESTIONS = [
         }
     },
 
+
+    /* =====================================================
+       SOALAN 2 — KP01
+    ===================================================== */
+
     {
         id: 2,
+        type: "objective",
+
+        q: {
+            ms: "Maklumat manakah perlu direkod sebelum penyelenggaraan server?",
+            en: "Which information should be recorded before server maintenance?"
+        },
+
+        options: [
+            {
+                ms: "Nama pengguna media sosial",
+                en: "Social media usernames"
+            },
+            {
+                ms: "Warna meja komputer",
+                en: "Computer desk colour"
+            },
+            {
+                ms: "Model, nombor siri dan konfigurasi server",
+                en: "Server model, serial number and configuration"
+            },
+            {
+                ms: "Bilangan kerusi di bilik server",
+                en: "Number of chairs in the server room"
+            }
+        ],
+
+        answer: 2,
+
+        ok: {
+            ms: "Betul. Model, nombor siri dan konfigurasi server membantu juruteknik mengenal pasti aset dan keadaan sistem dengan tepat.",
+            en: "Correct. The server model, serial number and configuration help technicians identify the asset and system condition accurately."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Rekod penting ialah model, nombor siri dan konfigurasi server.",
+            en: "Your answer is incorrect. Important records include the server model, serial number and configuration."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 3 — KP02
+    ===================================================== */
+
+    {
+        id: 3,
         type: "objective",
 
         q: {
@@ -76,8 +134,8 @@ window.SERVER_HERO_QUESTIONS = [
                 en: "Reduce the risk of server failure"
             },
             {
-                ms: "Menghentikan semua perkhidmatan rangkaian",
-                en: "Stop all network services"
+                ms: "Menghentikan semua rangkaian",
+                en: "Stop the entire network"
             }
         ],
 
@@ -89,54 +147,156 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. Penyelenggaraan pencegahan bertujuan mengurangkan risiko kerosakan sebelum masalah serius berlaku.",
-            en: "Your answer is incorrect. Please try again. Preventive maintenance reduces the risk of failure before a serious problem occurs."
+            ms: "Jawapan anda salah. Penyelenggaraan pencegahan bertujuan mengurangkan risiko kerosakan sebelum masalah serius berlaku.",
+            en: "Your answer is incorrect. Preventive maintenance reduces the risk of failure before a serious problem occurs."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 4 — KP02
+    ===================================================== */
+
     {
-        id: 3,
+        id: 4,
         type: "objective",
 
         q: {
-            ms: "Mengapakah gelang ESD digunakan semasa menyelenggara server?",
-            en: "Why is an ESD wrist strap used during server maintenance?"
+            ms: "Apakah contoh penyelenggaraan pembetulan?",
+            en: "What is an example of corrective maintenance?"
         },
 
         options: [
             {
-                ms: "Mengukur suhu bilik server",
-                en: "Measure the server room temperature"
+                ms: "Membersihkan habuk setiap bulan",
+                en: "Cleaning dust every month"
             },
             {
-                ms: "Meningkatkan kelajuan Internet",
-                en: "Increase Internet speed"
+                ms: "Menggantikan cakera keras yang rosak",
+                en: "Replacing a failed hard disk"
             },
             {
-                ms: "Menghidupkan server secara automatik",
-                en: "Turn on the server automatically"
+                ms: "Merekod suhu bilik setiap hari",
+                en: "Recording room temperature daily"
             },
             {
-                ms: "Melindungi komponen daripada cas elektrostatik",
-                en: "Protect components from electrostatic discharge"
+                ms: "Menyemak log secara mingguan",
+                en: "Checking logs weekly"
             }
         ],
 
-        answer: 3,
+        answer: 1,
 
         ok: {
-            ms: "Tahniah! Gelang ESD mengalirkan cas elektrostatik daripada badan pengguna supaya komponen elektronik tidak rosak.",
-            en: "Congratulations! An ESD wrist strap safely discharges static electricity to protect electronic components."
+            ms: "Betul. Menggantikan cakera keras yang rosak ialah penyelenggaraan pembetulan kerana tindakan dibuat selepas kerosakan berlaku.",
+            en: "Correct. Replacing a failed hard disk is corrective maintenance because the action is taken after a failure occurs."
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. Gelang ESD melindungi komponen elektronik daripada cas elektrostatik.",
-            en: "Your answer is incorrect. Please try again. An ESD wrist strap protects electronic components from electrostatic discharge."
+            ms: "Jawapan anda salah. Penyelenggaraan pembetulan dilakukan selepas berlaku kerosakan, contohnya menggantikan cakera keras yang rosak.",
+            en: "Your answer is incorrect. Corrective maintenance is performed after a failure, such as replacing a failed hard disk."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 5 — KP03
+    ===================================================== */
+
     {
-        id: 4,
+        id: 5,
+        type: "objective",
+
+        q: {
+            ms: "Mengapakah bilik server perlu dikawal daripada akses tanpa kebenaran?",
+            en: "Why must the server room be protected from unauthorised access?"
+        },
+
+        options: [
+            {
+                ms: "Untuk mengurangkan penggunaan lampu",
+                en: "To reduce lighting usage"
+            },
+            {
+                ms: "Untuk melindungi peralatan dan data",
+                en: "To protect equipment and data"
+            },
+            {
+                ms: "Untuk meningkatkan bunyi kipas",
+                en: "To increase fan noise"
+            },
+            {
+                ms: "Untuk memudahkan orang ramai masuk",
+                en: "To allow public access"
+            }
+        ],
+
+        answer: 1,
+
+        ok: {
+            ms: "Betul. Kawalan akses melindungi server, konfigurasi dan data daripada kecurian, kerosakan atau perubahan tanpa kebenaran.",
+            en: "Correct. Access control protects servers, configurations and data from theft, damage or unauthorised changes."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Akses bilik server perlu dikawal untuk melindungi peralatan dan data.",
+            en: "Your answer is incorrect. Server room access must be controlled to protect equipment and data."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 6 — KP03
+    ===================================================== */
+
+    {
+        id: 6,
+        type: "objective",
+
+        q: {
+            ms: "Apakah tindakan keselamatan sebelum membuka casing server?",
+            en: "What safety action should be taken before opening a server casing?"
+        },
+
+        options: [
+            {
+                ms: "Hidupkan semua aplikasi",
+                en: "Start all applications"
+            },
+            {
+                ms: "Putuskan bekalan kuasa dan gunakan gelang ESD",
+                en: "Disconnect the power and use an ESD wrist strap"
+            },
+            {
+                ms: "Siram server dengan air",
+                en: "Pour water on the server"
+            },
+            {
+                ms: "Sentuh semua komponen dengan tangan kosong",
+                en: "Touch all components with bare hands"
+            }
+        ],
+
+        answer: 1,
+
+        ok: {
+            ms: "Betul. Bekalan kuasa perlu diputuskan dan gelang ESD digunakan untuk mengelakkan renjatan elektrik serta kerosakan komponen.",
+            en: "Correct. Power must be disconnected and an ESD wrist strap used to prevent electric shock and component damage."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Putuskan bekalan kuasa dan gunakan gelang ESD sebelum membuka casing server.",
+            en: "Your answer is incorrect. Disconnect the power and use an ESD wrist strap before opening the server casing."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 7 — KP04
+    ===================================================== */
+
+    {
+        id: 7,
         type: "objective",
 
         q: {
@@ -150,16 +310,16 @@ window.SERVER_HERO_QUESTIONS = [
                 en: "Test voltage and circuit continuity"
             },
             {
-                ms: "Membersihkan habuk pada motherboard",
-                en: "Remove dust from the motherboard"
+                ms: "Membersihkan habuk",
+                en: "Remove dust"
             },
             {
-                ms: "Mencipta domain baharu",
-                en: "Create a new domain"
+                ms: "Mencipta domain",
+                en: "Create a domain"
             },
             {
-                ms: "Memberikan alamat IP kepada client",
-                en: "Assign IP addresses to clients"
+                ms: "Memberikan alamat IP",
+                en: "Assign IP addresses"
             }
         ],
 
@@ -171,18 +331,69 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. Multimeter digunakan untuk menguji voltan dan kesinambungan litar.",
-            en: "Your answer is incorrect. Please try again. A multimeter tests voltage and circuit continuity."
+            ms: "Jawapan anda salah. Multimeter digunakan untuk menguji voltan dan kesinambungan litar.",
+            en: "Your answer is incorrect. A multimeter tests voltage and circuit continuity."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 8 — KP04
+    ===================================================== */
+
     {
-        id: 5,
+        id: 8,
         type: "objective",
 
         q: {
-            ms: "Apakah akaun utama yang perlu ditetapkan selepas Windows Server 2019 dipasang?",
-            en: "Which main account must be configured after Windows Server 2019 is installed?"
+            ms: "Apakah alat sesuai untuk membersihkan habuk dalam casing server?",
+            en: "Which tool is suitable for removing dust inside a server casing?"
+        },
+
+        options: [
+            {
+                ms: "Berus cat basah",
+                en: "Wet paint brush"
+            },
+            {
+                ms: "Mini vacuum atau udara termampat",
+                en: "Mini vacuum or compressed air"
+            },
+            {
+                ms: "Tukul besi",
+                en: "Metal hammer"
+            },
+            {
+                ms: "Air sabun",
+                en: "Soapy water"
+            }
+        ],
+
+        answer: 1,
+
+        ok: {
+            ms: "Betul. Mini vacuum atau udara termampat sesuai digunakan untuk membuang habuk tanpa merosakkan komponen.",
+            en: "Correct. A mini vacuum or compressed air can remove dust without damaging components."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Gunakan mini vacuum atau udara termampat untuk membersihkan habuk.",
+            en: "Your answer is incorrect. Use a mini vacuum or compressed air to remove dust."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 9 — KP05
+    ===================================================== */
+
+    {
+        id: 9,
+        type: "objective",
+
+        q: {
+            ms: "Apakah akaun utama yang ditetapkan selepas Windows Server 2019 dipasang?",
+            en: "Which main account is configured after Windows Server 2019 is installed?"
         },
 
         options: [
@@ -207,18 +418,69 @@ window.SERVER_HERO_QUESTIONS = [
         answer: 2,
 
         ok: {
-            ms: "Tahniah! Akaun Administrator digunakan untuk konfigurasi awal dan pengurusan Windows Server.",
-            en: "Congratulations! The Administrator account is used for initial configuration and Windows Server management."
+            ms: "Betul. Akaun Administrator digunakan untuk konfigurasi awal dan pengurusan Windows Server.",
+            en: "Correct. The Administrator account is used for initial configuration and Windows Server management."
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. Akaun utama selepas pemasangan ialah Administrator.",
-            en: "Your answer is incorrect. Please try again. The main account after installation is Administrator."
+            ms: "Jawapan anda salah. Akaun utama selepas pemasangan ialah Administrator.",
+            en: "Your answer is incorrect. The main account after installation is Administrator."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 10 — KP05
+    ===================================================== */
+
     {
-        id: 6,
+        id: 10,
+        type: "objective",
+
+        q: {
+            ms: "Apakah tetapan penting selepas Windows Server 2019 dipasang?",
+            en: "Which setting is important after Windows Server 2019 is installed?"
+        },
+
+        options: [
+            {
+                ms: "Tetapkan nama server dan alamat IP statik",
+                en: "Configure the server name and static IP address"
+            },
+            {
+                ms: "Padam semua driver",
+                en: "Delete all drivers"
+            },
+            {
+                ms: "Matikan kad rangkaian",
+                en: "Disable the network adapter"
+            },
+            {
+                ms: "Padam akaun Administrator",
+                en: "Delete the Administrator account"
+            }
+        ],
+
+        answer: 0,
+
+        ok: {
+            ms: "Betul. Nama server dan alamat IP statik penting supaya server dapat dikenal pasti dan diakses dengan stabil dalam rangkaian.",
+            en: "Correct. The server name and static IP address are important so the server can be identified and accessed reliably."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Selepas pemasangan, tetapkan nama server dan alamat IP statik.",
+            en: "Your answer is incorrect. After installation, configure the server name and static IP address."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 11 — KP06
+    ===================================================== */
+
+    {
+        id: 11,
         type: "objective",
 
         q: {
@@ -229,15 +491,15 @@ window.SERVER_HERO_QUESTIONS = [
         options: [
             {
                 ms: "Mengawal suhu bilik server",
-                en: "Control the server room temperature"
+                en: "Control server room temperature"
             },
             {
                 ms: "Mengurus pengguna, komputer dan akses domain",
                 en: "Manage users, computers and domain access"
             },
             {
-                ms: "Membersihkan habuk pada server",
-                en: "Remove dust from the server"
+                ms: "Membersihkan server",
+                en: "Clean the server"
             },
             {
                 ms: "Membaiki kabel elektrik",
@@ -248,18 +510,69 @@ window.SERVER_HERO_QUESTIONS = [
         answer: 1,
 
         ok: {
-            ms: "Tahniah! AD DS mengurus akaun pengguna, komputer, kumpulan dan kebenaran akses dalam domain.",
-            en: "Congratulations! AD DS manages user accounts, computers, groups and access permissions in a domain."
+            ms: "Betul. AD DS mengurus pengguna, komputer, kumpulan dan kebenaran akses dalam domain.",
+            en: "Correct. AD DS manages users, computers, groups and access permissions in a domain."
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. AD DS digunakan untuk mengurus pengguna, komputer dan akses domain.",
-            en: "Your answer is incorrect. Please try again. AD DS manages users, computers and domain access."
+            ms: "Jawapan anda salah. AD DS digunakan untuk mengurus pengguna, komputer dan akses domain.",
+            en: "Your answer is incorrect. AD DS manages users, computers and domain access."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 12 — KP06
+    ===================================================== */
+
     {
-        id: 7,
+        id: 12,
+        type: "objective",
+
+        q: {
+            ms: "Apakah fungsi Organizational Unit dalam Active Directory?",
+            en: "What is the function of an Organizational Unit in Active Directory?"
+        },
+
+        options: [
+            {
+                ms: "Menyusun pengguna dan komputer mengikut bahagian",
+                en: "Organise users and computers by department"
+            },
+            {
+                ms: "Mengukur voltan server",
+                en: "Measure server voltage"
+            },
+            {
+                ms: "Membersihkan cakera keras",
+                en: "Clean the hard disk"
+            },
+            {
+                ms: "Memberikan bekalan elektrik",
+                en: "Provide electrical power"
+            }
+        ],
+
+        answer: 0,
+
+        ok: {
+            ms: "Betul. Organizational Unit digunakan untuk menyusun pengguna, komputer dan objek domain secara teratur.",
+            en: "Correct. An Organizational Unit organises users, computers and domain objects."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Organizational Unit digunakan untuk menyusun pengguna dan komputer mengikut struktur organisasi.",
+            en: "Your answer is incorrect. An Organizational Unit organises users and computers according to the organisation structure."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 13 — KP07
+    ===================================================== */
+
+    {
+        id: 13,
         type: "objective",
 
         q: {
@@ -269,8 +582,8 @@ window.SERVER_HERO_QUESTIONS = [
 
         options: [
             {
-                ms: "Memberikan bekalan elektrik kepada server",
-                en: "Supply electrical power to the server"
+                ms: "Memberikan bekalan elektrik",
+                en: "Supply electrical power"
             },
             {
                 ms: "Memadam fail sementara",
@@ -281,26 +594,77 @@ window.SERVER_HERO_QUESTIONS = [
                 en: "Translate domain names into IP addresses"
             },
             {
-                ms: "Menggantikan RAM server",
-                en: "Replace server RAM"
+                ms: "Menggantikan RAM",
+                en: "Replace RAM"
             }
         ],
 
         answer: 2,
 
         ok: {
-            ms: "Tahniah! DNS menterjemahkan nama domain kepada alamat IP supaya komputer dapat mencari server dalam rangkaian.",
-            en: "Congratulations! DNS translates domain names into IP addresses so computers can locate servers on the network."
+            ms: "Betul. DNS menterjemahkan nama domain kepada alamat IP supaya komputer dapat mencari server.",
+            en: "Correct. DNS translates domain names into IP addresses so computers can locate servers."
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. DNS menterjemahkan nama domain kepada alamat IP.",
-            en: "Your answer is incorrect. Please try again. DNS translates domain names into IP addresses."
+            ms: "Jawapan anda salah. DNS menterjemahkan nama domain kepada alamat IP.",
+            en: "Your answer is incorrect. DNS translates domain names into IP addresses."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 14 — KP07
+    ===================================================== */
+
     {
-        id: 8,
+        id: 14,
+        type: "objective",
+
+        q: {
+            ms: "Apakah arahan sesuai untuk menguji penyelesaian nama DNS?",
+            en: "Which command is suitable for testing DNS name resolution?"
+        },
+
+        options: [
+            {
+                ms: "format",
+                en: "format"
+            },
+            {
+                ms: "nslookup",
+                en: "nslookup"
+            },
+            {
+                ms: "shutdown",
+                en: "shutdown"
+            },
+            {
+                ms: "mkdir",
+                en: "mkdir"
+            }
+        ],
+
+        answer: 1,
+
+        ok: {
+            ms: "Betul. Arahan nslookup digunakan untuk menguji penyelesaian nama domain dan alamat IP.",
+            en: "Correct. The nslookup command tests domain name and IP address resolution."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Gunakan arahan nslookup untuk menguji DNS.",
+            en: "Your answer is incorrect. Use the nslookup command to test DNS."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 15 — KP08
+    ===================================================== */
+
+    {
+        id: 15,
         type: "objective",
 
         q: {
@@ -314,34 +678,85 @@ window.SERVER_HERO_QUESTIONS = [
                 en: "Install Windows Server"
             },
             {
-                ms: "Mengimbas kerosakan cakera keras",
-                en: "Scan hard disk failures"
+                ms: "Mengimbas cakera keras",
+                en: "Scan hard disks"
             },
             {
-                ms: "Memadam nama domain",
-                en: "Delete domain names"
+                ms: "Memadam domain",
+                en: "Delete domains"
             },
             {
-                ms: "Memberikan alamat IP secara automatik kepada client",
-                en: "Assign IP addresses automatically to clients"
+                ms: "Memberikan alamat IP secara automatik",
+                en: "Assign IP addresses automatically"
             }
         ],
 
         answer: 3,
 
         ok: {
-            ms: "Tahniah! DHCP mengagihkan alamat IP dan tetapan rangkaian kepada client secara automatik.",
-            en: "Congratulations! DHCP automatically distributes IP addresses and network settings to clients."
+            ms: "Betul. DHCP memberikan alamat IP dan tetapan rangkaian kepada client secara automatik.",
+            en: "Correct. DHCP automatically assigns IP addresses and network settings to clients."
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. DHCP memberikan alamat IP secara automatik kepada client.",
-            en: "Your answer is incorrect. Please try again. DHCP automatically assigns IP addresses to clients."
+            ms: "Jawapan anda salah. DHCP memberikan alamat IP secara automatik kepada client.",
+            en: "Your answer is incorrect. DHCP automatically assigns IP addresses to clients."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 16 — KP08
+    ===================================================== */
+
     {
-        id: 9,
+        id: 16,
+        type: "objective",
+
+        q: {
+            ms: "Apakah fungsi DHCP Reservation?",
+            en: "What is the function of a DHCP Reservation?"
+        },
+
+        options: [
+            {
+                ms: "Memberikan alamat IP tertentu kepada peranti tertentu",
+                en: "Assign a specific IP address to a specific device"
+            },
+            {
+                ms: "Memadam semua alamat IP",
+                en: "Delete all IP addresses"
+            },
+            {
+                ms: "Menukar nama domain",
+                en: "Change the domain name"
+            },
+            {
+                ms: "Menggantikan DNS",
+                en: "Replace DNS"
+            }
+        ],
+
+        answer: 0,
+
+        ok: {
+            ms: "Betul. DHCP Reservation memastikan peranti tertentu menerima alamat IP yang sama berdasarkan alamat MAC.",
+            en: "Correct. A DHCP Reservation ensures a specific device receives the same IP address based on its MAC address."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. DHCP Reservation memberikan alamat IP tertentu kepada peranti tertentu.",
+            en: "Your answer is incorrect. A DHCP Reservation assigns a specific IP address to a specific device."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 17 — KP09
+    ===================================================== */
+
+    {
+        id: 17,
         type: "objective",
 
         q: {
@@ -359,49 +774,100 @@ window.SERVER_HERO_QUESTIONS = [
                 en: "Reduce RAM capacity"
             },
             {
-                ms: "Memadam semua akaun pengguna",
-                en: "Delete all user accounts"
+                ms: "Memadam semua pengguna",
+                en: "Delete all users"
             },
             {
-                ms: "Menukar fungsi DNS kepada DHCP",
-                en: "Change DNS functions into DHCP"
+                ms: "Menukar DNS kepada DHCP",
+                en: "Change DNS into DHCP"
             }
         ],
 
         answer: 0,
 
         ok: {
-            ms: "Tahniah! Kemas kini keselamatan menutup kelemahan sistem yang boleh dieksploitasi oleh malware atau penyerang.",
-            en: "Congratulations! Security updates fix vulnerabilities that could be exploited by malware or attackers."
+            ms: "Betul. Kemas kini keselamatan menutup kelemahan yang boleh dieksploitasi oleh malware atau penyerang.",
+            en: "Correct. Security updates fix vulnerabilities that could be exploited by malware or attackers."
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. Kemas kini keselamatan melindungi server daripada ancaman.",
-            en: "Your answer is incorrect. Please try again. Security updates protect the server from threats."
+            ms: "Jawapan anda salah. Kemas kini keselamatan melindungi server daripada ancaman.",
+            en: "Your answer is incorrect. Security updates protect the server from threats."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 18 — KP09
+    ===================================================== */
+
     {
-        id: 10,
+        id: 18,
         type: "objective",
 
         q: {
-            ms: "Apakah maklumat penting yang perlu ada dalam rekod penyelenggaraan server?",
-            en: "What important information must be included in a server maintenance record?"
+            ms: "Apakah tujuan membuat backup sebelum kemas kini sistem?",
+            en: "What is the purpose of creating a backup before a system update?"
+        },
+
+        options: [
+            {
+                ms: "Memulihkan data jika kemas kini gagal",
+                en: "Recover data if the update fails"
+            },
+            {
+                ms: "Meningkatkan suhu server",
+                en: "Increase server temperature"
+            },
+            {
+                ms: "Memadam semua log",
+                en: "Delete all logs"
+            },
+            {
+                ms: "Mengurangkan kapasiti storan",
+                en: "Reduce storage capacity"
+            }
+        ],
+
+        answer: 0,
+
+        ok: {
+            ms: "Betul. Backup membolehkan data dan sistem dipulihkan jika kemas kini menyebabkan masalah.",
+            en: "Correct. A backup allows data and the system to be restored if the update causes problems."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Backup dibuat supaya data dan sistem boleh dipulihkan jika kemas kini gagal.",
+            en: "Your answer is incorrect. A backup allows data and the system to be restored if the update fails."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 19 — KP10
+    ===================================================== */
+
+    {
+        id: 19,
+        type: "objective",
+
+        q: {
+            ms: "Apakah maklumat penting dalam rekod penyelenggaraan server?",
+            en: "What information is important in a server maintenance record?"
         },
 
         options: [
             {
                 ms: "Warna pakaian juruteknik",
-                en: "The technician's clothing colour"
+                en: "Technician clothing colour"
             },
             {
-                ms: "Bilangan tingkap dalam bangunan",
-                en: "The number of windows in the building"
+                ms: "Bilangan tingkap",
+                en: "Number of windows"
             },
             {
                 ms: "Makanan kegemaran pengguna",
-                en: "The user's favourite food"
+                en: "User's favourite food"
             },
             {
                 ms: "Tarikh, masalah, tindakan dan pengesahan",
@@ -412,22 +878,69 @@ window.SERVER_HERO_QUESTIONS = [
         answer: 3,
 
         ok: {
-            ms: "Tahniah! Rekod penyelenggaraan perlu mengandungi tarikh, masalah, tindakan dan pengesahan untuk rujukan dan audit.",
-            en: "Congratulations! A maintenance record must contain the date, problem, action and verification for reference and auditing."
+            ms: "Betul. Rekod penyelenggaraan perlu mengandungi tarikh, masalah, tindakan dan pengesahan untuk rujukan serta audit.",
+            en: "Correct. A maintenance record must contain the date, problem, action and verification for reference and auditing."
         },
 
         bad: {
-            ms: "Jawapan anda salah. Sila cuba lagi. Rekod perlu mempunyai tarikh, masalah, tindakan dan pengesahan.",
-            en: "Your answer is incorrect. Please try again. The record must include the date, problem, action and verification."
+            ms: "Jawapan anda salah. Rekod perlu mempunyai tarikh, masalah, tindakan dan pengesahan.",
+            en: "Your answer is incorrect. The record must contain the date, problem, action and verification."
         }
     },
 
+
     /* =====================================================
-       SOALAN PADANAN
+       SOALAN 20 — KP10
     ===================================================== */
 
     {
-        id: 11,
+        id: 20,
+        type: "objective",
+
+        q: {
+            ms: "Mengapakah pengesahan pengguna diperlukan selepas penyelenggaraan?",
+            en: "Why is user verification required after maintenance?"
+        },
+
+        options: [
+            {
+                ms: "Untuk memastikan server berfungsi seperti dikehendaki",
+                en: "To ensure the server works as required"
+            },
+            {
+                ms: "Untuk menukar warna server",
+                en: "To change the server colour"
+            },
+            {
+                ms: "Untuk menghapuskan semua rekod",
+                en: "To delete all records"
+            },
+            {
+                ms: "Untuk mematikan rangkaian",
+                en: "To shut down the network"
+            }
+        ],
+
+        answer: 0,
+
+        ok: {
+            ms: "Betul. Pengesahan pengguna memastikan server dan perkhidmatan berfungsi dengan baik selepas penyelenggaraan.",
+            en: "Correct. User verification confirms that the server and services work correctly after maintenance."
+        },
+
+        bad: {
+            ms: "Jawapan anda salah. Pengesahan pengguna memastikan server berfungsi seperti yang dikehendaki.",
+            en: "Your answer is incorrect. User verification ensures the server works as required."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 21 — PADANAN ALAT
+    ===================================================== */
+
+    {
+        id: 21,
         type: "matching",
 
         q: {
@@ -436,8 +949,8 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         instruction: {
-            ms: "Pilih satu alat di sebelah kiri, kemudian pilih fungsi yang betul di sebelah kanan.",
-            en: "Select a tool on the left, then select its correct function on the right."
+            ms: "Pilih alat di sebelah kiri dan fungsi yang sepadan di sebelah kanan.",
+            en: "Select a tool on the left and its matching function on the right."
         },
 
         pairs: [
@@ -471,7 +984,7 @@ window.SERVER_HERO_QUESTIONS = [
                 },
                 right: {
                     ms: "Membersihkan habuk dalam server",
-                    en: "Removes dust from inside the server"
+                    en: "Removes dust inside the server"
                 }
             },
             {
@@ -493,13 +1006,18 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         bad: {
-            ms: "Padanan anda kurang tepat. Sila pilih semula alat dan fungsi yang sepadan.",
-            en: "Your match is incorrect. Please select the matching tool and function again."
+            ms: "Padanan anda salah. Sila pilih semula alat dan fungsi yang sepadan.",
+            en: "Your match is incorrect. Please select the correct tool and function."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 22 — PADANAN PERKHIDMATAN
+    ===================================================== */
+
     {
-        id: 12,
+        id: 22,
         type: "matching",
 
         q: {
@@ -508,8 +1026,8 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         instruction: {
-            ms: "Pilih perkhidmatan di sebelah kiri dan fungsi yang sepadan di sebelah kanan.",
-            en: "Select a service on the left and its matching function on the right."
+            ms: "Pilih perkhidmatan dan fungsi yang sepadan.",
+            en: "Select each service and its matching function."
         },
 
         pairs: [
@@ -560,22 +1078,100 @@ window.SERVER_HERO_QUESTIONS = [
         ],
 
         ok: {
-            ms: "Tahniah! Semua perkhidmatan server telah dipadankan dengan betul.",
-            en: "Congratulations! All server services have been matched correctly."
+            ms: "Tahniah! Semua perkhidmatan server dipadankan dengan betul.",
+            en: "Congratulations! All server services were matched correctly."
         },
 
         bad: {
-            ms: "Padanan anda salah. Sila semak semula fungsi setiap perkhidmatan server.",
-            en: "Your match is incorrect. Please review the function of each server service."
+            ms: "Padanan anda salah. Sila semak semula fungsi setiap perkhidmatan.",
+            en: "Your match is incorrect. Please review the function of each service."
         }
     },
 
+
     /* =====================================================
-       SOALAN DRAG & DROP / SUSUNAN
+       SOALAN 23 — PADANAN ARAHAN
     ===================================================== */
 
     {
-        id: 13,
+        id: 23,
+        type: "matching",
+
+        q: {
+            ms: "Padankan arahan rangkaian dengan fungsi yang betul.",
+            en: "Match each network command with its correct function."
+        },
+
+        instruction: {
+            ms: "Pilih arahan dan fungsi yang betul.",
+            en: "Select each command and its correct function."
+        },
+
+        pairs: [
+            {
+                id: "ping",
+                left: {
+                    ms: "ping",
+                    en: "ping"
+                },
+                right: {
+                    ms: "Menguji sambungan rangkaian",
+                    en: "Tests network connectivity"
+                }
+            },
+            {
+                id: "ipconfig",
+                left: {
+                    ms: "ipconfig",
+                    en: "ipconfig"
+                },
+                right: {
+                    ms: "Memaparkan konfigurasi alamat IP",
+                    en: "Displays IP address configuration"
+                }
+            },
+            {
+                id: "nslookup",
+                left: {
+                    ms: "nslookup",
+                    en: "nslookup"
+                },
+                right: {
+                    ms: "Menguji penyelesaian nama DNS",
+                    en: "Tests DNS name resolution"
+                }
+            },
+            {
+                id: "hostname",
+                left: {
+                    ms: "hostname",
+                    en: "hostname"
+                },
+                right: {
+                    ms: "Memaparkan nama komputer",
+                    en: "Displays the computer name"
+                }
+            }
+        ],
+
+        ok: {
+            ms: "Tahniah! Semua arahan rangkaian dipadankan dengan betul.",
+            en: "Congratulations! All network commands were matched correctly."
+        },
+
+        bad: {
+            ms: "Padanan anda salah. Sila semak semula fungsi arahan rangkaian.",
+            en: "Your match is incorrect. Please review the network command functions."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 24 — SUSUNAN PENYELENGGARAAN
+    ===================================================== */
+
+    {
+        id: 24,
         type: "dragdrop",
 
         q: {
@@ -584,8 +1180,8 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         instruction: {
-            ms: "Klik atau seret setiap langkah mengikut urutan yang betul.",
-            en: "Click or drag each step into the correct order."
+            ms: "Pilih setiap langkah mengikut urutan yang betul.",
+            en: "Select each step in the correct order."
         },
 
         items: [
@@ -593,7 +1189,7 @@ window.SERVER_HERO_QUESTIONS = [
                 id: "record",
                 text: {
                     ms: "Rekod maklumat dan keadaan server",
-                    en: "Record the server information and condition"
+                    en: "Record server information and condition"
                 }
             },
             {
@@ -607,7 +1203,7 @@ window.SERVER_HERO_QUESTIONS = [
                 id: "maintain",
                 text: {
                     ms: "Laksanakan kerja penyelenggaraan",
-                    en: "Perform the maintenance work"
+                    en: "Perform maintenance work"
                 }
             },
             {
@@ -635,18 +1231,23 @@ window.SERVER_HERO_QUESTIONS = [
         ],
 
         ok: {
-            ms: "Tahniah! Urutan penyelenggaraan anda betul. Server perlu direkod, dimatikan dengan selamat, diselenggara, diuji dan direkod semula.",
-            en: "Congratulations! Your maintenance sequence is correct. The server must be recorded, safely shut down, maintained, tested and documented."
+            ms: "Tahniah! Urutan penyelenggaraan anda betul.",
+            en: "Congratulations! Your maintenance sequence is correct."
         },
 
         bad: {
-            ms: "Susunan anda salah. Sila cuba lagi dan pastikan server direkod serta dimatikan dengan selamat sebelum penyelenggaraan.",
-            en: "Your order is incorrect. Please try again and ensure the server is recorded and safely shut down before maintenance."
+            ms: "Susunan anda salah. Pastikan server direkod dan dimatikan dengan selamat sebelum penyelenggaraan.",
+            en: "Your order is incorrect. Ensure the server is recorded and safely shut down before maintenance."
         }
     },
 
+
+    /* =====================================================
+       SOALAN 25 — SUSUNAN WINDOWS SERVER
+    ===================================================== */
+
     {
-        id: 14,
+        id: 25,
         type: "dragdrop",
 
         q: {
@@ -655,8 +1256,8 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         instruction: {
-            ms: "Klik atau seret langkah pemasangan mengikut urutan yang betul.",
-            en: "Click or drag the installation steps into the correct order."
+            ms: "Pilih langkah pemasangan mengikut urutan yang betul.",
+            en: "Select the installation steps in the correct order."
         },
 
         items: [
@@ -671,7 +1272,7 @@ window.SERVER_HERO_QUESTIONS = [
                 id: "language",
                 text: {
                     ms: "Pilih bahasa dan tetapan papan kekunci",
-                    en: "Select the language and keyboard settings"
+                    en: "Select language and keyboard settings"
                 }
             },
             {
@@ -711,8 +1312,84 @@ window.SERVER_HERO_QUESTIONS = [
         },
 
         bad: {
-            ms: "Susunan anda salah. Sila cuba lagi. Proses bermula dengan boot daripada media pemasangan.",
-            en: "Your order is incorrect. Please try again. The process starts by booting from the installation media."
+            ms: "Susunan anda salah. Proses bermula dengan boot daripada media pemasangan.",
+            en: "Your order is incorrect. The process begins by booting from the installation media."
+        }
+    },
+
+
+    /* =====================================================
+       SOALAN 26 — SUSUNAN AD DS
+    ===================================================== */
+
+    {
+        id: 26,
+        type: "dragdrop",
+
+        q: {
+            ms: "Susun langkah asas pemasangan AD DS mengikut urutan yang betul.",
+            en: "Arrange the basic AD DS installation steps in the correct order."
+        },
+
+        instruction: {
+            ms: "Pilih langkah mengikut urutan yang betul.",
+            en: "Select the steps in the correct order."
+        },
+
+        items: [
+            {
+                id: "staticip",
+                text: {
+                    ms: "Tetapkan alamat IP statik",
+                    en: "Configure a static IP address"
+                }
+            },
+            {
+                id: "role",
+                text: {
+                    ms: "Tambah peranan Active Directory Domain Services",
+                    en: "Add the Active Directory Domain Services role"
+                }
+            },
+            {
+                id: "promote",
+                text: {
+                    ms: "Promote server sebagai Domain Controller",
+                    en: "Promote the server as a Domain Controller"
+                }
+            },
+            {
+                id: "domain",
+                text: {
+                    ms: "Tetapkan nama domain",
+                    en: "Configure the domain name"
+                }
+            },
+            {
+                id: "restart",
+                text: {
+                    ms: "Mulakan semula server",
+                    en: "Restart the server"
+                }
+            }
+        ],
+
+        correctOrder: [
+            "staticip",
+            "role",
+            "promote",
+            "domain",
+            "restart"
+        ],
+
+        ok: {
+            ms: "Tahniah! Urutan asas pemasangan AD DS anda betul.",
+            en: "Congratulations! Your basic AD DS installation sequence is correct."
+        },
+
+        bad: {
+            ms: "Susunan anda salah. Tetapkan alamat IP statik sebelum memasang dan mengkonfigurasi AD DS.",
+            en: "Your order is incorrect. Configure a static IP address before installing and configuring AD DS."
         }
     }
 
