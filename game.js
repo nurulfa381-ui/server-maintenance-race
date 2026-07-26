@@ -1,8 +1,10 @@
 /* =========================================================
    SERVER HERO RACE™
-   GAME.JS FULL VERSION
+   GAME.JS FULL VERSION V3
+   FINAL GAME ENGINE
    Objective + Matching + Drag & Drop
-   Multiplayer + Firebase + Turbo + Audio
+   Multiplayer + Firebase + Audio + Turbo
+   Confetti + Achievements + Podium
 ========================================================= */
 
 const G = {
@@ -36,6 +38,16 @@ const G = {
     completedMatches: [],
 
     dragOrder: [],
+
+    correctCount: 0,
+
+    wrongCount: 0,
+
+    fastCount: 0,
+
+    answerTimes: [],
+
+    raceStarted: false,
 
     avatars: [
         "🧑‍💻",
@@ -79,17 +91,17 @@ const G = {
 
         avatarGrid.onclick = event => {
 
-            const avatar =
+            const selectedAvatar =
                 event.target.dataset.a;
 
 
-            if (!avatar) {
+            if (!selectedAvatar) {
                 return;
             }
 
 
             this.avatar =
-                avatar;
+                selectedAvatar;
 
 
             document
@@ -675,11 +687,12 @@ const G = {
                         data?.status ===
                         "racing" &&
 
-                        !waitingScreen.classList
-                            .contains(
-                                "hidden"
-                            )
+                        !this.raceStarted
                     ) {
+
+                        this.raceStarted =
+                            true;
+
 
                         this.startCountdown();
                     }
@@ -863,6 +876,14 @@ const G = {
 
         this.dragOrder = [];
 
+        this.correctCount = 0;
+
+        this.wrongCount = 0;
+
+        this.fastCount = 0;
+
+        this.answerTimes = [];
+
 
         score.textContent = 0;
 
@@ -899,7 +920,22 @@ const G = {
                 {
                     finished: true,
 
-                    status: "finished"
+                    status: "finished",
+
+                    score:
+                        this.score,
+
+                    xp:
+                        this.xp,
+
+                    correctCount:
+                        this.correctCount,
+
+                    wrongCount:
+                        this.wrongCount,
+
+                    fastCount:
+                        this.fastCount
                 }
             );
 
@@ -1628,24 +1664,32 @@ const G = {
             );
 
 
-        resetOrderBtn.onclick =
+        document
+            .getElementById(
+                "resetOrderBtn"
+            )
+            .onclick =
 
-            () => {
+                () => {
 
-                this.resetDragOrder(
-                    question
-                );
-            };
+                    this.resetDragOrder(
+                        question
+                    );
+                };
 
 
-        checkOrderBtn.onclick =
+        document
+            .getElementById(
+                "checkOrderBtn"
+            )
+            .onclick =
 
-            () => {
+                () => {
 
-                this.checkDragOrder(
-                    question
-                );
-            };
+                    this.checkDragOrder(
+                        question
+                    );
+                };
     },
 
 
@@ -1693,7 +1737,14 @@ const G = {
 
     renderSelectedOrder(question) {
 
-        selectedOrder.innerHTML =
+        const selectedOrderElement =
+
+            document.getElementById(
+                "selectedOrder"
+            );
+
+
+        selectedOrderElement.innerHTML =
 
             this.dragOrder
 
@@ -1885,12 +1936,24 @@ const G = {
 
             gainedXP = 100;
 
+            this.fastCount += 1;
+
         } else if (seconds <= 5) {
 
             gainedScore = 150;
 
             gainedXP = 75;
+
+            this.fastCount += 1;
         }
+
+
+        this.correctCount += 1;
+
+
+        this.answerTimes.push(
+            seconds
+        );
 
 
         this.score +=
@@ -1945,6 +2008,15 @@ const G = {
                 status:
                     "racing",
 
+                correctCount:
+                    this.correctCount,
+
+                wrongCount:
+                    this.wrongCount,
+
+                fastCount:
+                    this.fastCount,
+
                 lastAnswerMs:
                     Math.round(
                         seconds * 1000
@@ -1977,6 +2049,9 @@ const G = {
 
 
     processWrong(question) {
+
+        this.wrongCount += 1;
+
 
         this.playWrongSound();
 
@@ -2284,6 +2359,274 @@ const G = {
 
 
     /* =====================================================
+       CONFETTI
+    ===================================================== */
+
+    createConfetti() {
+
+        const colours = [
+            "#ffd84d",
+            "#ff4d5e",
+            "#35d978",
+            "#4dd8ff",
+            "#8c6bff",
+            "#ff9d00"
+        ];
+
+
+        for (
+            let index = 0;
+            index < 90;
+            index += 1
+        ) {
+
+            const confetti =
+
+                document.createElement(
+                    "div"
+                );
+
+
+            confetti.className =
+                "confetti-piece";
+
+
+            confetti.style.left =
+
+                `${Math.random() * 100}vw`;
+
+
+            confetti.style.background =
+
+                colours[
+                    Math.floor(
+                        Math.random() *
+                        colours.length
+                    )
+                ];
+
+
+            confetti.style.animationDelay =
+
+                `${Math.random() * 1.5}s`;
+
+
+            confetti.style.animationDuration =
+
+                `${2.2 + Math.random() * 2}s`;
+
+
+            document.body.appendChild(
+                confetti
+            );
+
+
+            setTimeout(
+
+                () => {
+
+                    confetti.remove();
+                },
+
+                5000
+            );
+        }
+    },
+
+
+    /* =====================================================
+       ACHIEVEMENTS
+    ===================================================== */
+
+    getAchievements(position) {
+
+        const achievements = [];
+
+
+        if (
+            this.wrongCount === 0
+        ) {
+
+            achievements.push({
+
+                icon: "🎯",
+
+                ms: "Jawapan Sempurna",
+
+                en: "Perfect Accuracy"
+            });
+        }
+
+
+        if (
+            this.fastCount >= 5
+        ) {
+
+            achievements.push({
+
+                icon: "⚡",
+
+                ms: "Raja Kelajuan",
+
+                en: "Speed Champion"
+            });
+        }
+
+
+        if (
+            position >= 1 &&
+            position <= 3
+        ) {
+
+            achievements.push({
+
+                icon: "🏆",
+
+                ms: "Pemenang Podium",
+
+                en: "Podium Winner"
+            });
+        }
+
+
+        if (
+            this.correctCount ===
+            SERVER_HERO_QUESTIONS.length
+        ) {
+
+            achievements.push({
+
+                icon: "🧠",
+
+                ms: "Pakar Server",
+
+                en: "Server Expert"
+            });
+        }
+
+
+        return achievements;
+    },
+
+
+    showAchievements(position) {
+
+        const achievements =
+
+            this.getAchievements(
+                position
+            );
+
+
+        const oldBox =
+
+            document.getElementById(
+                "achievementBox"
+            );
+
+
+        if (oldBox) {
+
+            oldBox.remove();
+        }
+
+
+        const box =
+
+            document.createElement(
+                "div"
+            );
+
+
+        box.id =
+            "achievementBox";
+
+
+        box.style.marginTop =
+            "20px";
+
+
+        box.innerHTML = `
+
+            <h3>
+
+                ${
+                    this.lang === "ms"
+                        ? "Lencana Pencapaian"
+                        : "Achievements"
+                }
+
+            </h3>
+
+            <div
+                style="
+                    display:flex;
+                    gap:10px;
+                    flex-wrap:wrap;
+                    justify-content:center;
+                "
+            >
+
+                ${
+                    achievements.length
+
+                        ? achievements
+
+                            .map(
+
+                                achievement => `
+
+                                    <span
+                                        style="
+                                            padding:10px 14px;
+                                            border-radius:12px;
+                                            background:#0d315c;
+                                            border:1px solid #356b9d;
+                                            font-weight:bold;
+                                        "
+                                    >
+
+                                        ${achievement.icon}
+
+                                        ${achievement[this.lang]}
+
+                                    </span>
+
+                                `
+                            )
+
+                            .join("")
+
+                        : `
+
+                            <span>
+
+                                ${
+                                    this.lang === "ms"
+                                        ? "Teruskan usaha untuk mendapatkan lencana."
+                                        : "Keep trying to earn achievements."
+                                }
+
+                            </span>
+
+                        `
+                }
+
+            </div>
+
+        `;
+
+
+        finalStats.insertAdjacentElement(
+
+            "afterend",
+
+            box
+        );
+    },
+
+
+    /* =====================================================
        FINISH
     ===================================================== */
 
@@ -2380,16 +2723,99 @@ const G = {
                 : `Position #${position} of ${players.length}`;
 
 
-        finalStats.textContent =
+        const averageTime =
 
-            `${
+            this.answerTimes.length
+
+                ? (
+
+                    this.answerTimes.reduce(
+
+                        (
+                            total,
+                            time
+                        ) =>
+
+                            total + time,
+
+                        0
+                    )
+
+                    /
+
+                    this.answerTimes.length
+
+                ).toFixed(1)
+
+                : "0.0";
+
+
+        finalStats.innerHTML = `
+
+            ${
                 this.lang === "ms"
                     ? "Markah"
                     : "Score"
-            } ${this.score} • XP ${this.xp}`;
+            }
+
+            ${this.score}
+
+            • XP ${this.xp}
+
+            <br>
+
+            ${
+                this.lang === "ms"
+                    ? "Betul"
+                    : "Correct"
+            }:
+
+            ${this.correctCount}
+
+            •
+
+            ${
+                this.lang === "ms"
+                    ? "Salah"
+                    : "Wrong"
+            }:
+
+            ${this.wrongCount}
+
+            <br>
+
+            ${
+                this.lang === "ms"
+                    ? "Purata masa"
+                    : "Average time"
+            }:
+
+            ${averageTime}
+
+            ${
+                this.lang === "ms"
+                    ? "saat"
+                    : "seconds"
+            }
+
+        `;
+
+
+        this.showAchievements(
+            position
+        );
 
 
         this.playFinishSound();
+
+
+        if (
+            position >= 1 &&
+            position <= 3
+        ) {
+
+            this.createConfetti();
+        }
     }
 
 };
