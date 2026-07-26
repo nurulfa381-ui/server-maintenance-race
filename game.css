@@ -1,2 +1,980 @@
+/* =========================================================
+   SERVER HERO RACE™
+   GAME + TEACHER DASHBOARD STYLES v2
+========================================================= */
 
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:#fff;background:radial-gradient(circle at top,#174f8f,#06152d 58%,#020814)}button,input{font:inherit}.hidden{display:none!important}.screen{min-height:100vh;padding:18px}.center{display:grid;place-items:center}.panel{background:rgba(5,23,51,.96);border:1px solid #356b9d;border-radius:24px;padding:26px;box-shadow:0 25px 75px #0009}.row,.stats,.summary{display:flex;gap:10px;flex-wrap:wrap}.row button,.panel button,.linkbtn{padding:12px 16px;border-radius:13px;border:1px solid #3b6d99;background:#0d315c;color:#fff;font-weight:800;text-decoration:none}.row button.active{border-color:#ffd84d}.primary{background:linear-gradient(90deg,#ff9d00,#ffd84d)!important;color:#07172f!important;border:0!important}.panel input{width:100%;padding:15px;margin:8px 0;border-radius:13px;border:1px solid #376897;background:#071a35;color:#fff}.avatars{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}.avatar{font-size:30px}.avatar.selected{outline:3px solid #ffd84d}.loader{width:52px;height:52px;border:6px solid #ffffff2b;border-top-color:#ffd84d;border-radius:50%;animation:spin 1s linear infinite;margin:25px auto}@keyframes spin{to{transform:rotate(360deg)}}.topbar{max-width:1500px;margin:0 auto 15px;padding:15px 18px;background:#071d3a;border:1px solid #356b9d;border-radius:20px;display:flex;justify-content:space-between;align-items:center}.stats span{padding:10px 13px;background:#0d315c;border-radius:12px}.track{max-width:1500px;margin:auto;position:relative;overflow:hidden;padding:20px 72px 20px 30px;border:9px solid #dce6ee;border-radius:28px;background:repeating-linear-gradient(90deg,transparent 0 110px,rgba(255,255,255,.035) 110px 114px),linear-gradient(180deg,#4b535e,#2a3038 55%,#222830);box-shadow:inset 0 0 55px #000b,0 22px 55px #0007}.track:after{content:"";position:absolute;right:34px;top:0;bottom:0;width:20px;z-index:4;background:linear-gradient(90deg,#111 0 50%,#fff 50% 100%) 0 0/20px 20px,linear-gradient(90deg,#fff 0 50%,#111 50% 100%) 0 10px/20px 20px}.lane{height:58px;border-bottom:2px dashed #ffffff55;position:relative}.car{position:absolute;top:7px;display:flex;align-items:center;gap:10px;transition:left .75s cubic-bezier(.2,.82,.2,1);z-index:3}.race-car-body{width:76px;height:34px;position:relative;border-radius:9px 16px 7px 8px;background:linear-gradient(180deg,var(--car-light),var(--car) 55%,var(--car-dark));border:2px solid #ffffff88;box-shadow:0 5px 9px #0009}.race-car-body:before{content:"";position:absolute;left:20px;top:-12px;width:36px;height:16px;border-radius:12px 14px 2px 2px;background:linear-gradient(180deg,#9cecff,#2b729d);border:2px solid #ffffff88;border-bottom:0}.race-car-body:after{content:"";position:absolute;left:-12px;top:11px;width:18px;height:11px;border-radius:10px 2px 2px 10px;background:#ff6b2e;opacity:0}.wheel{position:absolute;bottom:-7px;width:17px;height:17px;border-radius:50%;background:radial-gradient(circle,#c9d4df 0 21%,#262b31 23% 65%,#050608 67%)}.wheel.front{right:10px}.wheel.back{left:9px}.car b{background:#06152ddd;padding:5px 9px;border-radius:9px;font-size:11px}.car.player .race-car-body{box-shadow:0 5px 9px #0009,0 0 0 3px #ffd84d,0 0 22px #ffd84d99}.car.player b{background:#ffd84d;color:#07172f}.car.turbo .race-car-body:after{opacity:1;animation:nitro .18s infinite alternate}@keyframes nitro{to{transform:scaleX(1.8)}}.overtake-badge{position:fixed;left:50%;top:110px;transform:translateX(-50%);padding:12px 22px;border-radius:999px;background:linear-gradient(90deg,#6f48ff,#22b8ff);font-weight:900;z-index:60;animation:pop 1.2s forwards}@keyframes pop{0%{opacity:0;transform:translate(-50%,-20px) scale(.7)}25%{opacity:1;transform:translate(-50%,0) scale(1.08)}100%{opacity:0;transform:translate(-50%,-25px)}}.question-card{max-width:1500px;margin:16px auto;padding:24px;background:#061b38;border:1px solid #356b9d;border-radius:22px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}.answer{min-height:70px;padding:15px;border-radius:14px;border:2px solid #3b6d99;background:#0d315c;color:#fff;text-align:left;font-weight:700}.answer.correct{border-color:#35d978}.answer.wrong{border-color:#ff4d5e}.byte{max-width:580px;margin:14px auto;padding:15px 17px;border-left:6px solid #8c6bff;background:#143969;border-radius:15px}.teacher-wrap{max-width:1400px;margin:auto}.teacher-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}.student-row,.leader-row{display:grid;grid-template-columns:50px 1fr 110px 120px 120px;gap:8px;padding:10px;border-bottom:1px solid #ffffff18}.status-wait{color:#ffd84d}.status-ok{color:#35d978}.trophy{font-size:80px}.result{text-align:center}@media(max-width:800px){.teacher-grid{grid-template-columns:1fr}.answers{grid-template-columns:1fr}.screen{padding:9px}.track{padding-left:12px;padding-right:46px}.car b{display:none}.race-car-body{width:60px}}
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #06152d;
+    --navy-2: #0a2347;
+    --navy-3: #0d315c;
+    --blue: #198cff;
+    --cyan: #4dd8ff;
+    --yellow: #ffd84d;
+    --orange: #ff9d00;
+    --green: #35d978;
+    --red: #ff4d5e;
+    --purple: #8c6bff;
+    --white: #ffffff;
+    --muted: #a9bdd7;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--white);
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(25, 140, 255, 0.28),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(140, 107, 255, 0.20),
+            transparent 28%
+        ),
+        linear-gradient(
+            180deg,
+            #09254d,
+            #041226 62%,
+            #020814
+        );
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.screen {
+    min-height: 100vh;
+    padding: 18px;
+}
+
+.center {
+    display: grid;
+    place-items: center;
+}
+
+.panel {
+    padding: 26px;
+    border: 1px solid rgba(77, 216, 255, 0.34);
+    border-radius: 24px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7, 29, 61, 0.97),
+            rgba(4, 18, 39, 0.97)
+        );
+    box-shadow:
+        0 25px 75px rgba(0, 0, 0, 0.58),
+        0 0 35px rgba(25, 140, 255, 0.12);
+}
+
+.panel h1,
+.panel h2 {
+    margin-top: 0;
+}
+
+.subtitle {
+    color: var(--yellow);
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.row,
+.stats,
+.summary {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.row button,
+.panel button,
+.linkbtn {
+    padding: 12px 16px;
+    color: var(--white);
+    font-weight: 800;
+    text-decoration: none;
+    border: 1px solid #3b6d99;
+    border-radius: 13px;
+    background: var(--navy-3);
+    transition: 0.22s ease;
+}
+
+.row button:hover,
+.panel button:hover,
+.linkbtn:hover {
+    border-color: var(--yellow);
+    transform: translateY(-2px);
+}
+
+.row button.active {
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 3px rgba(255, 216, 77, 0.14);
+}
+
+.primary {
+    color: #07172f !important;
+    border: none !important;
+    background:
+        linear-gradient(
+            90deg,
+            var(--orange),
+            var(--yellow)
+        ) !important;
+    box-shadow:
+        0 12px 30px rgba(255, 157, 0, 0.25);
+}
+
+.panel input {
+    width: 100%;
+    margin: 8px 0;
+    padding: 15px;
+    color: var(--white);
+    border: 1px solid #376897;
+    border-radius: 13px;
+    outline: none;
+    background: #071a35;
+}
+
+.panel input:focus {
+    border-color: var(--cyan);
+    box-shadow:
+        0 0 0 4px rgba(77, 216, 255, 0.12);
+}
+
+.panel input::placeholder {
+    color: #8ba5c4;
+}
+
+/* =========================================================
+   LOGIN / STUDENT JOIN
+========================================================= */
+
+#joinScreen .panel {
+    width: min(720px, 100%);
+}
+
+.avatars {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+}
+
+.avatar {
+    font-size: 30px;
+}
+
+.avatar.selected {
+    outline: 3px solid var(--yellow);
+}
+
+.loader {
+    width: 52px;
+    height: 52px;
+    margin: 25px auto;
+    border: 6px solid rgba(255, 255, 255, 0.17);
+    border-top-color: var(--yellow);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+    width: min(1500px, 100%);
+    margin: 0 auto 15px;
+    padding: 15px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid rgba(77, 216, 255, 0.32);
+    border-radius: 20px;
+    background:
+        linear-gradient(
+            180deg,
+            #0b2d5a,
+            #071d3a
+        );
+    box-shadow:
+        0 14px 38px rgba(0, 0, 0, 0.35);
+}
+
+.stats span {
+    min-width: 105px;
+    padding: 10px 13px;
+    text-align: center;
+    border: 1px solid #3c6f9f;
+    border-radius: 12px;
+    background:
+        linear-gradient(
+            180deg,
+            #123d70,
+            #0a2a50
+        );
+}
+
+/* =========================================================
+   RACE ENGINE
+========================================================= */
+
+.track {
+    width: min(1500px, 100%);
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 72px 20px 30px;
+    border: 9px solid #dce6ee;
+    border-radius: 28px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 110px,
+            rgba(255, 255, 255, 0.035) 110px 114px
+        ),
+        linear-gradient(
+            180deg,
+            #4b535e,
+            #2a3038 55%,
+            #222830
+        );
+    box-shadow:
+        inset 0 0 55px rgba(0, 0, 0, 0.75),
+        0 22px 55px rgba(0, 0, 0, 0.45);
+}
+
+.track::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 13px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #2faa58 0 54px,
+            #258f48 54px 108px
+        );
+}
+
+.track::after {
+    content: "";
+    position: absolute;
+    right: 34px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    z-index: 4;
+    background:
+        linear-gradient(
+            90deg,
+            #111 0 50%,
+            #fff 50% 100%
+        ) 0 0 / 20px 20px,
+        linear-gradient(
+            90deg,
+            #fff 0 50%,
+            #111 50% 100%
+        ) 0 10px / 20px 20px;
+}
+
+.lane {
+    height: 58px;
+    position: relative;
+    border-bottom:
+        2px dashed rgba(255, 255, 255, 0.33);
+}
+
+.lane:last-child {
+    border-bottom: none;
+}
+
+.car {
+    position: absolute;
+    top: 7px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition:
+        left 0.75s cubic-bezier(0.2, 0.82, 0.2, 1);
+}
+
+.race-car-body {
+    width: 76px;
+    height: 34px;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    border-radius: 9px 16px 7px 8px;
+    background:
+        linear-gradient(
+            180deg,
+            var(--car-light),
+            var(--car) 55%,
+            var(--car-dark)
+        );
+    box-shadow:
+        0 5px 9px rgba(0, 0, 0, 0.55);
+}
+
+.race-car-body::before {
+    content: "";
+    width: 36px;
+    height: 16px;
+    position: absolute;
+    left: 20px;
+    top: -12px;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    border-bottom: none;
+    border-radius: 12px 14px 2px 2px;
+    background:
+        linear-gradient(
+            180deg,
+            #9cecff,
+            #2b729d
+        );
+}
+
+.race-car-body::after {
+    content: "";
+    width: 18px;
+    height: 11px;
+    position: absolute;
+    left: -12px;
+    top: 11px;
+    opacity: 0;
+    border-radius: 10px 2px 2px 10px;
+    background: #ff6b2e;
+}
+
+.wheel {
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    bottom: -7px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            #c9d4df 0 21%,
+            #262b31 23% 65%,
+            #050608 67%
+        );
+}
+
+.wheel.front {
+    right: 10px;
+}
+
+.wheel.back {
+    left: 9px;
+}
+
+.car b {
+    padding: 5px 9px;
+    color: var(--white);
+    font-size: 11px;
+    border-radius: 9px;
+    background: rgba(6, 21, 45, 0.88);
+}
+
+.car.player .race-car-body {
+    box-shadow:
+        0 5px 9px rgba(0, 0, 0, 0.55),
+        0 0 0 3px var(--yellow),
+        0 0 22px rgba(255, 216, 77, 0.60);
+}
+
+.car.player b {
+    color: #07172f;
+    background: var(--yellow);
+}
+
+.car.turbo .race-car-body::after {
+    opacity: 1;
+    animation:
+        nitro 0.18s linear infinite alternate;
+}
+
+@keyframes nitro {
+    to {
+        transform: scaleX(1.8);
+    }
+}
+
+.overtake-badge {
+    position: fixed;
+    left: 50%;
+    top: 110px;
+    z-index: 60;
+    padding: 12px 22px;
+    font-weight: 900;
+    border-radius: 999px;
+    background:
+        linear-gradient(
+            90deg,
+            #6f48ff,
+            #22b8ff
+        );
+    transform: translateX(-50%);
+    animation:
+        badgePop 1.2s ease forwards;
+}
+
+@keyframes badgePop {
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -20px)
+            scale(0.7);
+    }
+
+    25% {
+        opacity: 1;
+        transform:
+            translate(-50%, 0)
+            scale(1.08);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -25px)
+            scale(1);
+    }
+}
+
+/* =========================================================
+   QUESTIONS
+========================================================= */
+
+.question-card {
+    width: min(1500px, 100%);
+    margin: 16px auto;
+    padding: 24px;
+    border: 1px solid rgba(77, 216, 255, 0.32);
+    border-radius: 22px;
+    background:
+        linear-gradient(
+            180deg,
+            #082752,
+            #061b38
+        );
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.36);
+}
+
+.question-card h2 {
+    font-size: clamp(21px, 3vw, 34px);
+}
+
+.answers {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.answer {
+    min-height: 70px;
+    padding: 15px;
+    color: var(--white);
+    font-weight: 700;
+    text-align: left;
+    border: 2px solid #3b6d99;
+    border-radius: 14px;
+    background:
+        linear-gradient(
+            180deg,
+            #124170,
+            #0b315b
+        );
+    transition: 0.2s ease;
+}
+
+.answer:hover {
+    border-color: var(--yellow);
+    transform: translateY(-2px);
+}
+
+.answer.correct {
+    border-color: var(--green);
+    background:
+        rgba(53, 217, 120, 0.25);
+}
+
+.answer.wrong {
+    border-color: var(--red);
+    background:
+        rgba(255, 77, 94, 0.25);
+}
+
+/* =========================================================
+   BYTE
+========================================================= */
+
+#byteArea {
+    width: min(1500px, 100%);
+    margin: auto;
+}
+
+.byte {
+    max-width: 580px;
+    margin: 14px auto;
+    padding: 15px 17px;
+    border-left:
+        6px solid var(--purple);
+    border-radius: 15px;
+    background:
+        linear-gradient(
+            180deg,
+            #143969,
+            #0b274b
+        );
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.35),
+        0 0 24px rgba(140, 107, 255, 0.20);
+}
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result {
+    text-align: center;
+}
+
+.trophy {
+    font-size: 80px;
+}
+
+/* =========================================================
+   TEACHER DASHBOARD
+========================================================= */
+
+.teacher-wrap {
+    width: min(1400px, 100%);
+    margin: auto;
+}
+
+.teacher-topbar h1 {
+    margin: 0 0 4px;
+}
+
+.teacher-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.teacher-hero {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.teacher-form {
+    display: grid;
+    gap: 10px;
+}
+
+.eyebrow {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.teacher-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.stat-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 18px;
+    border: 1px solid #356b9d;
+    border-radius: 18px;
+    background:
+        linear-gradient(
+            180deg,
+            #0d315c,
+            #071d3a
+        );
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.stat-card > span {
+    font-size: 30px;
+}
+
+.stat-card small {
+    display: block;
+    color: var(--muted);
+}
+
+.stat-card strong {
+    font-size: 26px;
+}
+
+.teacher-grid {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.section-heading h2 {
+    margin: 4px 0 0;
+}
+
+.control-grid {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap: 12px;
+}
+
+.control-button {
+    min-height: 62px;
+    font-size: 15px;
+}
+
+.control-button.approve {
+    background: #123f2a;
+}
+
+.control-button.start {
+    color: #07172f;
+    background:
+        linear-gradient(
+            90deg,
+            var(--orange),
+            var(--yellow)
+        );
+}
+
+.control-button.finish {
+    background: #5c1b26;
+}
+
+.control-button.export {
+    background: #143969;
+}
+
+.room-state-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding: 13px;
+    border: 1px solid #2e5e8c;
+    border-radius: 14px;
+    background: #071a35;
+}
+
+#roomStateBadge {
+    padding: 7px 12px;
+    font-size: 12px;
+    border-radius: 999px;
+    background: #5b6470;
+}
+
+#roomStateBadge[data-state="waiting"] {
+    color: #fff3b0;
+    background: #8a6a00;
+}
+
+#roomStateBadge[data-state="racing"] {
+    background: #0a7b46;
+}
+
+#roomStateBadge[data-state="finished"] {
+    background: #7c2634;
+}
+
+.qr-placeholder {
+    min-height: 180px;
+    padding: 18px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    border: 2px dashed #3d6d9d;
+    border-radius: 18px;
+    background: #071a35;
+}
+
+.qr-icon {
+    color: var(--cyan);
+    font-size: 74px;
+}
+
+.join-link-box {
+    display: grid;
+    grid-template-columns:
+        1fr auto;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.join-link-box input {
+    margin: 0;
+}
+
+.count-badge,
+.live-badge {
+    padding: 7px 11px;
+    font-size: 12px;
+    border: 1px solid #356b9d;
+    border-radius: 999px;
+    background: var(--navy-3);
+}
+
+.live-badge {
+    color: var(--green);
+}
+
+.table-head {
+    display: grid;
+    gap: 8px;
+    padding: 10px 12px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.12);
+}
+
+.student-table-head {
+    grid-template-columns:
+        50px 1fr 130px 100px 220px;
+}
+
+.leaderboard-head {
+    grid-template-columns:
+        100px 1fr 100px 120px 130px;
+}
+
+.student-row,
+.leader-row {
+    display: grid;
+    gap: 8px;
+    align-items: center;
+    padding: 10px;
+}
+
+.student-row {
+    grid-template-columns:
+        50px 1fr 130px 100px 220px;
+}
+
+.leader-row {
+    grid-template-columns:
+        100px 1fr 100px 120px 130px;
+}
+
+.premium-row {
+    margin: 6px 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    background: #081f3e;
+}
+
+.student-identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-identity small {
+    display: block;
+    color: var(--muted);
+}
+
+.student-avatar {
+    font-size: 28px;
+}
+
+.status-pill {
+    display: inline-flex;
+    justify-content: center;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 999px;
+}
+
+.status-waiting {
+    color: #fff1a8;
+    background: #6b5600;
+}
+
+.status-approved {
+    color: #c9ffe2;
+    background: #0a6b3d;
+}
+
+.status-racing {
+    color: #d6f2ff;
+    background: #0d5f94;
+}
+
+.status-finished {
+    color: #f6d9ff;
+    background: #6d2e7f;
+}
+
+.row-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.row-actions button {
+    padding: 8px 10px;
+}
+
+.row-actions .danger {
+    background: #5c1b26;
+}
+
+.empty-state {
+    padding: 28px;
+    color: var(--muted);
+    text-align: center;
+    border: 1px dashed #356b9d;
+    border-radius: 14px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .teacher-stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .teacher-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .student-table-head,
+    .leaderboard-head {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .screen {
+        padding: 9px;
+    }
+
+    .teacher-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .control-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .join-link-box {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-actions {
+        width: 100%;
+    }
+
+    .teacher-actions > * {
+        flex: 1;
+    }
+
+    .answers {
+        grid-template-columns: 1fr;
+    }
+
+    .track {
+        padding-left: 12px;
+        padding-right: 46px;
+    }
+
+    .car b {
+        display: none;
+    }
+
+    .race-car-body {
+        width: 60px;
+    }
+
+    .student-row {
+        grid-template-columns:
+            40px 1fr 90px;
+    }
+
+    .student-row > :nth-child(4),
+    .student-row > :nth-child(5) {
+        display: none;
+    }
+
+    .leader-row {
+        grid-template-columns:
+            70px 1fr 80px;
+    }
+
+    .leader-row > :nth-child(4),
+    .leader-row > :nth-child(5) {
+        display: none;
+    }
+}
