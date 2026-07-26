@@ -1,7 +1,8 @@
 /* =========================================================
    SERVER HERO RACE™
    GAME.JS FULL VERSION
-   Multiplayer + Random Answers + Countdown + Audio + Turbo
+   Objective + Matching + Drag & Drop
+   Multiplayer + Firebase + Turbo + Audio
 ========================================================= */
 
 const G = {
@@ -29,6 +30,12 @@ const G = {
     questionLocked: false,
 
     audioContext: null,
+
+    selectedMatch: null,
+
+    completedMatches: [],
+
+    dragOrder: [],
 
     avatars: [
         "🧑‍💻",
@@ -65,7 +72,6 @@ const G = {
                     </button>
 
                 `
-
             )
 
             .join("");
@@ -73,15 +79,17 @@ const G = {
 
         avatarGrid.onclick = event => {
 
-            if (
-                !event.target.dataset.a
-            ) {
+            const avatar =
+                event.target.dataset.a;
+
+
+            if (!avatar) {
                 return;
             }
 
 
             this.avatar =
-                event.target.dataset.a;
+                avatar;
 
 
             document
@@ -91,6 +99,7 @@ const G = {
                 )
 
                 .forEach(
+
                     button => {
 
                         button.classList.toggle(
@@ -105,16 +114,16 @@ const G = {
         };
 
 
-        bmBtn.onclick = () =>
-            this.setLang("ms");
+        bmBtn.onclick =
+            () => this.setLang("ms");
 
 
-        enBtn.onclick = () =>
-            this.setLang("en");
+        enBtn.onclick =
+            () => this.setLang("en");
 
 
-        joinBtn.onclick = () =>
-            this.join();
+        joinBtn.onclick =
+            () => this.join();
 
 
         const roomFromLink =
@@ -126,11 +135,10 @@ const G = {
                 .get("room");
 
 
-        if (
-            roomFromLink
-        ) {
+        if (roomFromLink) {
 
             roomCode.value =
+
                 String(roomFromLink)
                     .toUpperCase();
         }
@@ -211,9 +219,7 @@ const G = {
 
     initAudio() {
 
-        if (
-            this.audioContext
-        ) {
+        if (this.audioContext) {
             return;
         }
 
@@ -224,9 +230,7 @@ const G = {
             window.webkitAudioContext;
 
 
-        if (
-            !AudioContextClass
-        ) {
+        if (!AudioContextClass) {
             return;
         }
 
@@ -253,9 +257,7 @@ const G = {
         this.initAudio();
 
 
-        if (
-            !this.audioContext
-        ) {
+        if (!this.audioContext) {
             return;
         }
 
@@ -397,9 +399,7 @@ const G = {
         this.initAudio();
 
 
-        if (
-            !this.audioContext
-        ) {
+        if (!this.audioContext) {
             return;
         }
 
@@ -480,21 +480,14 @@ const G = {
 
 
         oscillator.stop(
-
             now + 0.80
         );
     },
 
 
-    playCountdownSound(
+    playCountdownSound(number) {
 
-        number
-
-    ) {
-
-        if (
-            number > 0
-        ) {
+        if (number > 0) {
 
             this.playTone(
                 440,
@@ -557,22 +550,19 @@ const G = {
 
         const room =
 
-            SERVER_HERO_MP
-                .cleanRoom(
-                    roomCode.value
-                );
+            SERVER_HERO_MP.cleanRoom(
+                roomCode.value
+            );
 
 
         const name =
 
-            playerName.value
-                .trim();
+            playerName.value.trim();
 
 
         const id =
 
-            playerId.value
-                .trim();
+            playerId.value.trim();
 
 
         if (
@@ -654,9 +644,7 @@ const G = {
 
                 playerData => {
 
-                    if (
-                        !playerData
-                    ) {
+                    if (!playerData) {
                         return;
                     }
 
@@ -697,9 +685,7 @@ const G = {
                     }
 
 
-                    if (
-                        data?.players
-                    ) {
+                    if (data?.players) {
 
                         this.renderRace(
                             data.players
@@ -798,17 +784,15 @@ const G = {
             );
 
 
-            if (
-                number === 0
-            ) {
+            if (number === 0) {
 
                 setTimeout(
+
                     () => {
 
                         overlay.remove();
 
                         this.startRace();
-
                     },
 
                     750
@@ -873,6 +857,12 @@ const G = {
 
         this.questionLocked = false;
 
+        this.selectedMatch = null;
+
+        this.completedMatches = [];
+
+        this.dragOrder = [];
+
 
         score.textContent = 0;
 
@@ -882,39 +872,6 @@ const G = {
 
 
         this.showQuestion();
-    },
-
-
-    /* =====================================================
-       QUESTION SHUFFLE
-    ===================================================== */
-
-    shuffleOptions(question) {
-
-        return question.options
-
-            .map(
-
-                (
-                    option,
-                    originalIndex
-                ) => ({
-
-                    option,
-
-                    correct:
-
-                        originalIndex ===
-                        question.answer
-                })
-            )
-
-            .sort(
-
-                () =>
-                    Math.random() -
-                    0.5
-            );
     },
 
 
@@ -931,9 +888,7 @@ const G = {
             ];
 
 
-        if (
-            !question
-        ) {
+        if (!question) {
 
             SERVER_HERO_MP.updatePlayer(
 
@@ -942,11 +897,9 @@ const G = {
                 this.key,
 
                 {
-                    finished:
-                        true,
+                    finished: true,
 
-                    status:
-                        "finished"
+                    status: "finished"
                 }
             );
 
@@ -975,9 +928,87 @@ const G = {
             false;
 
 
+        this.selectedMatch =
+            null;
+
+
+        this.completedMatches =
+            [];
+
+
+        this.dragOrder =
+            [];
+
+
         this.start =
             Date.now();
 
+
+        if (
+            question.type ===
+            "matching"
+        ) {
+
+            this.renderMatching(
+                question
+            );
+
+            return;
+        }
+
+
+        if (
+            question.type ===
+            "dragdrop"
+        ) {
+
+            this.renderDragDrop(
+                question
+            );
+
+            return;
+        }
+
+
+        this.renderObjective(
+            question
+        );
+    },
+
+
+    /* =====================================================
+       OBJECTIVE
+    ===================================================== */
+
+    shuffleOptions(question) {
+
+        return question.options
+
+            .map(
+
+                (
+                    option,
+                    originalIndex
+                ) => ({
+
+                    option,
+
+                    correct:
+                        originalIndex ===
+                        question.answer
+                })
+            )
+
+            .sort(
+
+                () =>
+                    Math.random() -
+                    0.5
+            );
+    },
+
+
+    renderObjective(question) {
 
         const shuffled =
 
@@ -1069,17 +1100,47 @@ const G = {
                 ) => {
 
                     button.onclick =
+
                         () => {
 
-                            this.answer(
-
+                            if (
                                 shuffled[index]
-                                    .correct,
+                                    .correct
+                            ) {
 
-                                question,
+                                button.classList.add(
+                                    "correct"
+                                );
 
-                                button
-                            );
+
+                                this.processCorrect(
+                                    question
+                                );
+
+                            } else {
+
+                                button.classList.add(
+                                    "wrong"
+                                );
+
+
+                                this.processWrong(
+                                    question
+                                );
+
+
+                                setTimeout(
+
+                                    () => {
+
+                                        button.classList.remove(
+                                            "wrong"
+                                        );
+                                    },
+
+                                    850
+                                );
+                            }
                         };
                 }
             );
@@ -1087,59 +1148,700 @@ const G = {
 
 
     /* =====================================================
-       ANSWER
+       MATCHING
     ===================================================== */
 
-    async answer(
+    renderMatching(question) {
 
-        correct,
+        const rightItems =
 
-        question,
+            [...question.pairs]
 
-        button
+                .sort(
+
+                    () =>
+                        Math.random() -
+                        0.5
+                );
+
+
+        questionArea.innerHTML = `
+
+            <small>
+
+                ${
+                    this.lang === "ms"
+                        ? "Soalan Padanan"
+                        : "Matching Question"
+                }
+
+                ${this.index + 1}
+
+                /
+
+                ${SERVER_HERO_QUESTIONS.length}
+
+            </small>
+
+
+            <h2>
+
+                ${question.q[this.lang]}
+
+            </h2>
+
+
+            <p>
+
+                ${question.instruction[this.lang]}
+
+            </p>
+
+
+            <div class="matching-area">
+
+                <div class="matching-column">
+
+                    ${question.pairs
+
+                        .map(
+
+                            pair => `
+
+                                <button
+
+                                    type="button"
+
+                                    class="match-item"
+
+                                    data-side="left"
+
+                                    data-id="${pair.id}"
+
+                                >
+
+                                    ${pair.left[this.lang]}
+
+                                </button>
+
+                            `
+                        )
+
+                        .join("")}
+
+                </div>
+
+
+                <div class="matching-column">
+
+                    ${rightItems
+
+                        .map(
+
+                            pair => `
+
+                                <button
+
+                                    type="button"
+
+                                    class="match-item"
+
+                                    data-side="right"
+
+                                    data-id="${pair.id}"
+
+                                >
+
+                                    ${pair.right[this.lang]}
+
+                                </button>
+
+                            `
+                        )
+
+                        .join("")}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        questionArea
+
+            .querySelectorAll(
+                ".match-item"
+            )
+
+            .forEach(
+
+                button => {
+
+                    button.onclick =
+
+                        () => {
+
+                            this.handleMatching(
+
+                                button,
+
+                                question
+                            );
+                        };
+                }
+            );
+    },
+
+
+    handleMatching(
+
+        button,
+
+        question
 
     ) {
 
         if (
-            this.questionLocked
+            this.questionLocked ||
+            button.classList.contains(
+                "completed"
+            )
         ) {
+
+            return;
+        }
+
+
+        const side =
+            button.dataset.side;
+
+
+        const id =
+            button.dataset.id;
+
+
+        if (side === "left") {
+
+            questionArea
+
+                .querySelectorAll(
+                    '[data-side="left"]'
+                )
+
+                .forEach(
+
+                    item => {
+
+                        if (
+                            !item.classList.contains(
+                                "completed"
+                            )
+                        ) {
+
+                            item.classList.remove(
+                                "selected"
+                            );
+                        }
+                    }
+                );
+
+
+            button.classList.add(
+                "selected"
+            );
+
+
+            this.selectedMatch =
+                id;
+
+
+            return;
+        }
+
+
+        if (!this.selectedMatch) {
+
             return;
         }
 
 
         if (
-            !correct
+            this.selectedMatch ===
+            id
         ) {
 
+            const leftButton =
+
+                questionArea.querySelector(
+
+                    `[data-side="left"][data-id="${id}"]`
+                );
+
+
+            leftButton.classList.remove(
+                "selected"
+            );
+
+
+            leftButton.classList.add(
+                "completed"
+            );
+
+
             button.classList.add(
-                "wrong"
+                "completed"
+            );
+
+
+            leftButton.disabled =
+                true;
+
+
+            button.disabled =
+                true;
+
+
+            this.completedMatches.push(
+                id
+            );
+
+
+            this.selectedMatch =
+                null;
+
+
+            this.playCorrectSound();
+
+
+            if (
+                this.completedMatches.length ===
+                question.pairs.length
+            ) {
+
+                this.processCorrect(
+                    question
+                );
+            }
+
+        } else {
+
+            this.processWrong(
+                question
+            );
+
+
+            questionArea
+
+                .querySelectorAll(
+                    ".match-item"
+                )
+
+                .forEach(
+
+                    item => {
+
+                        if (
+                            !item.classList.contains(
+                                "completed"
+                            )
+                        ) {
+
+                            item.classList.remove(
+                                "selected"
+                            );
+                        }
+                    }
+                );
+
+
+            this.selectedMatch =
+                null;
+        }
+    },
+
+
+    /* =====================================================
+       DRAG & DROP
+    ===================================================== */
+
+    renderDragDrop(question) {
+
+        const shuffledItems =
+
+            [...question.items]
+
+                .sort(
+
+                    () =>
+                        Math.random() -
+                        0.5
+                );
+
+
+        questionArea.innerHTML = `
+
+            <small>
+
+                ${
+                    this.lang === "ms"
+                        ? "Soalan Susunan"
+                        : "Ordering Question"
+                }
+
+                ${this.index + 1}
+
+                /
+
+                ${SERVER_HERO_QUESTIONS.length}
+
+            </small>
+
+
+            <h2>
+
+                ${question.q[this.lang]}
+
+            </h2>
+
+
+            <p>
+
+                ${question.instruction[this.lang]}
+
+            </p>
+
+
+            <div class="drag-container">
+
+                <div class="drag-items">
+
+                    ${shuffledItems
+
+                        .map(
+
+                            item => `
+
+                                <button
+
+                                    type="button"
+
+                                    class="drag-item"
+
+                                    data-id="${item.id}"
+
+                                >
+
+                                    ${item.text[this.lang]}
+
+                                </button>
+
+                            `
+                        )
+
+                        .join("")}
+
+                </div>
+
+
+                <div class="selected-order-box">
+
+                    <h3>
+
+                        ${
+                            this.lang === "ms"
+                                ? "Susunan Pilihan"
+                                : "Selected Order"
+                        }
+
+                    </h3>
+
+
+                    <div
+                        id="selectedOrder"
+                        class="selected-order"
+                    >
+                    </div>
+
+
+                    <div class="drag-actions">
+
+                        <button
+                            id="resetOrderBtn"
+                            type="button"
+                        >
+
+                            ${
+                                this.lang === "ms"
+                                    ? "TETAPKAN SEMULA"
+                                    : "RESET"
+                            }
+
+                        </button>
+
+
+                        <button
+                            id="checkOrderBtn"
+                            type="button"
+                            class="primary"
+                        >
+
+                            ${
+                                this.lang === "ms"
+                                    ? "SEMAK JAWAPAN"
+                                    : "CHECK ANSWER"
+                            }
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        questionArea
+
+            .querySelectorAll(
+                ".drag-item"
+            )
+
+            .forEach(
+
+                button => {
+
+                    button.onclick =
+
+                        () => {
+
+                            this.addDragItem(
+
+                                button,
+
+                                question
+                            );
+                        };
+                }
+            );
+
+
+        resetOrderBtn.onclick =
+
+            () => {
+
+                this.resetDragOrder(
+                    question
+                );
+            };
+
+
+        checkOrderBtn.onclick =
+
+            () => {
+
+                this.checkDragOrder(
+                    question
+                );
+            };
+    },
+
+
+    addDragItem(
+
+        button,
+
+        question
+
+    ) {
+
+        const id =
+            button.dataset.id;
+
+
+        if (
+            this.dragOrder.includes(
+                id
+            )
+        ) {
+
+            return;
+        }
+
+
+        this.dragOrder.push(
+            id
+        );
+
+
+        button.disabled =
+            true;
+
+
+        button.classList.add(
+            "used"
+        );
+
+
+        this.renderSelectedOrder(
+            question
+        );
+    },
+
+
+    renderSelectedOrder(question) {
+
+        selectedOrder.innerHTML =
+
+            this.dragOrder
+
+                .map(
+
+                    (
+                        id,
+                        index
+                    ) => {
+
+                        const item =
+
+                            question.items.find(
+
+                                value =>
+                                    value.id ===
+                                    id
+                            );
+
+
+                        return `
+
+                            <div class="order-item">
+
+                                <strong>
+
+                                    ${index + 1}.
+
+                                </strong>
+
+                                ${item.text[this.lang]}
+
+                            </div>
+
+                        `;
+                    }
+                )
+
+                .join("");
+    },
+
+
+    resetDragOrder(question) {
+
+        this.dragOrder = [];
+
+
+        questionArea
+
+            .querySelectorAll(
+                ".drag-item"
+            )
+
+            .forEach(
+
+                button => {
+
+                    button.disabled =
+                        false;
+
+
+                    button.classList.remove(
+                        "used"
+                    );
+                }
+            );
+
+
+        this.renderSelectedOrder(
+            question
+        );
+    },
+
+
+    checkDragOrder(question) {
+
+        if (
+            this.dragOrder.length !==
+            question.correctOrder.length
+        ) {
+
+            SERVER_HERO_BYTE.show(
+
+                this.lang === "ms"
+
+                    ? "Sila pilih semua langkah sebelum menyemak jawapan."
+
+                    : "Please select all steps before checking your answer."
             );
 
 
             this.playWrongSound();
 
+            return;
+        }
 
-            SERVER_HERO_BYTE.show(
 
-                question.bad[
-                    this.lang
-                ]
+        const correct =
+
+            this.dragOrder.every(
+
+                (
+                    id,
+                    index
+                ) =>
+
+                    id ===
+                    question.correctOrder[
+                        index
+                    ]
+            );
+
+
+        if (correct) {
+
+            this.processCorrect(
+                question
+            );
+
+        } else {
+
+            this.processWrong(
+                question
             );
 
 
             setTimeout(
+
                 () => {
 
-                    button.classList.remove(
-                        "wrong"
+                    this.resetDragOrder(
+                        question
                     );
-
                 },
 
-                850
+                900
             );
+        }
+    },
 
 
+    /* =====================================================
+       CORRECT / WRONG
+    ===================================================== */
+
+    async processCorrect(question) {
+
+        if (this.questionLocked) {
             return;
         }
 
@@ -1151,22 +1853,17 @@ const G = {
         questionArea
 
             .querySelectorAll(
-                ".answer"
+                "button"
             )
 
             .forEach(
 
-                answerButton => {
+                button => {
 
-                    answerButton.disabled =
+                    button.disabled =
                         true;
                 }
             );
-
-
-        button.classList.add(
-            "correct"
-        );
 
 
         const seconds =
@@ -1182,17 +1879,13 @@ const G = {
         let gainedXP = 50;
 
 
-        if (
-            seconds <= 3
-        ) {
+        if (seconds <= 3) {
 
             gainedScore = 200;
 
             gainedXP = 100;
 
-        } else if (
-            seconds <= 5
-        ) {
+        } else if (seconds <= 5) {
 
             gainedScore = 150;
 
@@ -1219,9 +1912,7 @@ const G = {
         this.playCorrectSound();
 
 
-        if (
-            seconds <= 5
-        ) {
+        if (seconds <= 5) {
 
             this.playTurboSound();
 
@@ -1231,9 +1922,7 @@ const G = {
 
         SERVER_HERO_BYTE.show(
 
-            question.ok[
-                this.lang
-            ]
+            question.ok[this.lang]
         );
 
 
@@ -1274,15 +1963,27 @@ const G = {
 
 
         setTimeout(
+
             () => {
 
                 this.index += 1;
 
                 this.showQuestion();
-
             },
 
-            1700
+            1900
+        );
+    },
+
+
+    processWrong(question) {
+
+        this.playWrongSound();
+
+
+        SERVER_HERO_BYTE.show(
+
+            question.bad[this.lang]
         );
     },
 
@@ -1293,19 +1994,11 @@ const G = {
 
     showTurboMessage() {
 
-        const oldMessage =
-
-            document.querySelector(
+        document
+            .querySelector(
                 ".turbo-message"
-            );
-
-
-        if (
-            oldMessage
-        ) {
-
-            oldMessage.remove();
-        }
+            )
+            ?.remove();
 
 
         const message =
@@ -1332,10 +2025,10 @@ const G = {
 
 
         setTimeout(
+
             () => {
 
                 message.remove();
-
             },
 
             1200
@@ -1347,11 +2040,7 @@ const G = {
        RACE TRACK
     ===================================================== */
 
-    renderRace(
-
-        playersObject
-
-    ) {
+    renderRace(playersObject) {
 
         const players =
 
@@ -1411,9 +2100,7 @@ const G = {
         rank.textContent =
 
             playerRank > 0
-
                 ? `#${playerRank}`
-
                 : "#-";
 
 
@@ -1432,9 +2119,7 @@ const G = {
         }
 
 
-        if (
-            playerRank > 0
-        ) {
+        if (playerRank > 0) {
 
             this.lastRank =
                 playerRank;
@@ -1488,7 +2173,6 @@ const G = {
                             )
 
                             >
-
                             now;
 
 
@@ -1549,29 +2233,13 @@ const G = {
     },
 
 
-    /* =====================================================
-       OVERTAKE
-    ===================================================== */
+    showOvertake(count) {
 
-    showOvertake(
-
-        count
-
-    ) {
-
-        const oldBadge =
-
-            document.querySelector(
+        document
+            .querySelector(
                 ".overtake-badge"
-            );
-
-
-        if (
-            oldBadge
-        ) {
-
-            oldBadge.remove();
-        }
+            )
+            ?.remove();
 
 
         const badge =
@@ -1604,10 +2272,10 @@ const G = {
 
 
         setTimeout(
+
             () => {
 
                 badge.remove();
-
             },
 
             1300
@@ -1619,11 +2287,7 @@ const G = {
        FINISH
     ===================================================== */
 
-    finish(
-
-        playersObject
-
-    ) {
+    finish(playersObject) {
 
         gameScreen.classList.add(
             "hidden"
@@ -1719,11 +2383,9 @@ const G = {
         finalStats.textContent =
 
             `${
-
                 this.lang === "ms"
                     ? "Markah"
                     : "Score"
-
             } ${this.score} • XP ${this.xp}`;
 
 
@@ -1732,10 +2394,6 @@ const G = {
 
 };
 
-
-/* =========================================================
-   START AFTER PAGE LOAD
-========================================================= */
 
 document.addEventListener(
 
