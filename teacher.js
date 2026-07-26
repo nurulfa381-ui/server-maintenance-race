@@ -1,387 +1,1258 @@
+/* =========================================================
+   SERVER HERO RACE™
+   TEACHER DASHBOARD ENGINE v2
+========================================================= */
+
 const T = {
-  room: "",
-  roomData: null,
 
-  async api() {
-    return await window.SERVER_HERO_FIREBASE_READY;
-  },
+    room: "",
 
-  clean(value) {
-    return String(value || "")
-      .trim()
-      .toUpperCase()
-      .replace(/[^A-Z0-9-]/g, "")
-      .slice(0, 20);
-  },
+    roomData: null,
 
-  async create() {
-    this.room = this.clean(newRoomCode.value);
 
-    if (!this.room || !teacherName.value.trim()) {
-      roomStatus.textContent = "Sila isi nama guru dan kod bilik.";
-      return;
-    }
+    async api() {
 
-    const F = await this.api();
+        return await window.SERVER_HERO_FIREBASE_READY;
+    },
 
-    await F.update(
-      F.ref(F.database, `rooms/${this.room}`),
-      {
-        code: this.room,
-        teacher: teacherName.value.trim(),
-        status: "waiting",
-        createdAt: F.serverTimestamp()
-      }
-    );
 
-    activeRoomTitle.textContent = `Bilik ${this.room}`;
-    roomStatus.textContent = `Bilik ${this.room} telah dibuka.`;
-    roomStateBadge.textContent = "MENUNGGU";
-    roomStateBadge.dataset.state = "waiting";
+    clean(value) {
 
-    this.updateJoinLink();
-    this.watch();
-  },
+        return String(value || "")
+            .trim()
+            .toUpperCase()
+            .replace(/[^A-Z0-9-]/g, "")
+            .slice(0, 20);
+    },
 
-  updateJoinLink() {
-    if (!this.room) return;
 
-    const base =
-      `${location.origin}${location.pathname.replace("teacher.html", "")}`;
+    async create() {
 
-    const url =
-      `${base}index.html?room=${encodeURIComponent(this.room)}`;
+        this.room =
+            this.clean(
+                newRoomCode.value
+            );
 
-    joinLink.value = url;
+        const teacher =
+            teacherName.value.trim();
 
-    qrPlaceholder.innerHTML = `
-      <div class="qr-icon">▦</div>
-      <strong>${this.room}</strong>
-      <p>Pelajar boleh membuka pautan di bawah. QR automatik akan ditambah dalam patch seterusnya.</p>
-    `;
-  },
 
-  async watch() {
-    const F = await this.api();
+        if (
+            !this.room ||
+            !teacher
+        ) {
 
-    F.onValue(
-      F.ref(F.database, `rooms/${this.room}`),
-      snapshot => {
-        this.roomData = snapshot.val() || {};
-        this.render(this.roomData);
-      }
-    );
-  },
+            roomStatus.textContent =
+                "Sila isi nama guru dan kod bilik.";
 
-  render(data) {
-    const players = Object.values(data.players || {});
+            return;
+        }
 
-    const approved = players.filter(player => player.approved);
-    const racing = players.filter(player => player.status === "racing");
-    const finished = players.filter(player => player.finished);
 
-    const average =
-      players.length
-        ? Math.round(
-            players.reduce(
-              (total, player) => total + (Number(player.score) || 0),
-              0
-            ) / players.length
-          )
-        : 0;
+        try {
 
-    totalStudents.textContent = players.length;
-    approvedStudents.textContent = approved.length;
-    racingStudents.textContent = racing.length;
-    finishedStudents.textContent = finished.length;
-    averageScore.textContent = average;
+            const F =
+                await this.api();
 
-    studentCountBadge.textContent =
-      `${players.length} pelajar`;
 
-    activeRoomTitle.textContent =
-      data.code ? `Bilik ${data.code}` : "Belum ada bilik aktif";
+            await F.update(
 
-    const stateText = {
-      waiting: "MENUNGGU",
-      racing: "SEDANG BERLUMBA",
-      finished: "TAMAT"
-    };
+                F.ref(
+                    F.database,
+                    `rooms/${this.room}`
+                ),
 
-    roomStateBadge.textContent =
-      stateText[data.status] || "BELUM DIBUKA";
+                {
+                    code:
+                        this.room,
 
-    roomStateBadge.dataset.state =
-      data.status || "idle";
+                    teacher,
 
-    this.renderStudents(players);
-    this.renderLeaderboard(players);
-  },
+                    status:
+                        "waiting",
 
-  renderStudents(players) {
-    if (!players.length) {
-      studentList.className = "student-list empty-state";
-      studentList.textContent = "Tiada pelajar dalam bilik.";
-      return;
-    }
+                    createdAt:
+                        F.serverTimestamp()
+                }
+            );
 
-    studentList.className = "student-list";
 
-    studentList.innerHTML = players
-      .sort((a, b) => String(a.name).localeCompare(String(b.name)))
-      .map((player, index) => `
-        <div class="student-row premium-row">
-          <b>${index + 1}</b>
+            activeRoomTitle.textContent =
+                `Bilik ${this.room}`;
 
-          <span class="student-identity">
-            <span class="student-avatar">${player.avatar || "👤"}</span>
-            <span>
-              <strong>${player.name || "-"}</strong>
-              <small>${player.id || "-"}</small>
-            </span>
-          </span>
+            roomStatus.textContent =
+                `Bilik ${this.room} telah dibuka.`;
 
-          <span class="status-pill ${this.statusClass(player)}">
-            ${this.statusText(player)}
-          </span>
+            roomStateBadge.textContent =
+                "MENUNGGU";
 
-          <strong>${Number(player.score) || 0}</strong>
+            roomStateBadge.dataset.state =
+                "waiting";
 
-          <span class="row-actions">
-            <button
-              type="button"
-              onclick="T.approve('${player.key}', ${!player.approved})"
-            >
-              ${player.approved ? "Batalkan" : "Approve"}
-            </button>
 
-            <button
-              type="button"
-              class="danger"
-              onclick="T.remove('${player.key}')"
-            >
-              Tolak
-            </button>
-          </span>
-        </div>
-      `)
-      .join("");
-  },
+            this.updateJoinLink();
 
-  renderLeaderboard(players) {
-    const sorted = [...players]
-      .filter(player => player.approved)
-      .sort(
-        (a, b) =>
-          (Number(b.score) || 0) - (Number(a.score) || 0) ||
-          (Number(a.lastAnswerMs) || 999999) -
-            (Number(b.lastAnswerMs) || 999999)
-      );
+            this.watch();
 
-    if (!sorted.length) {
-      liveLeaderboard.className = "leaderboard-list empty-state";
-      liveLeaderboard.textContent =
-        "Leaderboard akan dipaparkan selepas pelajar diluluskan.";
-      return;
-    }
 
-    liveLeaderboard.className = "leaderboard-list";
+        } catch (error) {
 
-    liveLeaderboard.innerHTML = sorted
-      .map((player, index) => {
-        const medal =
-          index === 0
-            ? "🥇"
-            : index === 1
-            ? "🥈"
-            : index === 2
-            ? "🥉"
-            : `#${index + 1}`;
+            console.error(
+                "Create room error:",
+                error
+            );
 
-        return `
-          <div class="leader-row premium-row">
-            <strong>${medal}</strong>
+            roomStatus.textContent =
+                "Bilik tidak dapat dibuka. Semak sambungan Firebase.";
+        }
+    },
 
-            <span class="student-identity">
-              <span class="student-avatar">${player.avatar || "👤"}</span>
-              <strong>${player.name || "-"}</strong>
-            </span>
 
-            <strong>${Number(player.score) || 0}</strong>
+    updateJoinLink() {
 
-            <span>
-              ${Number(player.progress) || 0}/
-              ${window.SERVER_HERO_QUESTIONS?.length || 10}
-            </span>
+        if (!this.room) {
+            return;
+        }
 
-            <span class="status-pill ${this.statusClass(player)}">
-              ${this.statusText(player)}
-            </span>
-          </div>
+
+        const base =
+            `${location.origin}${location.pathname.replace(
+                "teacher.html",
+                ""
+            )}`;
+
+
+        const url =
+            `${base}index.html?room=${encodeURIComponent(
+                this.room
+            )}`;
+
+
+        joinLink.value =
+            url;
+
+
+        qrPlaceholder.innerHTML = `
+
+            <div class="qr-icon">
+                ▦
+            </div>
+
+            <strong>
+                ${this.room}
+            </strong>
+
+            <p>
+                Pelajar boleh membuka pautan di bawah.
+            </p>
+
         `;
-      })
-      .join("");
+    },
 
-    leaderboardUpdated.textContent =
-      `● LIVE • ${new Date().toLocaleTimeString("ms-MY")}`;
-  },
 
-  statusText(player) {
-    if (player.finished) return "Tamat";
-    if (player.status === "racing") return "Berlumba";
-    if (player.approved) return "Diluluskan";
-    return "Menunggu";
-  },
+    async watch() {
 
-  statusClass(player) {
-    if (player.finished) return "status-finished";
-    if (player.status === "racing") return "status-racing";
-    if (player.approved) return "status-approved";
-    return "status-waiting";
-  },
+        const F =
+            await this.api();
 
-  async approve(key, value) {
-    if (!this.room) return;
 
-    const F = await this.api();
+        F.onValue(
 
-    await F.update(
-      F.ref(F.database, `rooms/${this.room}/players/${key}`),
-      {
-        approved: value,
-        status: value ? "approved" : "waiting"
-      }
-    );
-  },
+            F.ref(
+                F.database,
+                `rooms/${this.room}`
+            ),
 
-  async remove(key) {
-    if (!this.room) return;
+            snapshot => {
 
-    const F = await this.api();
+                this.roomData =
+                    snapshot.val() || {};
 
-    await F.remove(
-      F.ref(F.database, `rooms/${this.room}/players/${key}`)
-    );
-  },
+                this.render(
+                    this.roomData
+                );
+            }
+        );
+    },
 
-  async approveAll() {
-    if (!this.room) return;
 
-    const F = await this.api();
+    render(data) {
 
-    const snapshot = await F.get(
-      F.ref(F.database, `rooms/${this.room}/players`)
-    );
+        const players =
+            Object.values(
+                data.players || {}
+            );
 
-    const updates = {};
 
-    Object.keys(snapshot.val() || {}).forEach(key => {
-      updates[`${key}/approved`] = true;
-      updates[`${key}/status`] = "approved";
-    });
+        const approved =
+            players.filter(
+                player =>
+                    player.approved
+            );
 
-    await F.update(
-      F.ref(F.database, `rooms/${this.room}/players`),
-      updates
-    );
-  },
 
-  async status(value) {
-    if (!this.room) return;
+        const racing =
+            players.filter(
+                player =>
+                    player.status ===
+                    "racing"
+            );
 
-    const F = await this.api();
 
-    await F.update(
-      F.ref(F.database, `rooms/${this.room}`),
-      {
-        status: value,
-        startedAt:
-          value === "racing"
-            ? F.serverTimestamp()
-            : this.roomData?.startedAt || null
-      }
-    );
-  },
+        const finished =
+            players.filter(
+                player =>
+                    player.finished ||
+                    player.status ===
+                    "finished"
+            );
 
-  async csv() {
-    if (!this.room) return;
 
-    const F = await this.api();
+        const average =
 
-    const snapshot = await F.get(
-      F.ref(F.database, `rooms/${this.room}/players`)
-    );
+            players.length
 
-    const players = Object.values(snapshot.val() || {})
-      .sort(
-        (a, b) =>
-          (Number(b.score) || 0) - (Number(a.score) || 0)
-      );
+                ? Math.round(
 
-    const rows = [
-      ["Rank", "Name", "ID", "Score", "XP", "Progress", "Status"],
-      ...players.map((player, index) => [
-        index + 1,
-        player.name || "",
-        player.id || "",
-        Number(player.score) || 0,
-        Number(player.xp) || 0,
-        Number(player.progress) || 0,
-        player.status || ""
-      ])
-    ];
+                    players.reduce(
 
-    const csv = rows
-      .map(row =>
-        row
-          .map(value =>
-            `"${String(value).replaceAll('"', '""')}"`
-          )
-          .join(",")
-      )
-      .join("\n");
+                        (
+                            total,
+                            player
+                        ) =>
 
-    const link = document.createElement("a");
+                            total +
+                            (
+                                Number(
+                                    player.score
+                                ) || 0
+                            ),
 
-    link.href = URL.createObjectURL(
-      new Blob([csv], { type: "text/csv" })
-    );
+                        0
 
-    link.download = `${this.room}-results.csv`;
-    link.click();
-  },
+                    ) /
 
-  copyLink() {
-    if (!joinLink.value) return;
+                    players.length
 
-    navigator.clipboard
-      .writeText(joinLink.value)
-      .then(() => {
-        copyLinkBtn.textContent = "DISALIN ✓";
+                )
 
-        setTimeout(() => {
-          copyLinkBtn.textContent = "SALIN PAUTAN";
-        }, 1500);
-      });
-  },
+                : 0;
 
-  toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen?.();
-    } else {
-      document.exitFullscreen?.();
+
+        totalStudents.textContent =
+            players.length;
+
+        approvedStudents.textContent =
+            approved.length;
+
+        racingStudents.textContent =
+            racing.length;
+
+        finishedStudents.textContent =
+            finished.length;
+
+        averageScore.textContent =
+            average;
+
+
+        studentCountBadge.textContent =
+            `${players.length} pelajar`;
+
+
+        activeRoomTitle.textContent =
+            data.code
+
+                ? `Bilik ${data.code}`
+
+                : "Belum ada bilik aktif";
+
+
+        const stateText = {
+
+            waiting:
+                "MENUNGGU",
+
+            racing:
+                "SEDANG BERLUMBA",
+
+            finished:
+                "TAMAT"
+        };
+
+
+        roomStateBadge.textContent =
+            stateText[
+                data.status
+            ] ||
+            "BELUM DIBUKA";
+
+
+        roomStateBadge.dataset.state =
+            data.status ||
+            "idle";
+
+
+        this.renderStudents(
+            players
+        );
+
+        this.renderLeaderboard(
+            players
+        );
+    },
+
+
+    renderStudents(players) {
+
+        if (
+            !players.length
+        ) {
+
+            studentList.className =
+                "student-list empty-state";
+
+            studentList.textContent =
+                "Tiada pelajar dalam bilik.";
+
+            return;
+        }
+
+
+        studentList.className =
+            "student-list";
+
+
+        studentList.innerHTML =
+
+            [...players]
+
+                .sort(
+                    (
+                        a,
+                        b
+                    ) =>
+
+                        String(
+                            a.name
+                        ).localeCompare(
+                            String(
+                                b.name
+                            )
+                        )
+                )
+
+                .map(
+                    (
+                        player,
+                        index
+                    ) => `
+
+                        <div
+                            class="
+                                student-row
+                                premium-row
+                            "
+                        >
+
+                            <b>
+                                ${index + 1}
+                            </b>
+
+
+                            <span
+                                class="
+                                    student-identity
+                                "
+                            >
+
+                                <span
+                                    class="
+                                        student-avatar
+                                    "
+                                >
+                                    ${
+                                        player.avatar ||
+                                        "👤"
+                                    }
+                                </span>
+
+
+                                <span>
+
+                                    <strong>
+                                        ${
+                                            player.name ||
+                                            "-"
+                                        }
+                                    </strong>
+
+                                    <small>
+                                        ${
+                                            player.id ||
+                                            "-"
+                                        }
+                                    </small>
+
+                                </span>
+
+                            </span>
+
+
+                            <span
+                                class="
+                                    status-pill
+                                    ${
+                                        this.statusClass(
+                                            player
+                                        )
+                                    }
+                                "
+                            >
+                                ${
+                                    this.statusText(
+                                        player
+                                    )
+                                }
+                            </span>
+
+
+                            <strong>
+                                ${
+                                    Number(
+                                        player.score
+                                    ) || 0
+                                }
+                            </strong>
+
+
+                            <span
+                                class="
+                                    row-actions
+                                "
+                            >
+
+                                <button
+                                    type="button"
+                                    onclick="
+                                        T.approve(
+                                            '${player.key}',
+                                            ${!player.approved}
+                                        )
+                                    "
+                                >
+                                    ${
+                                        player.approved
+
+                                            ? "Batalkan"
+
+                                            : "Approve"
+                                    }
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="danger"
+                                    onclick="
+                                        T.remove(
+                                            '${player.key}'
+                                        )
+                                    "
+                                >
+                                    Tolak
+                                </button>
+
+                            </span>
+
+                        </div>
+
+                    `
+                )
+
+                .join("");
+    },
+
+
+    renderLeaderboard(players) {
+
+        const sorted =
+
+            [...players]
+
+                .filter(
+                    player =>
+                        player.approved
+                )
+
+                .sort(
+
+                    (
+                        a,
+                        b
+                    ) =>
+
+                        (
+                            Number(
+                                b.score
+                            ) || 0
+                        )
+
+                        -
+
+                        (
+                            Number(
+                                a.score
+                            ) || 0
+                        )
+
+                        ||
+
+                        (
+                            Number(
+                                a.lastAnswerMs
+                            ) || 999999
+                        )
+
+                        -
+
+                        (
+                            Number(
+                                b.lastAnswerMs
+                            ) || 999999
+                        )
+                );
+
+
+        if (
+            !sorted.length
+        ) {
+
+            liveLeaderboard.className =
+                "leaderboard-list empty-state";
+
+            liveLeaderboard.textContent =
+                "Leaderboard akan dipaparkan selepas pelajar diluluskan.";
+
+            return;
+        }
+
+
+        liveLeaderboard.className =
+            "leaderboard-list";
+
+
+        liveLeaderboard.innerHTML =
+
+            sorted
+
+                .map(
+                    (
+                        player,
+                        index
+                    ) => {
+
+                        const medal =
+
+                            index === 0
+
+                                ? "🥇"
+
+                                : index === 1
+
+                                ? "🥈"
+
+                                : index === 2
+
+                                ? "🥉"
+
+                                : `#${index + 1}`;
+
+
+                        return `
+
+                            <div
+                                class="
+                                    leader-row
+                                    premium-row
+                                "
+                            >
+
+                                <strong>
+                                    ${medal}
+                                </strong>
+
+
+                                <span
+                                    class="
+                                        student-identity
+                                    "
+                                >
+
+                                    <span
+                                        class="
+                                            student-avatar
+                                        "
+                                    >
+                                        ${
+                                            player.avatar ||
+                                            "👤"
+                                        }
+                                    </span>
+
+
+                                    <strong>
+                                        ${
+                                            player.name ||
+                                            "-"
+                                        }
+                                    </strong>
+
+                                </span>
+
+
+                                <strong>
+                                    ${
+                                        Number(
+                                            player.score
+                                        ) || 0
+                                    }
+                                </strong>
+
+
+                                <span>
+
+                                    ${
+                                        Number(
+                                            player.progress
+                                        ) || 0
+                                    }
+
+                                    /
+
+                                    ${
+                                        window
+                                            .SERVER_HERO_QUESTIONS
+                                            ?.length ||
+                                        10
+                                    }
+
+                                </span>
+
+
+                                <span
+                                    class="
+                                        status-pill
+                                        ${
+                                            this.statusClass(
+                                                player
+                                            )
+                                        }
+                                    "
+                                >
+                                    ${
+                                        this.statusText(
+                                            player
+                                        )
+                                    }
+                                </span>
+
+                            </div>
+
+                        `;
+                    }
+                )
+
+                .join("");
+
+
+        leaderboardUpdated.textContent =
+            `● LIVE • ${new Date().toLocaleTimeString(
+                "ms-MY"
+            )}`;
+    },
+
+
+    statusText(player) {
+
+        if (
+            player.finished ||
+            player.status ===
+            "finished"
+        ) {
+
+            return "Tamat";
+        }
+
+
+        if (
+            player.status ===
+            "racing"
+        ) {
+
+            return "Berlumba";
+        }
+
+
+        if (
+            player.approved
+        ) {
+
+            return "Diluluskan";
+        }
+
+
+        return "Menunggu";
+    },
+
+
+    statusClass(player) {
+
+        if (
+            player.finished ||
+            player.status ===
+            "finished"
+        ) {
+
+            return "status-finished";
+        }
+
+
+        if (
+            player.status ===
+            "racing"
+        ) {
+
+            return "status-racing";
+        }
+
+
+        if (
+            player.approved
+        ) {
+
+            return "status-approved";
+        }
+
+
+        return "status-waiting";
+    },
+
+
+    async approve(
+        key,
+        value
+    ) {
+
+        if (
+            !this.room
+        ) {
+
+            return;
+        }
+
+
+        const F =
+            await this.api();
+
+
+        await F.update(
+
+            F.ref(
+                F.database,
+                `rooms/${this.room}/players/${key}`
+            ),
+
+            {
+                approved:
+                    value,
+
+                status:
+                    value
+                        ? "approved"
+                        : "waiting"
+            }
+        );
+    },
+
+
+    async remove(key) {
+
+        if (
+            !this.room
+        ) {
+
+            return;
+        }
+
+
+        const confirmDelete =
+            confirm(
+                "Tolak dan keluarkan pelajar ini daripada bilik?"
+            );
+
+
+        if (
+            !confirmDelete
+        ) {
+
+            return;
+        }
+
+
+        const F =
+            await this.api();
+
+
+        await F.remove(
+
+            F.ref(
+                F.database,
+                `rooms/${this.room}/players/${key}`
+            )
+        );
+    },
+
+
+    async approveAll() {
+
+        if (
+            !this.room
+        ) {
+
+            roomStatus.textContent =
+                "Buka bilik terlebih dahulu.";
+
+            return;
+        }
+
+
+        const F =
+            await this.api();
+
+
+        const snapshot =
+            await F.get(
+
+                F.ref(
+                    F.database,
+                    `rooms/${this.room}/players`
+                )
+            );
+
+
+        const players =
+            snapshot.val() || {};
+
+
+        const updates = {};
+
+
+        Object.keys(
+            players
+        ).forEach(
+            key => {
+
+                updates[
+                    `${key}/approved`
+                ] =
+                    true;
+
+                updates[
+                    `${key}/status`
+                ] =
+                    "approved";
+            }
+        );
+
+
+        if (
+            !Object.keys(
+                updates
+            ).length
+        ) {
+
+            roomStatus.textContent =
+                "Belum ada pelajar untuk diluluskan.";
+
+            return;
+        }
+
+
+        await F.update(
+
+            F.ref(
+                F.database,
+                `rooms/${this.room}/players`
+            ),
+
+            updates
+        );
+
+
+        roomStatus.textContent =
+            "Semua pelajar telah diluluskan.";
+    },
+
+
+    async status(value) {
+
+        if (
+            !this.room
+        ) {
+
+            roomStatus.textContent =
+                "Buka bilik terlebih dahulu.";
+
+            return;
+        }
+
+
+        const F =
+            await this.api();
+
+
+        if (
+            value ===
+            "racing"
+        ) {
+
+            const approvedCount =
+                Number(
+                    approvedStudents.textContent
+                ) || 0;
+
+
+            if (
+                approvedCount === 0
+            ) {
+
+                roomStatus.textContent =
+                    "Luluskan sekurang-kurangnya seorang pelajar dahulu.";
+
+                return;
+            }
+        }
+
+
+        await F.update(
+
+            F.ref(
+                F.database,
+                `rooms/${this.room}`
+            ),
+
+            {
+                status:
+                    value,
+
+                startedAt:
+
+                    value ===
+                    "racing"
+
+                        ? F.serverTimestamp()
+
+                        : this.roomData
+                            ?.startedAt ||
+                          null,
+
+                finishedAt:
+
+                    value ===
+                    "finished"
+
+                        ? F.serverTimestamp()
+
+                        : null
+            }
+        );
+
+
+        if (
+            value ===
+            "racing"
+        ) {
+
+            roomStatus.textContent =
+                "Perlumbaan telah dimulakan.";
+        }
+
+
+        if (
+            value ===
+            "finished"
+        ) {
+
+            roomStatus.textContent =
+                "Perlumbaan telah ditamatkan.";
+        }
+    },
+
+
+    async csv() {
+
+        if (
+            !this.room
+        ) {
+
+            roomStatus.textContent =
+                "Buka bilik terlebih dahulu.";
+
+            return;
+        }
+
+
+        const F =
+            await this.api();
+
+
+        const snapshot =
+            await F.get(
+
+                F.ref(
+                    F.database,
+                    `rooms/${this.room}/players`
+                )
+            );
+
+
+        const players =
+
+            Object.values(
+                snapshot.val() || {}
+            )
+
+                .sort(
+
+                    (
+                        a,
+                        b
+                    ) =>
+
+                        (
+                            Number(
+                                b.score
+                            ) || 0
+                        )
+
+                        -
+
+                        (
+                            Number(
+                                a.score
+                            ) || 0
+                        )
+                );
+
+
+        const rows = [
+
+            [
+                "Rank",
+                "Name",
+                "ID",
+                "Score",
+                "XP",
+                "Progress",
+                "Status"
+            ],
+
+            ...players.map(
+                (
+                    player,
+                    index
+                ) => [
+
+                    index + 1,
+
+                    player.name || "",
+
+                    player.id || "",
+
+                    Number(
+                        player.score
+                    ) || 0,
+
+                    Number(
+                        player.xp
+                    ) || 0,
+
+                    Number(
+                        player.progress
+                    ) || 0,
+
+                    player.status || ""
+                ]
+            )
+        ];
+
+
+        const csv =
+
+            rows
+
+                .map(
+                    row =>
+
+                        row
+
+                            .map(
+                                value =>
+
+                                    `"${String(
+                                        value
+                                    ).replaceAll(
+                                        '"',
+                                        '""'
+                                    )}"`
+                            )
+
+                            .join(",")
+                )
+
+                .join("\n");
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+            URL.createObjectURL(
+
+                new Blob(
+                    [csv],
+                    {
+                        type:
+                            "text/csv;charset=utf-8"
+                    }
+                )
+            );
+
+
+        link.download =
+            `${this.room}-results.csv`;
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+
+        link.remove();
+    },
+
+
+    copyLink() {
+
+        if (
+            !joinLink.value
+        ) {
+
+            return;
+        }
+
+
+        navigator.clipboard
+
+            .writeText(
+                joinLink.value
+            )
+
+            .then(
+                () => {
+
+                    copyLinkBtn.textContent =
+                        "DISALIN ✓";
+
+
+                    setTimeout(
+                        () => {
+
+                            copyLinkBtn.textContent =
+                                "SALIN PAUTAN";
+
+                        },
+
+                        1500
+                    );
+                }
+            )
+
+            .catch(
+                () => {
+
+                    joinLink.select();
+
+                    document.execCommand(
+                        "copy"
+                    );
+
+                    copyLinkBtn.textContent =
+                        "DISALIN ✓";
+                }
+            );
+    },
+
+
+    toggleFullscreen() {
+
+        if (
+            !document.fullscreenElement
+        ) {
+
+            document.documentElement
+                .requestFullscreen
+                ?.();
+
+        } else {
+
+            document
+                .exitFullscreen
+                ?.();
+        }
     }
-  }
+
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  createRoomBtn.onclick = () => T.create();
-  approveAllBtn.onclick = () => T.approveAll();
-  startRaceBtn.onclick = () => T.status("racing");
-  finishRaceBtn.onclick = () => T.status("finished");
-  exportCsvBtn.onclick = () => T.csv();
-  copyLinkBtn.onclick = () => T.copyLink();
-  fullscreenBtn.onclick = () => T.toggleFullscreen();
-});
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        createRoomBtn.onclick =
+            () => T.create();
+
+        approveAllBtn.onclick =
+            () => T.approveAll();
+
+        startRaceBtn.onclick =
+            () => T.status(
+                "racing"
+            );
+
+        finishRaceBtn.onclick =
+            () => T.status(
+                "finished"
+            );
+
+        exportCsvBtn.onclick =
+            () => T.csv();
+
+        copyLinkBtn.onclick =
+            () => T.copyLink();
+
+        fullscreenBtn.onclick =
+            () => T.toggleFullscreen();
+    }
+);
+
 
 window.T = T;
