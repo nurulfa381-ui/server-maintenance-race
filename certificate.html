@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#06152d"
+    >
+
+    <title>
+        SERVER HERO RACE™ — Sijil Pencapaian
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        :root {
+            --dark: #020814;
+            --navy: #06152d;
+            --blue: #0d315c;
+            --cyan: #4dd8ff;
+            --yellow: #ffd84d;
+            --orange: #ff9d00;
+            --green: #35d978;
+            --white: #ffffff;
+            --muted: #a9bdd7;
+        }
+
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+            display: grid;
+            place-items: center;
+            color: var(--white);
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at top,
+                    #174f8f,
+                    #06152d 58%,
+                    #020814
+                );
+        }
+
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        .page {
+            width: min(1200px, 100%);
+        }
+
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            padding: 16px;
+            border: 1px solid #356b9d;
+            border-radius: 18px;
+            background: rgba(5, 23, 51, 0.95);
+        }
+
+
+        .toolbar-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        .toolbar button,
+        .toolbar a {
+            padding: 11px 16px;
+            color: var(--white);
+            font-weight: 800;
+            text-decoration: none;
+            border: 1px solid #3b6d99;
+            border-radius: 12px;
+            background: #0d315c;
+        }
+
+
+        .toolbar button:hover,
+        .toolbar a:hover {
+            border-color: var(--yellow);
+        }
+
+
+        .primary {
+            color: #06152d !important;
+            border: none !important;
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--orange),
+                    var(--yellow)
+                ) !important;
+        }
+
+
+        .form-panel {
+            margin-bottom: 18px;
+            padding: 20px;
+            border: 1px solid #356b9d;
+            border-radius: 20px;
+            background: rgba(5, 23, 51, 0.96);
+        }
+
+
+        .form-panel h2 {
+            margin-top: 0;
+        }
+
+
+        .form-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+
+        .form-field label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        .form-field input {
+            width: 100%;
+            padding: 13px;
+            color: var(--white);
+            border: 1px solid #376897;
+            border-radius: 12px;
+            outline: none;
+            background: #071a35;
+        }
+
+
+        .certificate {
+            position: relative;
+            overflow: hidden;
+            min-height: 760px;
+            padding: 58px;
+            color: #07172f;
+            border: 18px solid #06152d;
+            border-radius: 12px;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(77, 216, 255, 0.13),
+                    transparent 48%
+                ),
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #eef7ff
+                );
+            box-shadow:
+                0 28px 80px rgba(0, 0, 0, 0.55);
+        }
+
+
+        .certificate::before,
+        .certificate::after {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(25, 140, 255, 0.18),
+                    rgba(255, 216, 77, 0.18)
+                );
+        }
+
+
+        .certificate::before {
+            top: -130px;
+            left: -120px;
+        }
+
+
+        .certificate::after {
+            right: -120px;
+            bottom: -130px;
+        }
+
+
+        .inner-border {
+            position: absolute;
+            inset: 18px;
+            pointer-events: none;
+            border: 4px double #c79800;
+            border-radius: 8px;
+        }
+
+
+        .certificate-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+
+        .brand {
+            margin-bottom: 15px;
+            color: #06152d;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+
+        .brand-icon {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 62px;
+        }
+
+
+        .certificate-title {
+            margin: 8px 0;
+            color: #0d315c;
+            font-size: clamp(42px, 7vw, 78px);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+
+        .certificate-subtitle {
+            margin: 15px 0 34px;
+            color: #b07800;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: 5px;
+        }
+
+
+        .presented {
+            margin: 0;
+            color: #456079;
+            font-size: 18px;
+        }
+
+
+        .student-name {
+            margin: 18px auto;
+            padding: 12px 20px;
+            color: #06152d;
+            font-size: clamp(38px, 6vw, 70px);
+            font-weight: 900;
+            border-bottom: 3px solid #c79800;
+        }
+
+
+        .achievement-text {
+            max-width: 820px;
+            margin: 25px auto;
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+
+        .achievement-text strong {
+            color: #0d315c;
+        }
+
+
+        .certificate-stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            max-width: 920px;
+            margin: 30px auto;
+        }
+
+
+        .stat {
+            padding: 18px 10px;
+            border: 2px solid #c7d8e9;
+            border-radius: 14px;
+            background: rgba(238, 247, 255, 0.88);
+        }
+
+
+        .stat span {
+            display: block;
+            color: #567089;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+
+        .stat strong {
+            display: block;
+            margin-top: 8px;
+            color: #0d315c;
+            font-size: 28px;
+        }
+
+
+        .award {
+            margin: 28px auto;
+            font-size: 75px;
+        }
+
+
+        .signatures {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 80px;
+            max-width: 820px;
+            margin: 55px auto 0;
+        }
+
+
+        .signature {
+            padding-top: 12px;
+            border-top: 2px solid #456079;
+        }
+
+
+        .signature strong {
+            display: block;
+            color: #06152d;
+        }
+
+
+        .signature span {
+            color: #567089;
+            font-size: 13px;
+        }
+
+
+        .certificate-code {
+            position: absolute;
+            right: 38px;
+            bottom: 26px;
+            color: #7790a8;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+
+        @media (max-width: 780px) {
+
+            body {
+                padding: 8px;
+            }
+
+
+            .form-grid,
+            .certificate-stats,
+            .signatures {
+                grid-template-columns: 1fr;
+            }
+
+
+            .certificate {
+                min-height: auto;
+                padding: 42px 24px 70px;
+                border-width: 10px;
+            }
+
+
+            .signatures {
+                gap: 50px;
+            }
+
+
+            .certificate-code {
+                right: 18px;
+            }
+        }
+
+
+        @media print {
+
+            body {
+                padding: 0;
+                background: #ffffff;
+            }
+
+
+            .toolbar,
+            .form-panel {
+                display: none !important;
+            }
+
+
+            .page {
+                width: 100%;
+            }
+
+
+            .certificate {
+                width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <div class="toolbar">
+
+        <div class="toolbar-group">
+
+            <a href="index.html">
+                🏎️ Permainan
+            </a>
+
+            <a href="teacher.html">
+                👨‍🏫 Panel Guru
+            </a>
+
+        </div>
+
+
+        <div class="toolbar-group">
+
+            <button
+                id="bmBtn"
+                type="button"
+                class="primary"
+            >
+                🇲🇾 Bahasa Melayu
+            </button>
+
+            <button
+                id="enBtn"
+                type="button"
+            >
+                🇬🇧 English
+            </button>
+
+            <button
+                id="printBtn"
+                type="button"
+            >
+                🖨️ Cetak / PDF
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <section class="form-panel">
+
+        <h2>
+            Maklumat Sijil
+        </h2>
+
+
+        <div class="form-grid">
+
+            <div class="form-field">
+
+                <label>
+                    Nama pelajar
+                </label>
+
+                <input
+                    id="nameInput"
+                    type="text"
+                    value="NAMA PELAJAR"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    ID pelajar
+                </label>
+
+                <input
+                    id="idInput"
+                    type="text"
+                    value="ID-0001"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    Kod bilik
+                </label>
+
+                <input
+                    id="roomInput"
+                    type="text"
+                    value="C05-01"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    Nama guru
+                </label>
+
+                <input
+                    id="teacherInput"
+                    type="text"
+                    value="NAMA GURU"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    Markah
+                </label>
+
+                <input
+                    id="scoreInput"
+                    type="number"
+                    value="2000"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    XP
+                </label>
+
+                <input
+                    id="xpInput"
+                    type="number"
+                    value="1000"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    Kedudukan
+                </label>
+
+                <input
+                    id="rankInput"
+                    type="number"
+                    value="1"
+                    min="1"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    Jumlah peserta
+                </label>
+
+                <input
+                    id="totalInput"
+                    type="number"
+                    value="30"
+                    min="1"
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <article
+        id="certificate"
+        class="certificate"
+    >
+
+        <div class="inner-border">
+        </div>
+
+
+        <div class="certificate-content">
+
+            <div class="brand">
+
+                <span class="brand-icon">
+                    🏎️
+                </span>
+
+                SERVER HERO RACE™
+
+            </div>
+
+
+            <h1
+                id="certificateTitle"
+                class="certificate-title"
+            >
+                SIJIL PENCAPAIAN
+            </h1>
+
+
+            <div
+                id="certificateSubtitle"
+                class="certificate-subtitle"
+            >
+                C05 SERVER MAINTENANCE
+            </div>
+
+
+            <p
+                id="presentedText"
+                class="presented"
+            >
+                Dengan bangganya sijil ini dianugerahkan kepada
+            </p>
+
+
+            <div
+                id="studentName"
+                class="student-name"
+            >
+                NAMA PELAJAR
+            </div>
+
+
+            <p
+                id="achievementText"
+                class="achievement-text"
+            >
+                kerana berjaya menamatkan
+                <strong>SERVER HERO RACE™</strong>
+                bagi modul
+                <strong>Penyelenggaraan Server C05</strong>
+                dengan pencapaian yang cemerlang.
+            </p>
+
+
+            <div class="certificate-stats">
+
+                <div class="stat">
+
+                    <span id="scoreLabel">
+                        Markah
+                    </span>
+
+                    <strong id="certificateScore">
+                        2000
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        XP
+                    </span>
+
+                    <strong id="certificateXp">
+                        1000
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span id="rankLabel">
+                        Kedudukan
+                    </span>
+
+                    <strong id="certificateRank">
+                        #1
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span id="roomLabel">
+                        Bilik
+                    </span>
+
+                    <strong id="certificateRoom">
+                        C05-01
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="awardIcon"
+                class="award"
+            >
+                🏆
+            </div>
+
+
+            <div class="signatures">
+
+                <div class="signature">
+
+                    <strong id="teacherName">
+                        NAMA GURU
+                    </strong>
+
+                    <span id="teacherLabel">
+                        Pensyarah / Guru
+                    </span>
+
+                </div>
+
+
+                <div class="signature">
+
+                    <strong id="certificateDate">
+                        -
+                    </strong>
+
+                    <span id="dateLabel">
+                        Tarikh
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="certificateCode"
+            class="certificate-code"
+        >
+            SHR-C05-0001
+        </div>
+
+    </article>
+
+</div>
+
+
+
+<script>
+
+const C = {
+
+    lang: "ms",
+
+
+    init() {
+
+        this.loadQueryData();
+
+        this.bindInputs();
+
+        this.setLanguage("ms");
+
+        this.update();
+
+
+        document
+            .getElementById("bmBtn")
+            .onclick = () => {
+
+                this.setLanguage("ms");
+            };
+
+
+        document
+            .getElementById("enBtn")
+            .onclick = () => {
+
+                this.setLanguage("en");
+            };
+
+
+        document
+            .getElementById("printBtn")
+            .onclick = () => {
+
+                window.print();
+            };
+    },
+
+
+    loadQueryData() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const mappings = {
+
+            name:
+                "nameInput",
+
+            id:
+                "idInput",
+
+            room:
+                "roomInput",
+
+            teacher:
+                "teacherInput",
+
+            score:
+                "scoreInput",
+
+            xp:
+                "xpInput",
+
+            rank:
+                "rankInput",
+
+            total:
+                "totalInput"
+        };
+
+
+        Object.entries(mappings)
+
+            .forEach(
+
+                ([parameter, elementId]) => {
+
+                    const value =
+                        params.get(parameter);
+
+
+                    if (value !== null) {
+
+                        document
+                            .getElementById(elementId)
+                            .value = value;
+                    }
+                }
+            );
+
+
+        const language =
+            params.get("lang");
+
+
+        if (
+            language === "en"
+        ) {
+
+            this.lang = "en";
+        }
+    },
+
+
+    bindInputs() {
+
+        document
+
+            .querySelectorAll(
+                ".form-panel input"
+            )
+
+            .forEach(
+
+                input => {
+
+                    input.addEventListener(
+
+                        "input",
+
+                        () => this.update()
+                    );
+                }
+            );
+    },
+
+
+    setLanguage(language) {
+
+        this.lang =
+            language === "en"
+                ? "en"
+                : "ms";
+
+
+        document
+            .documentElement
+            .lang = this.lang;
+
+
+        bmBtn.classList.toggle(
+            "primary",
+            this.lang === "ms"
+        );
+
+
+        enBtn.classList.toggle(
+            "primary",
+            this.lang === "en"
+        );
+
+
+        if (
+            this.lang === "ms"
+        ) {
+
+            certificateTitle.textContent =
+                "SIJIL PENCAPAIAN";
+
+
+            certificateSubtitle.textContent =
+                "C05 PENYELENGGARAAN SERVER";
+
+
+            presentedText.textContent =
+                "Dengan bangganya sijil ini dianugerahkan kepada";
+
+
+            achievementText.innerHTML = `
+
+                kerana berjaya menamatkan
+
+                <strong>
+                    SERVER HERO RACE™
+                </strong>
+
+                bagi modul
+
+                <strong>
+                    Penyelenggaraan Server C05
+                </strong>
+
+                dengan pencapaian yang cemerlang.
+
+            `;
+
+
+            scoreLabel.textContent =
+                "Markah";
+
+
+            rankLabel.textContent =
+                "Kedudukan";
+
+
+            roomLabel.textContent =
+                "Bilik";
+
+
+            teacherLabel.textContent =
+                "Pensyarah / Guru";
+
+
+            dateLabel.textContent =
+                "Tarikh";
+
+
+            printBtn.textContent =
+                "🖨️ Cetak / PDF";
+
+        } else {
+
+            certificateTitle.textContent =
+                "CERTIFICATE OF ACHIEVEMENT";
+
+
+            certificateSubtitle.textContent =
+                "C05 SERVER MAINTENANCE";
+
+
+            presentedText.textContent =
+                "This certificate is proudly presented to";
+
+
+            achievementText.innerHTML = `
+
+                for successfully completing
+
+                <strong>
+                    SERVER HERO RACE™
+                </strong>
+
+                for the
+
+                <strong>
+                    C05 Server Maintenance Module
+                </strong>
+
+                with excellent achievement.
+
+            `;
+
+
+            scoreLabel.textContent =
+                "Score";
+
+
+            rankLabel.textContent =
+                "Position";
+
+
+            roomLabel.textContent =
+                "Room";
+
+
+            teacherLabel.textContent =
+                "Lecturer / Teacher";
+
+
+            dateLabel.textContent =
+                "Date";
+
+
+            printBtn.textContent =
+                "🖨️ Print / PDF";
+        }
+
+
+        this.update();
+    },
+
+
+    update() {
+
+        const name =
+            nameInput.value.trim() ||
+            "NAMA PELAJAR";
+
+
+        const studentId =
+            idInput.value.trim() ||
+            "ID-0001";
+
+
+        const room =
+            roomInput.value.trim()
+                .toUpperCase() ||
+            "C05-01";
+
+
+        const teacher =
+            teacherInput.value.trim() ||
+            "NAMA GURU";
+
+
+        const score =
+            Number(scoreInput.value) || 0;
+
+
+        const xp =
+            Number(xpInput.value) || 0;
+
+
+        const rank =
+            Math.max(
+                1,
+                Number(rankInput.value) || 1
+            );
+
+
+        const total =
+            Math.max(
+                1,
+                Number(totalInput.value) || 1
+            );
+
+
+        studentName.textContent =
+            name.toUpperCase();
+
+
+        certificateScore.textContent =
+            score;
+
+
+        certificateXp.textContent =
+            xp;
+
+
+        certificateRank.textContent =
+            `#${rank} / ${total}`;
+
+
+        certificateRoom.textContent =
+            room;
+
+
+        teacherName.textContent =
+            teacher.toUpperCase();
+
+
+        certificateDate.textContent =
+
+            new Date().toLocaleDateString(
+
+                this.lang === "ms"
+                    ? "ms-MY"
+                    : "en-GB",
+
+                {
+                    day:
+                        "2-digit",
+
+                    month:
+                        "long",
+
+                    year:
+                        "numeric"
+                }
+            );
+
+
+        awardIcon.textContent =
+
+            rank === 1
+                ? "🏆"
+
+                : rank === 2
+                ? "🥈"
+
+                : rank === 3
+                ? "🥉"
+
+                : "🎓";
+
+
+        const safeId =
+
+            studentId
+
+                .toUpperCase()
+
+                .replace(
+                    /[^A-Z0-9]/g,
+                    ""
+                )
+
+                .slice(0, 12);
+
+
+        certificateCode.textContent =
+
+            `SHR-${room}-${safeId || "0001"}`;
+    }
+
+};
+
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => C.init()
+);
+
+</script>
+
+
+</body>
+
+</html>
